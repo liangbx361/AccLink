@@ -1,0 +1,187 @@
+// ！该文件是从远程拉取的模板，请勿修改
+//
+// update: 20170215
+ext {
+    //================================= Android ==========================================
+    androidBuildToolsVersion = "26.0.1"
+    androidMinSdkVersion = getPropertyOrDefault("MIN_SDK_VERSION", 21)
+    androidTargetSdkVersion = getPropertyOrDefault("TARGET_SDK_VERSION", 26)
+    androidCompileSdkVersion = 26
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    androidSupportVersion = "26.1.0"
+
+    //================================= public Libraries ==================================
+
+    // Dependency Inject
+    daggerVersion = '2.0'
+
+    // view Binding
+    butterKnifeVersion = '8.5.1'
+
+    // Annotation
+    javaxAnnotationVersion = '10.0-b28'
+
+    // Rx系列 更新到2.0版本
+    rxJavaVersion = '2.0.6'
+    rxAndroidVersion = '2.0.1'
+    rxLifecycleVersion = '2.0.1'
+    rxBusVersion = '2.0.0-beta'
+    rxBindingVersion = '2.0.0'
+
+    // Network
+    retrofitVersion = "2.2.0"
+    okHttpVersion = "3.4.2"
+
+    // Cache
+    reactiveCacheVersion = "0.0.7-2.x"
+    jolyglotJacksonVersion = "0.0.3"
+
+    // Json
+    jacksonVersion = "2.4.2"
+
+    // Xml
+    simpleXmlVersion = "1.9.0"
+
+    // Database
+    dbflowVersion = "4.0.0-beta3"
+
+    // Image
+    glideVersion = "3.7.0"
+
+    // Animation
+    nineOldAndroidVersion = "2.4.0"
+
+    //Widget
+    superToastsVersion = "1.3.4"
+
+    // Util
+    libphonenumberVersion = "7.0.10"
+
+    // 换肤
+    skinSupportVersion = "1.2.1"
+    skinSupportCardView = "1.2.0"
+
+    libs = [
+            supportV4            : "com.android.support:support-v4:${androidSupportVersion}",
+            appcompat            : "com.android.support:appcompat-v7:${androidSupportVersion}",
+            supportDesign        : "com.android.support:design:${androidSupportVersion}",
+            supportAnnotation    : "com.android.support:support-annotations:${androidSupportVersion}",
+            recyclerView         : "com.android.support:recyclerview-v7:${androidSupportVersion}",
+            recyclerViewMultitype: "me.drakeet.multitype:multitype:3.1.0",
+            cardView             : "com.android.support:cardview-v7:${androidSupportVersion}",
+            constraintLayout     : "com.android.support.constraint:constraint-layout:1.0.2",
+
+            daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger               : "com.google.dagger:dagger:${daggerVersion}",
+
+            butterKnife          : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeProcessor : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+
+            javaxAnnotation      : "org.glassfish:javax.annotation:${javaxAnnotationVersion}",
+
+            rxJava               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxLifecycle          : "com.trello.rxlifecycle2:rxlifecycle:${rxLifecycleVersion}",
+            rxLifecycleAndroid   : "com.trello.rxlifecycle2:rxlifecycle-android:${rxLifecycleVersion}",
+            rxComponent          : "com.trello.rxlifecycle2:rxlifecycle-components:${rxLifecycleVersion}",
+            rxBus                : "com.hwangjr.rxbus:rxbus:${rxBusVersion}",
+            rxPermission         : "com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar",
+
+            rxBinding            : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}",
+            rxBindingSupportV4   : "com.jakewharton.rxbinding2:rxbinding-support-v4:${rxBindingVersion}",
+            rxBindingSupportV7   : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxBindingVersion}",
+            rxBindingDesign      : "com.jakewharton.rxbinding2:rxbinding-design:${rxBindingVersion}",
+            rxBindingRecyclerview: "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:${rxBindingVersion}",
+
+            retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitWithJackson  : "com.squareup.retrofit2:converter-jackson:${retrofitVersion}",
+            // 不兼容Retrofit2，无法使用
+            retrofitWithSimpleXml: "com.squareup.retrofit:converter-simplexml:${simpleXmlVersion}",
+            retrofitRxJavaAdapter: "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            okHttp               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLogInterceptor : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+
+            reactiveCache        : "com.github.VictorAlbertos:ReactiveCache:${reactiveCacheVersion}",
+            jolyglotJackson      : "com.github.VictorAlbertos.Jolyglot:jackson:${jolyglotJacksonVersion}",
+
+            reactiveNetwork      : "com.github.pwittchen:reactivenetwork-rx2:0.9.1",
+
+            jacksonDatabind      : "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}",
+
+            dbflowProcessor      : "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflowVersion}",
+            dbflowCore           : "com.github.Raizlabs.DBFlow:dbflow-core:${dbflowVersion}",
+            dbflow               : "com.github.Raizlabs.DBFlow:dbflow:${dbflowVersion}",
+            dbflowSqlCipher      : "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflowVersion}",
+
+            glide                : "com.github.bumptech.glide:glide:${glideVersion}",
+            glideTransformations : "jp.wasabeef:glide-transformations:2.0.2",
+
+            nineOldAndroid       : "com.nineoldandroids:library:${nineOldAndroidVersion}",
+
+            superToasts          : "com.github.johnpersano:supertoasts:${superToastsVersion}@aar",
+
+            libphonenumber       : "com.googlecode.libphonenumber:libphonenumber:${libphonenumberVersion}",
+
+            skinSupport          : "skin.support:skin-support:${skinSupportVersion}",
+            skinSupportDesign    : "skin.support:skin-support-design:${skinSupportVersion}",
+            skinSupportCardView  : "skin.support:skin-support-cardview:${skinSupportCardView}",
+
+            aRouterApi           : "com.alibaba:arouter-api:1.2.2",
+            aRouterCompiler      : "com.alibaba:arouter-compiler:1.1.3",
+    ]
+
+    smartVersion = '0.4.7'
+    cyou17173 = [
+            smart               : "com.cyou17173.android.arch:smart:${smartVersion}",
+            smartData           : "com.cyou17173.android.arch:smart-data:${smartVersion}",
+            smartRn             : "com.cyou17173.android.arch:smart-rn:${smartVersion}",
+            smartSkin           : "com.cyou17173.android.arch:smart-skin:${smartVersion}",
+            smartToolbar        : "com.cyou17173.android.arch:smart-toolbar:${smartVersion}",
+
+            logger              : "com.cyou17173.android.component:logger:0.0.2",
+            commonUtil          : "com.cyou17173.android.component:common-util:0.0.8-SNAPSHOT",
+            stateView           : "com.cyou17173.android.component:state-view:0.2-SNAPSHOT",
+            swipeView           : "com.cyou17173.android.component:swipe-view:0.2.3",
+            swipeViewGoogleStype: "com.cyou17173.android.component:swipe-view-google-style:0.2.3",
+            banner              : "com.cyou17173.android.component:banner:0.0.3-SNAPSHOT",
+            social              : "com.cyou17173.android.component:social:0.0.1-SNAPSHOT",
+            guide               : "com.cyou17173.android.component:guide:0.0.1",
+            crop                : "com.cyou17173.android.component:crop:0.0.1",
+            player              : "com.cyou17173.android.component:player:0.0.1",
+            skin                : "com.cyou17173.android.component:skin:0.1.4",
+
+            dataCms             : "com.cyou17173.android.data:cms:0.0.6",
+            dataAd              : "com.cy17173.android.data:ad:0.0.3",
+            dataMobile          : "com.cy17173.android.data:mobile:0.0.2",
+
+            test                : "com.cyou17173.android:test:0.0.1"
+    ]
+
+    //================================= Test =============================================
+    robolectricVersion = '3.3.1'
+    jUnitVersion = '4.12'
+    mockitoVersion = '2.4.0'
+    powerMockVersion = '1.7.0RC2'
+    dexmakerVersion = '1.0'
+    espressoVersion = '2.2.2'
+    uiAutomatorVersion = '2.1.1'
+    testingSupportLibVersion = '0.1'
+
+    test = [
+            junit                 : "junit:junit:${jUnitVersion}",
+            robolectric           : "org.robolectric:robolectric:${robolectricVersion}",
+            robolectricAnnotations: "org.robolectric:robolectric-annotations:${robolectricVersion}",
+            burst                 : "com.squareup.burst:burst-junit4:1.1.0",
+            mockito               : "org.mockito:mockito-core:${mockitoVersion}",
+            dexmaker              : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerMockito       : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            espresso              : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            uiAutomator           : "com.android.support.test.uiautomator:uiautomator-v18:${uiAutomatorVersion}",
+            testingSupportLib     : "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+
+            powerMock             : "org.powermock:powermock-module-junit4:${powerMockVersion}",
+            powerMockRule         : "org.powermock:powermock-module-junit4-rule:${powerMockVersion}",
+            powerMockMockito      : "org.powermock:powermock-api-mockito2:${powerMockVersion}",
+            powerMockClassLoader  : "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
+    ]
+}

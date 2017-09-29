@@ -1,0 +1,54 @@
+// ！该文件是从远程拉取的模板，请勿修改
+// 
+// update: 2016021701
+
+apply plugin: 'maven'
+
+apply from: "${gradleConfigUrl}/gradle/deployment.gradle"
+
+uploadArchives {
+
+    repositories {
+        mavenDeployer {
+            def conf = project.ext
+            def deployName = POM_ARTIFACT_ID
+            if (deployName == null) {
+                deployName = this.name
+            }
+            repository(url: "${conf.deployReleaseUrl}") {
+                authentication(userName: "${conf.nexusUsername}", password: "${conf.nexusPassword}")
+            }
+            snapshotRepository(url: "${conf.deploySnapshotUrl}") {
+                authentication(userName: "${conf.nexusUsername}", password: "${conf.nexusPassword}")
+            }
+            pom.version = "${this.version}"
+            pom.groupId = "${this.group}"
+            pom.artifactId = "${deployName}"
+        }
+    }
+
+//    task androidJavadocs(type: Javadoc) {
+//        failOnError false
+//        source = android.sourceSets.main.java.source
+//        options {
+//            links "http://docs.oracle.com/javase/7/docs/api/"
+//            linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
+//        }
+//        classpath += project.android.libraryVariants.toList().first().javaCompile.classpath
+//        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    }
+//
+//    task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+//        classifier = 'javadoc'
+//        from androidJavadocs.destinationDir
+//    }
+
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    artifacts {
+        archives androidSourcesJar
+    }
+}

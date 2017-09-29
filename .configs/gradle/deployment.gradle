@@ -1,0 +1,11 @@
+// update: 20170213
+
+ext {
+    isSnapshot = this.version.endsWith("-SNAPSHOT");
+
+    deployHost = System.properties['deployHost']
+    deployReleaseUrl = "${deployHost}/repository/maven-releases"
+    deploySnapshotUrl = "${deployHost}/repository/maven-snapshots"
+    nexusUsername = System.properties['deployUsername']
+    nexusPassword = System.properties['deployPassword']
+}
