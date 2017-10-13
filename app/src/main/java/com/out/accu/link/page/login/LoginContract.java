@@ -20,5 +20,6 @@ public interface LoginContract {
 
     interface Presenter extends SmartPresenter {
 
+        void login(String username, String password);
     }
 }

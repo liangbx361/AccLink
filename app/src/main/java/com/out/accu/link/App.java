@@ -2,6 +2,8 @@ package com.out.accu.link;
 
 import com.cyou17173.android.arch.base.app.SmartApplication;
 import com.cyou17173.android.arch.base.app.SmartConfig;
+import com.out.accu.link.data.DataManager;
+import com.out.accu.link.data.config.Platform;
 
 /**
  * <p>Title: <／p>
@@ -22,7 +24,7 @@ public class App extends SmartApplication {
 
     @Override
     protected void asyncInit() {
-
+        DataManager.init(Platform.TEST);
     }
 
     @Override

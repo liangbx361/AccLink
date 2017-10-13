@@ -1,5 +1,11 @@
 package com.out.accu.link.page.login;
 
+import android.widget.Toast;
+
+import com.cyou17173.android.arch.base.page.SmartTransformer;
+import com.out.accu.link.data.DataManager;
+import com.out.accu.link.router.Navigation;
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -23,5 +29,19 @@ class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void login(String username, String password) {
+        DataManager.getInstance().getDataService()
+                .login(username, password)
+                .compose(SmartTransformer.applySchedulers())
+                .compose(mView.bindUntilDestroy())
+                .subscribe(aBoolean -> {
+                    Navigation.main(mView.getActivity());
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Toast.makeText(mView.getActivity(), "登录失败", Toast.LENGTH_SHORT).show();
+                });
     }
 }
