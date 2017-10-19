@@ -37,8 +37,12 @@ class LoginPresenter implements LoginContract.Presenter {
                 .login(username, password)
                 .compose(SmartTransformer.applySchedulers())
                 .compose(mView.bindUntilDestroy())
-                .subscribe(aBoolean -> {
-                    Navigation.main(mView.getActivity());
+                .subscribe(login -> {
+                    if(login.isSuccess) {
+                        Navigation.main(mView.getActivity());
+                    } else {
+                        Toast.makeText(mView.getActivity(), "登录失败", Toast.LENGTH_SHORT).show();
+                    }
                 }, throwable -> {
                     throwable.printStackTrace();
                     Toast.makeText(mView.getActivity(), "登录失败", Toast.LENGTH_SHORT).show();

@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 
 public enum Platform {
     MOCK("", 0),
-    TEST("", 0),
+    TEST("211.72.229.132", 60003),
     RELEASE("", 0);
 
     private String mIp;

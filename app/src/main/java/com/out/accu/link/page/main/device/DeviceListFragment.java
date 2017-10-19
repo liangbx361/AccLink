@@ -1,6 +1,7 @@
 package com.out.accu.link.page.main.device;
 
 import com.cyou17173.android.arch.base.page.SmartListFragment;
+import com.out.accu.link.data.mode.Device;
 
 import me.drakeet.multitype.MultiTypeAdapter;
 
@@ -20,7 +21,7 @@ public class DeviceListFragment extends SmartListFragment<DeviceListContract.Pre
      */
     @Override
     protected void registerProvider(MultiTypeAdapter adapter) {
-        // adapter.register(SimpleItem.class, new SimpleItemProvider());
+         adapter.register(Device.class, new DeviceListViewBinder());
     }
 
     /**

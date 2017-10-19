@@ -1,8 +1,12 @@
 package com.out.accu.link.data;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 
 import com.out.accu.link.data.config.Platform;
+import com.out.accu.link.data.mock.MockService;
+import com.out.accu.link.data.remote.RemoteService;
+import com.out.accu.link.data.util.ByteUtil;
 
 /**
  * <p>Title: <／p>
@@ -15,32 +19,43 @@ import com.out.accu.link.data.config.Platform;
  */
 
 public class DataManager {
-    private static volatile  DataManager sDataManager;
+    private static volatile DataManager sDataManager;
 
     private Platform mPlatform;
     // TODO 6字节
-    private String deviceId;
+    private byte[] deviceId = new byte[] {0x1, 0x2, 0x3, 0x4, 0x5, 0x6};
 
     private DataService mDataService;
 
+    @SuppressLint("HardwareIds")
     private DataManager(Platform platform) {
         mPlatform = platform;
-        deviceId = Build.ID;
+
+        switch (platform) {
+            case MOCK:
+                mDataService = new MockService();
+                break;
+            case TEST:
+                mDataService = new RemoteService(platform);
+                break;
+            case RELEASE:
+                ByteUtil.arrayCopy(Build.SERIAL.getBytes(), 0, deviceId, 0, 6);
+                mDataService = new RemoteService(platform);
+                break;
+        }
     }
 
-    public static DataManager init(Platform platform) {
-        if(sDataManager == null) {
+    public static void init(Platform platform) {
+        if (sDataManager == null) {
             synchronized (DataManager.class) {
-                if(sDataManager == null) {
+                if (sDataManager == null) {
                     sDataManager = new DataManager(platform);
                 }
             }
         }
-
-        return sDataManager;
     }
 
-    public static DataManager getDataManager() {
+    public static DataManager getInstance() {
         return sDataManager;
     }
 
@@ -48,11 +63,11 @@ public class DataManager {
         return mPlatform;
     }
 
-    public static DataManager getInstance() {
-        return sDataManager;
-    }
-
     public DataService getDataService() {
         return mDataService;
+    }
+
+    public byte[] getDeviceId() {
+        return deviceId;
     }
 }

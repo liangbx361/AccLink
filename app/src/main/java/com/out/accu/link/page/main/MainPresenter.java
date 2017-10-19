@@ -3,6 +3,8 @@ package com.out.accu.link.page.main;
 import android.support.annotation.StringDef;
 
 import com.out.accu.link.R;
+import com.out.accu.link.page.main.device.DeviceListFragment;
+import com.out.accu.link.page.main.history.HistoryFragment;
 import com.out.accu.link.page.main.map.MapFragment;
 
 import java.lang.annotation.Retention;
@@ -39,15 +41,24 @@ public class MainPresenter implements MainContract.Presenter {
                 if(mView.isCachedFragment(MAIN_TAB.DEVICE)) {
                     mView.showCacheFragment(MAIN_TAB.DEVICE);
                 } else {
-                    mView.showFragmentAndCache(MAIN_TAB.DEVICE, new MapFragment());
+                    mView.showFragmentAndCache(MAIN_TAB.DEVICE, new DeviceListFragment());
                 }
                 break;
 
             case R.id.nav_map:
-
+                if(mView.isCachedFragment(MAIN_TAB.MAP)) {
+                    mView.showCacheFragment(MAIN_TAB.MAP);
+                } else {
+                    mView.showFragmentAndCache(MAIN_TAB.MAP, new MapFragment());
+                }
                 break;
 
-            case R.id.nav_graph:
+            case R.id.nav_history:
+                if(mView.isCachedFragment(MAIN_TAB.GRAPH)) {
+                    mView.showCacheFragment(MAIN_TAB.GRAPH);
+                } else {
+                    mView.showFragmentAndCache(MAIN_TAB.GRAPH, new HistoryFragment());
+                }
                 break;
 
             case R.id.nav_settings:

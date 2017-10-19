@@ -25,9 +25,16 @@ dependencies {
     implementation libs.butterKnife
     annotationProcessor libs.butterKnifeProcessor
     implementation 'com.google.android.gms:play-services-maps:11.4.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.qmuiteam:qmui:1.0.4'
 
     implementation cyou17173.smart
     implementation cyou17173.smartToolbar
+    def swipeVersion = '0.4.14'
+    implementation ("com.cyou17173.android.component:swipe-view:${swipeVersion}", {
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    })
+    implementation "com.cyou17173.android.component:swipe-view-google-style:${swipeVersion}"
 
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'

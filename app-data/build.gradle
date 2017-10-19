@@ -3,8 +3,10 @@ apply from: "${gradleConfigUrl}/gradle/library.gradle"
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation cyou17173.smart
     implementation libs.rxJava
     implementation libs.rxAndroid
+    implementation "com.cyou17173.android.component:common-util:0.0.14-SNAPSHOT"
 
     testImplementation 'junit:junit:4.12'
 }

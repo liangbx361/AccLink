@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.transition.Explode;
 
+import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.page.login.LoginActivity;
 import com.out.accu.link.page.main.MainActivity;
+import com.out.accu.link.page.main.device.detail.DeviceDetailActivity;
 
 /**
  * <p>Title: <／p>
@@ -36,5 +38,11 @@ public class Navigation {
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent, option.toBundle());
         activity.finish();
+    }
+
+    public static void deviceDetail(Activity activity, Device device) {
+        Intent intent = new Intent(activity, DeviceDetailActivity.class);
+        intent.putExtra("device", device);
+        activity.startActivity(intent);
     }
 }

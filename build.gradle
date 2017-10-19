@@ -24,7 +24,7 @@ allprojects {
     repositories {
         maven { url "${nexusUrl}/repository/maven-public/" }
 //        jcenter()
-//        maven { url "https://www.jitpack.io" }
+        maven { url "https://www.jitpack.io" }
 //        maven { url "https://raw.githubusercontent.com/HyphenateInc/Hyphenate-SDK-Android/master/repository" }
 //        maven { url 'https://maven.google.com' }
         google()
@@ -46,6 +46,7 @@ subprojects { project ->
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor 160, 'seconds'
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+        resolutionStrategy.force 'com.cyou17173.android.component:common-util:0.0.14-SNAPSHOT'
     }
 
     // conf
