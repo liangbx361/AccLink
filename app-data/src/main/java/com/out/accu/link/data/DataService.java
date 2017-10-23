@@ -35,10 +35,60 @@ public interface DataService {
     /**
      * 获取设备
      */
-    Observable<Device> getDevice(String id);
+    Observable<Device> getDevice(String deviceId);
 
     /**
      * 获取设备历史数据
      */
-    Observable<DeviceHistory> getDeviceHistory(String id, long beginTime, long endTime);
+    Observable<DeviceHistory> getDeviceHistory(String deviceId, long beginTime, long endTime);
+
+    /**
+     * 设置两路量程
+     */
+    Observable<Boolean> setChannel(String deviceId, int value1, int value2);
+
+    /**
+     * 设置值量程
+     */
+    Observable<Boolean> setValue(String deviceId, int value);
+
+    /**
+     * 设置上报周期
+     */
+    Observable<Boolean> setReportPeriod(String deviceId, int value);
+
+    /**
+     * 设置数据低报开关
+     */
+    Observable<Boolean> setLowAlarmEnable(String deviceId, boolean enable);
+
+    /**
+     * 设置数据低报参数
+     */
+    Observable<Boolean> setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms);
+
+    /**
+     * 设置数据低低报开关
+     */
+    Observable<Boolean> setLowLowAlarmEnable(String deviceId, boolean enable);
+
+    /**
+     * 设置数据低低报参数
+     */
+    Observable<Boolean> setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms);
+
+    /**
+     * 设置GPS坐标
+     */
+    Observable<Boolean> setGps(String deviceId, double lat, double lot);
+
+    /**
+     * 设置设置设备布防使能开关
+     */
+    Observable<Boolean> setDefenseEnable(String deviceId, boolean enable);
+
+    /**
+     * 设置模块别名
+     */
+    Observable<Boolean> setAliasName(String deviceId, String name);
 }

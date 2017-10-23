@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorPrimary"
+    android:background="@color/app_color_blue"
     android:fitsSystemWindows="true"
     android:minHeight="?attr/actionBarSize"
     app:contentInsetLeft="8dp"
@@ -15,7 +15,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/app_color_blue">
 
         <ImageView
             android:id="@+id/toolbar_left_icon"

@@ -19,4 +19,54 @@
     <string name="menu_map">Map</string>
     <string name="menu_graph">Graph</string>
     <string name="menu_setting">Settings</string>
+
+    <string name="is_online_desc">连接状态</string>
+    <string name="device_name">设备名</string>
+    <string name="channel_1_range_desc">频道1量程</string>
+    <string name="channel_2_range_desc">频道2量程</string>
+    <string name="value_range_desc">值量程</string>
+    <string name="report_period_desc">上报周期</string>
+    <string name="report_period_value">%d分钟</string>
+    <string name="low_alarm_enable_desc">数据底报开关</string>
+    <string name="low_alarm_limit_value_desc">低报阈值</string>
+    <string name="low_notify_phones_desc">底报短信通知号码</string>
+    <string name="low_sms_format_desc">底报短信内容</string>
+    <string name="low_low_alarm_enable_desc">数据底底报开关</string>
+    <string name="low_low_alarm_limit_value_desc">低低报阈值</string>
+    <string name="low_low_notify_phones_desc">底底报短信通知号码</string>
+    <string name="low_low_sms_format_desc">底底报短信内容</string>
+    <string name="gps_desc">位置</string>
+    <string name="defense_enable_desc">布防状态</string>
+    <string name="temperature_desc">内部温度</string>
+    <string name="temperature_value">%d℃</string>
+    <string name="humidity_desc">内部湿度</string>
+    <string name="humidity_value">%d%%RH</string>
+    <string name="phone_number_desc">模块号码</string>
+    <string name="lte_status_desc">通讯状态</string>
+    <string-array name="lte_status_value">
+        <item>工作正常</item>
+        <item>模块初始化失败</item>
+        <item>不能注册网络</item>
+        <item>其他</item>
+    </string-array>
+    <string name="lte_rssi_desc">信号强度</string>
+    <string name="lte_mode_desc">工作模式</string>
+    <string-array name="lte_mode_value">
+        <item>GPRS</item>
+        <item>3G</item>
+        <item>4G</item>
+        <item>LTE</item>
+    </string-array>
+    <string name="curr_tx_desc">月发送字节数</string>
+    <string-array name="enable_switch">
+        <item>@string/off</item>
+        <item>@string/on</item>
+    </string-array>
+    <string name="on">打开</string>
+    <string name="off">关闭</string>
+
+
+
+
+
 </resources>

@@ -46,7 +46,7 @@ public class Device implements Parcelable {
     public String[] lowNotifyPhones;
 
     // 短信内容
-    public String smsFormat;
+    public String lowSmsFormat;
 
     // 数据底底报使能开关
     public boolean lowLowAlarmEnable;
@@ -74,7 +74,7 @@ public class Device implements Parcelable {
     // 内部的湿度值
     public int humidity;
 
-    // 号码
+    // 模块号码
     public String phoneNumber;
 
     // LTE通讯模块状态
@@ -106,7 +106,7 @@ public class Device implements Parcelable {
         dest.writeByte(this.lowAlarmEnable ? (byte) 1 : (byte) 0);
         dest.writeInt(this.lowAlarmLimitValue);
         dest.writeStringArray(this.lowNotifyPhones);
-        dest.writeString(this.smsFormat);
+        dest.writeString(this.lowSmsFormat);
         dest.writeByte(this.lowLowAlarmEnable ? (byte) 1 : (byte) 0);
         dest.writeInt(this.lowLowAlarmLimitValue);
         dest.writeStringArray(this.lowLowNotifyPhones);
@@ -137,7 +137,7 @@ public class Device implements Parcelable {
         this.lowAlarmEnable = in.readByte() != 0;
         this.lowAlarmLimitValue = in.readInt();
         this.lowNotifyPhones = in.createStringArray();
-        this.smsFormat = in.readString();
+        this.lowSmsFormat = in.readString();
         this.lowLowAlarmEnable = in.readByte() != 0;
         this.lowLowAlarmLimitValue = in.readInt();
         this.lowLowNotifyPhones = in.createStringArray();

@@ -17,9 +17,25 @@ public interface DeviceDetailContract {
 
     interface View extends SmartStateView {
         void showData(Device device);
+        void showLoadingDialog();
+        void hideLoadingDialog();
+        void showLoadSuccessDialog();
+        void hideLoadSuccessDialog();
+        void showLoadFailDialog();
+        void hideLoadFailDialog();
     }
 
     interface Presenter extends SmartStatePresenter {
-
+        void setDevice(Device device);
+        void setChannelRange(int channel1, int channel2);
+        void setValueRange(int value);
+        void setReportPeriod(int period);
+        void setLowAlarmEnable(boolean enable);
+        void setLowAlarmLimitValue(int value, String[] phones, String sms);
+        void setLowLowAlarmEnable(boolean enable);
+        void setLowLowAlarmLimitValue(int value, String[] phones, String sms);
+        void setGps(double lat, double lot);
+        void setDefenseEnable(boolean enable);
+        void setAliasName(String name);
     }
 }

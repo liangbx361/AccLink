@@ -1,7 +1,48 @@
 [
   {
     "id":"1",
-    "aliasName": "采集板-1"
+    "aliasName": "采集板-1",
+    "isOnline": true,
+    "channel1Range": 10,
+    "channel2Range": 10,
+    "valueRange": 10,
+    "reportPeriod": 5,
+    "lowAlarmEnable": true,
+    "lowAlarmLimitValue": 4,
+    "lowNotifyPhones": [
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435"
+    ],
+    "lowSmsFormat": "小心火烛",
+    "lowLowAlarmEnable": false,
+    "lowLowAlarmLimitValue": 5,
+    "lowLowNotifyPhones": [
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435",
+      "18650057435"
+    ],
+    "lowLowSmsFormat": "低低报",
+    "lat":0,
+    "lon":0,
+    "defenseEnable": false,
+    "temperature": 10,
+    "humidity": 10,
+    "phoneNumber": "18650057435",
+    "lteStatus": 1,
+    "lteRssi": 1,
+    "lteMode": 1,
+    "currTx": 500
   },
   {
     "id":"2",

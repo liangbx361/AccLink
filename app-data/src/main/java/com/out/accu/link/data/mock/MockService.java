@@ -54,6 +54,65 @@ public class MockService implements DataService {
                 .map(data -> MapperUtil.stringMapToObject(data, DeviceHistory.class));
     }
 
+    @Override
+    public Observable<Boolean> setChannel(String deviceId, int value1, int value2) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setValue(String deviceId, int value) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setReportPeriod(String deviceId, int value) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setLowAlarmEnable(String deviceId, boolean enable) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setLowLowAlarmEnable(String deviceId, boolean enable) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setGps(String deviceId, double lat, double lot) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setDefenseEnable(String deviceId, boolean enable) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
+
+    @Override
+    public Observable<Boolean> setAliasName(String deviceId, String name) {
+        return Observable.just(true)
+                .delay(getMockTime(), TimeUnit.SECONDS);
+    }
 
     private int getMockTime() {
         return new Random().nextInt(3);

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/phones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/phone1"
+            style="@style/phoneStyle"/>
+
+        <EditText
+            android:id="@+id/phone2"
+            style="@style/phoneStyle"/>
+
+        <EditText
+            android:id="@+id/phone3"
+            style="@style/phoneStyle"/>
+
+        <EditText
+            android:id="@+id/phone4"
+            style="@style/phoneStyle"/>
+
+        <EditText
+            android:id="@+id/phone5"
+            style="@style/phoneStyle"/>
+
+        <EditText
+            android:id="@+id/phone6"
+            style="@style/phoneStyle"/>
+
+        <EditText
+            android:id="@+id/phone7"
+            style="@style/phoneStyle"/>
+
+        <EditText
+            android:id="@+id/phone8"
+            style="@style/phoneStyle"/>
+
+    </LinearLayout>
+
+</ScrollView>

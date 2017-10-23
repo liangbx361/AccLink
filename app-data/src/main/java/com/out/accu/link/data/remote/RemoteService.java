@@ -57,5 +57,55 @@ public class RemoteService implements DataService {
         return null;
     }
 
+    @Override
+    public Observable<Boolean> setChannel(String deviceId, int value1, int value2) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setValue(String deviceId, int value) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setReportPeriod(String deviceId, int value) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setLowAlarmEnable(String deviceId, boolean enable) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setLowLowAlarmEnable(String deviceId, boolean enable) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setGps(String deviceId, double lat, double lot) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setDefenseEnable(String deviceId, boolean enable) {
+        return null;
+    }
+
+    @Override
+    public Observable<Boolean> setAliasName(String deviceId, String name) {
+        return null;
+    }
+
 
 }
