@@ -3,6 +3,8 @@ package com.out.accu.link.data.converter;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.sql.Date;
+
 /**
  * <p>Title: <／p>
  * <p>Description: <／p>
@@ -20,6 +22,12 @@ public class LoginConverterTest {
         Assert.assertEquals(52, data.length);
         Assert.assertEquals(0x31, data[0]);
         Assert.assertEquals(0x32, data[20]);
+
+        Date date = new Date(2017, 10, 23);
+        System.out.println(date.getTime());
+
+        date = new Date(2017, 10, 22);
+        System.out.println(date.getTime());
     }
 
 }

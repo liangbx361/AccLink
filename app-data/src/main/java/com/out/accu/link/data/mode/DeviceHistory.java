@@ -13,7 +13,7 @@ package com.out.accu.link.data.mode;
 public class DeviceHistory {
 
     // 时间
-    public long time;
+    public float time;
 
     // 值
     public int value;

@@ -107,5 +107,9 @@ public class RemoteService implements DataService {
         return null;
     }
 
+    @Override
+    public Observable<List<DeviceHistory>> getHistory(long startTime, long endTime) {
+        return null;
+    }
 
 }

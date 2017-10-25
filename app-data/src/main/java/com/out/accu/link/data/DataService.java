@@ -91,4 +91,9 @@ public interface DataService {
      * 设置模块别名
      */
     Observable<Boolean> setAliasName(String deviceId, String name);
+
+    /**
+     * 历史数据查询
+     */
+    Observable<List<DeviceHistory>> getHistory(long startTime, long endTime);
 }

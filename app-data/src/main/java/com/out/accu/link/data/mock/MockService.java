@@ -114,6 +114,14 @@ public class MockService implements DataService {
                 .delay(getMockTime(), TimeUnit.SECONDS);
     }
 
+    @Override
+    public Observable<List<DeviceHistory>> getHistory(long startTime, long endTime) {
+        return Observable.just("mock/device_history.json")
+                .delay(getMockTime(), TimeUnit.SECONDS)
+                .map(file -> AssetsUtil.getStringFromFile(Smart.getApp(), file))
+                .map(data -> MapperUtil.stringMapToList(data, DeviceHistory.class));
+    }
+
     private int getMockTime() {
         return new Random().nextInt(3);
     }
