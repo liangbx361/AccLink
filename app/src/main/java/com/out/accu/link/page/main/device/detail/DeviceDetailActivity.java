@@ -184,7 +184,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         if(lowSmsFormatItem == null) {
             lowSmsFormatItem = mGroupListView.createItemView(getResString(R.string.low_sms_format_desc));
         }
-        lowSmsFormatItem.setDetailText(device.lowSmsFormat);
+        lowSmsFormatItem.setDetailText(device.lowSmsContent);
 
         // 低低报
         if(lowLowAlarmEnableItem == null) {
@@ -215,7 +215,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         if(lowLowSmsFormatItem == null) {
             lowLowSmsFormatItem = mGroupListView.createItemView(getResString(R.string.low_low_sms_format_desc));
         }
-        lowLowSmsFormatItem.setDetailText(device.lowLowSmsFormat);
+        lowLowSmsFormatItem.setDetailText(device.lowLowSmsContent);
 
         //
         if(gpsItem == null) {
@@ -533,7 +533,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         CharSequence text = builder.getEditText().getText();
                         try {
                             int value = Integer.valueOf(text.toString());
-                            getPresenter().setLowAlarmLimitValue(value, mDevice.lowNotifyPhones, mDevice.lowSmsFormat);
+                            getPresenter().setLowAlarmLimitValue(value, mDevice.lowNotifyPhones, mDevice.lowSmsContent);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -567,7 +567,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         }
 
                         getPresenter().setLowAlarmLimitValue(mDevice.lowAlarmLimitValue, phones,
-                                mDevice.lowSmsFormat);
+                                mDevice.lowSmsContent);
 
                         dialog.dismiss();
                     }
@@ -611,7 +611,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.lowSmsFormat + "");
+        builder.getEditText().setText(mDevice.lowSmsContent + "");
     }
 
     private void showLowLowEnableDialog() {
@@ -647,7 +647,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         try {
                             int value = Integer.valueOf(text.toString());
                             getPresenter().setLowLowAlarmLimitValue(value, mDevice.lowLowNotifyPhones,
-                                    mDevice.lowLowSmsFormat);
+                                    mDevice.lowLowSmsContent);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -681,7 +681,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         }
 
                         getPresenter().setLowLowAlarmLimitValue(mDevice.lowLowAlarmLimitValue, phones,
-                                mDevice.lowLowSmsFormat);
+                                mDevice.lowLowSmsContent);
 
                         dialog.dismiss();
                     }
@@ -725,7 +725,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.lowLowSmsFormat + "");
+        builder.getEditText().setText(mDevice.lowLowSmsContent + "");
     }
 
     private void showDefenseEnableDialog() {

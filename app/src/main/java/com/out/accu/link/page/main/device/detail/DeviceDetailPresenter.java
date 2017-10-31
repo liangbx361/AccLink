@@ -119,7 +119,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
                     mView.hideLoadingDialog();
                     mDevice.lowAlarmLimitValue = value;
                     mDevice.lowNotifyPhones = phones;
-                    mDevice.lowSmsFormat = sms;
+                    mDevice.lowSmsContent = sms;
                     mView.showData(mDevice);
                     Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
@@ -155,7 +155,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
                     mView.hideLoadingDialog();
                     mDevice.lowLowAlarmLimitValue = value;
                     mDevice.lowLowNotifyPhones = phones;
-                    mDevice.lowLowSmsFormat = sms;
+                    mDevice.lowLowSmsContent = sms;
                     mView.showData(mDevice);
                     Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {

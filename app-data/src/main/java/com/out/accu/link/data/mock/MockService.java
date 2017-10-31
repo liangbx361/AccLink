@@ -42,7 +42,7 @@ public class MockService implements DataService {
     }
 
     @Override
-    public Observable<Device> getDevice(String id) {
+    public Observable<Device> getDevice(Device device) {
         return null;
     }
 

@@ -6,7 +6,7 @@ import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PasswordUtil;
 
 /**
- * <p>Title: <／p>
+ * <p>Title: 登录数据转换器<／p>
  * <p>Description: <／p>
  * <p>Copyright: Copyright (c) 2017<／p>
  * <p>Company: <／p>

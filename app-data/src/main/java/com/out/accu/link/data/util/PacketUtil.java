@@ -33,12 +33,33 @@ public class PacketUtil {
     public static int HEADER_LENGTH = 18;
     public static int FLAG_END_LENGTH = 6;
 
+    public static byte[] CMD_SET_CHANNEL_RANGE = {(byte) 0xA2, 0x01};
+    public static byte[] CMD_SET_VALUE_RANGE = {(byte) 0xA2, 0x02};
+    public static byte[] CMD_SET_REPORT_PERIOD = {(byte) 0xA2, 0x03};
+    public static byte[] CMD_SET_LOW_ALARM_ENABLE = {(byte) 0xA2, 0x04};
+    public static byte[] CMD_SET_LOW_ALARM_PARAMS = {(byte) 0xA2, 0x05};
+    public static byte[] CMD_SET_LOW_LOW_ALARM_ENABLE = {(byte) 0xA2, 0x06};
+    public static byte[] CMD_SET_LOW_LOW_ALARM_PARAMS = {(byte) 0xA2, 0x07};
+    public static byte[] CMD_SET_ALIAS_NAME = {(byte) 0xA2, 0x08};
+    public static byte[] CMD_SET_LOCATION = {(byte) 0xA2, 0x09};
+    public static byte[] CMD_SET_DEFENSE_ENABLE = {(byte) 0xA2, 0x0A};
+
     public static byte[] CMD_GET_CHANNEL_RANGE = {(byte) 0xA3, 0x01};
-//    public static byte[] CMD_GET_VALUE_RANGE = {(byte) 0xA3, 0x02};
-//    public static byte[] CMD_GET_VALUE_RANGE = {(byte) 0xA3, 0x03};
-//    public static byte[] CMD_GET_VALUE_RANGE = {(byte) 0xA3, 0x04};
-//    public static byte[] CMD_GET_VALUE_RANGE = {(byte) 0xA3, 0x05};
-//    public static byte[] CMD_GET_VALUE_RANGE = {(byte) 0xA3, 0x06};
+    public static byte[] CMD_GET_VALUE_RANGE = {(byte) 0xA3, 0x02};
+    public static byte[] CMD_GET_REPORT_PERIOD = {(byte) 0xA3, 0x03};
+    public static byte[] CMD_GET_LOW_ALARM_ENABLE = {(byte) 0xA3, 0x04};
+    public static byte[] CMD_GET_LOW_ALARM_PARAMS = {(byte) 0xA3, 0x05};
+    public static byte[] CMD_GET_LOW_LOW_ALARM_ENABLE = {(byte) 0xA3, 0x06};
+    public static byte[] CMD_GET_LOW_LOW_ALARM_PARAMS = {(byte) 0xA3, 0x07};
+    public static byte[] CMD_GET_ALIAS_NAME = {(byte) 0xA3, 0x08};
+    public static byte[] CMD_GET_LOCATION = {(byte) 0xA3, 0x09};
+    public static byte[] CMD_GET_DEFENSE_ENABLE = {(byte) 0xA3, 0x0A}; //defenseEnable
+    public static byte[] CMD_GET_TEM= {(byte) 0xA3, 0x0B};
+    public static byte[] CMD_GET_PHONE_NUMBER = {(byte) 0xA3, 0x0C};
+    public static byte[] CMD_GET_LTE_STATUS = {(byte) 0xA3, 0x0D};
+    public static byte[] CMD_GET_TX = {(byte) 0xA3, 0x0E};
+    public static byte[] CMD_GET_LAST_DATA = {(byte) 0xA3, 0x0F};
+    public static byte[] CMD_GET_HISTORY = {(byte) 0xA3, 0x10};
 
     public static byte[] CMD_LOGIN = {(byte) 0xA4, 0x01};
     public static byte[] CMD_LOGOUT = {(byte) 0xA4, 0x02};
@@ -48,6 +69,8 @@ public class PacketUtil {
     public static byte[] CMD_GET_NAME = {(byte) 0xA4, 0x06};
     public static byte[] CMD_GET_PHONE = {(byte) 0xA4, 0x07};
     public static byte[] CMD_GET_DEVICES = {(byte) 0xA4, 0x08};
+
+    public static int sCount;
 
     /**
      *
@@ -74,6 +97,7 @@ public class PacketUtil {
         System.arraycopy(data, 0, allData, FLAG_START_LENGTH + HEADER_LENGTH, data.length);
         allData[28 + data.length] = FLAG_END[0];
         allData[29 + data.length] = FLAG_END[1];
+//        return addHeader(allData);
         return allData;
     }
 
@@ -87,9 +111,37 @@ public class PacketUtil {
         Response response = new Response();
         response.isSuccess = code == 0 && type == 1;
         response.cmd = cmd;
-        int length = (data[2] + data[3] << 8) - 18;
+        int length = (data[2] + (data[3] << 8)) - 18;
         response.data = new byte[length];
         System.arraycopy(data, 24, response.data, 0, length);
         return response;
+    }
+
+    /**
+     * 长度（2）+ 序号（2）+ 执行码（1）+ 标志位 + 1
+     */
+    public static byte[] addHeader(byte[] data) {
+        int length = data.length + 6;
+        byte[] allData = new byte[length];
+        allData[0] = (byte) (length & 0xFF);
+        allData[1] = (byte) ((length & 0xFF00) >> 8);
+        allData[2] = (byte) (sCount & 0xFF);
+        allData[3] = (byte) ((sCount & 0xFF00) >> 8);
+        allData[4] = 0;
+        allData[5] = 0;
+        ByteUtil.arrayCopy(data, 0, allData, 6, data.length);
+        return allData;
+    }
+
+    public static byte[] receive() {
+        byte[] receive = new byte[6];
+        receive[0] = 6;
+        receive[1] = 0;
+        receive[2] = (byte) (sCount & 0xFF);
+        receive[3] = (byte) ((sCount & 0xFF00) >> 8);
+        receive[4] = 1;
+        receive[5] = 0;
+        sCount++;
+        return receive;
     }
 }

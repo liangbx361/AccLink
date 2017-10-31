@@ -34,7 +34,7 @@ public class App extends SmartApplication {
 
     @Override
     protected void asyncInit() {
-        DataManager.init(Platform.MOCK);
+        DataManager.init(Platform.TEST);
 
         // SwipeView全局初始化
         GlobalSwipeView.getInstance().setRefreshLayoutId(R.layout.sv_google_refresh);

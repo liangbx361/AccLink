@@ -35,7 +35,7 @@ public interface DataService {
     /**
      * 获取设备
      */
-    Observable<Device> getDevice(String deviceId);
+    Observable<Device> getDevice(Device device);
 
     /**
      * 获取设备历史数据

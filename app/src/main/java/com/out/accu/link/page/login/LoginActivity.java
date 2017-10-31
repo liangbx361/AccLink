@@ -1,16 +1,12 @@
 package com.out.accu.link.page.login;
 
-import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
-import android.transition.Explode;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.out.accu.link.R;
-import com.out.accu.link.page.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +43,8 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     @Override
     public void initView() {
         ButterKnife.bind(this);
+        etUsername.setText("user1");
+        etPassword.setText("123456");
     }
 
     /**
@@ -55,21 +53,11 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     @Override
     public void registerEvent() {
         btGo.setOnClickListener(view -> {
-            Explode explode = new Explode();
-            explode.setDuration(500);
+            try {
+                getPresenter().login(getUserName(), getPassword());
+            } catch (IllegalArgumentException ignored) {
 
-            getWindow().setExitTransition(explode);
-            getWindow().setEnterTransition(explode);
-            ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent, option.toBundle());
-            finish();
-
-//            try {
-//                getPresenter().login(getUserName(), getPassword());
-//            } catch (IllegalArgumentException ignored) {
-//
-//            }
+            }
         });
     }
 

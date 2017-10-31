@@ -36,6 +36,7 @@ public class DataManager {
                 mDataService = new MockService();
                 break;
             case TEST:
+                ByteUtil.arrayCopy(Build.SERIAL.getBytes(), 0, deviceId, 0, 6);
                 mDataService = new RemoteService(platform);
                 break;
             case RELEASE:

@@ -1,5 +1,7 @@
 package com.out.accu.link.data.udp;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -36,6 +38,7 @@ public class UdpHandler {
     }
 
     public boolean send(byte[] data) throws IOException {
+        printLog("udp->send", data);
         DatagramPacket packet = new DatagramPacket(data, data.length, mInetAddress, mPort);
         getSocket().send(packet);
         return true;
@@ -46,6 +49,7 @@ public class UdpHandler {
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
         // 阻塞
         getSocket().receive(packet);
+        printLog("udp->receive", buf);
         return buf;
     }
 
@@ -85,5 +89,17 @@ public class UdpHandler {
             mSocket.close();
             mDisposable.dispose();
         }
+    }
+
+    private void printLog(String tag, byte[] datas) {
+        StringBuffer sb = new StringBuffer();
+        for(int i=0; i<datas.length; i++) {
+            String hex = Integer.toHexString(datas[i] & 0xFF);
+            if(hex.length() == 1) {
+                hex = '0' + hex;
+            }
+            sb.append("0x"+hex+"|");
+        }
+        Log.d(tag, sb.toString());
     }
 }

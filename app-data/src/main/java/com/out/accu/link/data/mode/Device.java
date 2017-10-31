@@ -46,7 +46,7 @@ public class Device implements Parcelable {
     public String[] lowNotifyPhones;
 
     // 短信内容
-    public String lowSmsFormat;
+    public String lowSmsContent;
 
     // 数据底底报使能开关
     public boolean lowLowAlarmEnable;
@@ -57,7 +57,7 @@ public class Device implements Parcelable {
     // 8组短信通知号码 20*8
     public String[] lowLowNotifyPhones;
 
-    public String lowLowSmsFormat;
+    public String lowLowSmsContent;
 
     // 经度
     public double lat;
@@ -89,6 +89,7 @@ public class Device implements Parcelable {
     // 当前月总发送数据字节数
     public int currTx;
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -106,11 +107,11 @@ public class Device implements Parcelable {
         dest.writeByte(this.lowAlarmEnable ? (byte) 1 : (byte) 0);
         dest.writeInt(this.lowAlarmLimitValue);
         dest.writeStringArray(this.lowNotifyPhones);
-        dest.writeString(this.lowSmsFormat);
+        dest.writeString(this.lowSmsContent);
         dest.writeByte(this.lowLowAlarmEnable ? (byte) 1 : (byte) 0);
         dest.writeInt(this.lowLowAlarmLimitValue);
         dest.writeStringArray(this.lowLowNotifyPhones);
-        dest.writeString(this.lowLowSmsFormat);
+        dest.writeString(this.lowLowSmsContent);
         dest.writeDouble(this.lat);
         dest.writeDouble(this.lon);
         dest.writeByte(this.defenseEnable ? (byte) 1 : (byte) 0);
@@ -137,11 +138,11 @@ public class Device implements Parcelable {
         this.lowAlarmEnable = in.readByte() != 0;
         this.lowAlarmLimitValue = in.readInt();
         this.lowNotifyPhones = in.createStringArray();
-        this.lowSmsFormat = in.readString();
+        this.lowSmsContent = in.readString();
         this.lowLowAlarmEnable = in.readByte() != 0;
         this.lowLowAlarmLimitValue = in.readInt();
         this.lowLowNotifyPhones = in.createStringArray();
-        this.lowLowSmsFormat = in.readString();
+        this.lowLowSmsContent = in.readString();
         this.lat = in.readDouble();
         this.lon = in.readDouble();
         this.defenseEnable = in.readByte() != 0;
@@ -154,7 +155,7 @@ public class Device implements Parcelable {
         this.currTx = in.readInt();
     }
 
-    public static final Parcelable.Creator<Device> CREATOR = new Parcelable.Creator<Device>() {
+    public static final Creator<Device> CREATOR = new Creator<Device>() {
         @Override
         public Device createFromParcel(Parcel source) {
             return new Device(source);
