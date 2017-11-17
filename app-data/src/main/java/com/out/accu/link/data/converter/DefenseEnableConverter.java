@@ -26,7 +26,8 @@ public class DefenseEnableConverter {
     }
 
     public static Device response(Device device, Response response) {
-        device.defenseEnable = ByteUtil.getBoolean(response.data, 6);
+        device.id = ByteUtil.getString(response.data, 0, 6);
+        device.defenseEnable = response.data[6];
         return device;
     }
 }

@@ -29,6 +29,7 @@ public class LowAlarmConverter {
     }
 
     public static Device response(Device device, Response response) {
+        device.id = ByteUtil.getString(response.data, 0, 6);
         device.lowAlarmLimitValue = ByteUtil.getInt(response.data, 6);
         String[] phones = new String[8];
         for(int i=0; i<8; i++) {

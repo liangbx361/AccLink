@@ -25,8 +25,9 @@ public class LocationConverter {
     }
 
     public static Device response(Device device, Response response) {
+        device.id = ByteUtil.getString(response.data, 0, 6);
         device.lat = ByteUtil.getDouble(response.data, 6);
-        device.lon = ByteUtil.getDouble(response.data, 14);
+        device.lng = ByteUtil.getDouble(response.data, 14);
         return device;
     }
 }

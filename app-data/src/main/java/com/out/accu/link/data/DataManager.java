@@ -5,7 +5,10 @@ import android.os.Build;
 
 import com.out.accu.link.data.config.Platform;
 import com.out.accu.link.data.mock.MockService;
+import com.out.accu.link.data.mode.ModeData;
 import com.out.accu.link.data.remote.RemoteService;
+import com.out.accu.link.data.udp.ResponseHandler;
+import com.out.accu.link.data.udp.UdpHandler;
 import com.out.accu.link.data.util.ByteUtil;
 
 /**
@@ -26,10 +29,16 @@ public class DataManager {
     private byte[] deviceId = new byte[] {0x1, 0x2, 0x3, 0x4, 0x5, 0x6};
 
     private DataService mDataService;
+    private ModeData mModeData;
+    private UdpHandler mUdpHandler;
+    private ResponseHandler mResponseHandler;
 
     @SuppressLint("HardwareIds")
     private DataManager(Platform platform) {
         mPlatform = platform;
+        mModeData = new ModeData();
+        mUdpHandler = new UdpHandler(platform.getInet(), platform.getPort());
+        mResponseHandler = new ResponseHandler(mModeData);
 
         switch (platform) {
             case MOCK:
@@ -37,11 +46,11 @@ public class DataManager {
                 break;
             case TEST:
                 ByteUtil.arrayCopy(Build.SERIAL.getBytes(), 0, deviceId, 0, 6);
-                mDataService = new RemoteService(platform);
+                mDataService = new RemoteService(platform, mUdpHandler);
                 break;
             case RELEASE:
                 ByteUtil.arrayCopy(Build.SERIAL.getBytes(), 0, deviceId, 0, 6);
-                mDataService = new RemoteService(platform);
+                mDataService = new RemoteService(platform, mUdpHandler);
                 break;
         }
     }
@@ -71,4 +80,13 @@ public class DataManager {
     public byte[] getDeviceId() {
         return deviceId;
     }
+
+    public ModeData getModeData() {
+        return mModeData;
+    }
+
+    public UdpHandler getUdpHandler() {
+        return mUdpHandler;
+    }
+
 }

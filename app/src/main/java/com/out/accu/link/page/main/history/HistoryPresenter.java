@@ -1,6 +1,5 @@
 package com.out.accu.link.page.main.history;
 
-import com.cyou17173.android.arch.base.page.SmartTransformer;
 import com.out.accu.link.data.DataService;
 
 /**
@@ -40,11 +39,11 @@ class HistoryPresenter implements HistoryContract.Presenter {
 
     @Override
     public void search(long start, long end) {
-        mDataService.getHistory(start, end)
-                .compose(SmartTransformer.applySchedulers())
-                .compose(mView.bindToLifecycle())
-                .subscribe(deviceHistories -> {
-                    mView.showHistory(deviceHistories);
-                }, throwable -> throwable.printStackTrace());
+//        mDataService.getHistory("", start, end)
+//                .compose(SmartTransformer.applySchedulers())
+//                .compose(mView.bindToLifecycle())
+//                .subscribe(deviceHistories -> {
+//                    mView.showHistory(deviceHistories);
+//                }, throwable -> throwable.printStackTrace());
     }
 }

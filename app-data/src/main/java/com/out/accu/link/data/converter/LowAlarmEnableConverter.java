@@ -26,7 +26,8 @@ public class LowAlarmEnableConverter {
     }
 
     public static Device response(Device device, Response response) {
-        device.lowAlarmEnable = ByteUtil.getBoolean(response.data, 6);
+        device.id = ByteUtil.getString(response.data, 0, 6);
+        device.lowAlarmEnable = response.data[6];
         return device;
     }
 }

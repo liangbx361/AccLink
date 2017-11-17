@@ -33,6 +33,9 @@ public class PacketUtil {
     public static int HEADER_LENGTH = 18;
     public static int FLAG_END_LENGTH = 6;
 
+    public static byte[] CMD_DEVICE_VALUE_UPLOAD = {(byte) 0xA1, 0x01};
+    public static byte[] CMD_DEVICE_ONLINE_UPLOAD = {(byte) 0xA1, 0x05};
+
     public static byte[] CMD_SET_CHANNEL_RANGE = {(byte) 0xA2, 0x01};
     public static byte[] CMD_SET_VALUE_RANGE = {(byte) 0xA2, 0x02};
     public static byte[] CMD_SET_REPORT_PERIOD = {(byte) 0xA2, 0x03};
@@ -66,8 +69,8 @@ public class PacketUtil {
     public static byte[] CMD_SET_PASSWORD = {(byte) 0xA4, 0x03};
     public static byte[] CMD_SET_NAME = {(byte) 0xA4, 0x04};
     public static byte[] CMD_SET_PHONE = {(byte) 0xA4, 0x05};
-    public static byte[] CMD_GET_NAME = {(byte) 0xA4, 0x06};
-    public static byte[] CMD_GET_PHONE = {(byte) 0xA4, 0x07};
+    public static byte[] CMD_GET_USER_NAME = {(byte) 0xA4, 0x06};
+    public static byte[] CMD_GET_USER_PHONE = {(byte) 0xA4, 0x07};
     public static byte[] CMD_GET_DEVICES = {(byte) 0xA4, 0x08};
 
     public static int sCount;
@@ -109,11 +112,14 @@ public class PacketUtil {
         byte code = data[23];
 
         Response response = new Response();
-        response.isSuccess = code == 0 && type == 1;
+        response.type = type;
+        response.code = code;
         response.cmd = cmd;
         int length = (data[2] + (data[3] << 8)) - 18;
         response.data = new byte[length];
         System.arraycopy(data, 24, response.data, 0, length);
+
+
         return response;
     }
 

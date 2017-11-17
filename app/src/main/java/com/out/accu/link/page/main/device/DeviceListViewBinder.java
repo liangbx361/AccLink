@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.cyou17173.android.arch.base.adapter.SmartViewHolder;
 import com.out.accu.link.R;
 import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.router.Navigation;
 
 import butterknife.BindView;
@@ -43,20 +44,27 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
     class ViewHolder extends SmartViewHolder<Device> {
         @BindView(R.id.aliasName)
         TextView mTvAliasName;
+        @BindView(R.id.status)
+        TextView mTvStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(v -> {
-                Navigation.deviceDetail((Activity) getContext(), getItemData());
+                Navigation.deviceDetail((Activity) getContext(), getItemData().id);
             });
         }
 
         @Override
         public void setData(Device device) {
             super.setData(device);
-            mTvAliasName.setText(device.aliasName);
+            mTvAliasName.setText("设备:" + ByteUtil.getId(device.id));
+            if(device.isOnline) {
+                mTvStatus.setText("在线");
+            } else {
+                mTvStatus.setText("离线");
+            }
         }
     }
 }

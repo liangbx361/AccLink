@@ -2,8 +2,12 @@ package com.out.accu.link.page.login;
 
 import android.widget.Toast;
 
-import com.cyou17173.android.arch.base.page.SmartTransformer;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
+import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
+import com.out.accu.link.data.mode.Login;
 import com.out.accu.link.router.Navigation;
 
 /**
@@ -33,19 +37,21 @@ class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String username, String password) {
-        DataManager.getInstance().getDataService()
-                .login(username, password)
-                .compose(SmartTransformer.applySchedulers())
-                .compose(mView.bindUntilDestroy())
-                .subscribe(login -> {
-                    if(login.isSuccess) {
-                        Navigation.main(mView.getActivity());
-                    } else {
-                        Toast.makeText(mView.getActivity(), "登录失败", Toast.LENGTH_SHORT).show();
-                    }
-                }, throwable -> {
-                    throwable.printStackTrace();
-                    Toast.makeText(mView.getActivity(), "登录失败", Toast.LENGTH_SHORT).show();
-                });
+        DataManager.getInstance().getDataService().login(username, password);
+        DataManager.getInstance().getUdpHandler().startReceive();
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_LOGIN)
+            }
+    )
+    public void onLogin(Login login) {
+        if(login.isSuccess) {
+            Navigation.main(mView.getActivity());
+        } else {
+            Toast.makeText(mView.getActivity(), "登录失败", Toast.LENGTH_SHORT).show();
+        }
     }
 }

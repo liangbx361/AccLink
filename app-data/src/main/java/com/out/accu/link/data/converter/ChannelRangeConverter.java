@@ -25,6 +25,7 @@ public class ChannelRangeConverter {
     }
 
     public static Device response(Device device, Response response) {
+        device.id = ByteUtil.getString(response.data, 0, 6);
         device.channel1Range = ByteUtil.getInt(response.data, 6);
         device.channel2Range = ByteUtil.getInt(response.data, 10);
         return device;

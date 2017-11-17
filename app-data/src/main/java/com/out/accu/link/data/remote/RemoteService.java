@@ -5,29 +5,26 @@ import com.out.accu.link.data.config.Platform;
 import com.out.accu.link.data.converter.AliasNameConverter;
 import com.out.accu.link.data.converter.ChannelRangeConverter;
 import com.out.accu.link.data.converter.DefenseEnableConverter;
-import com.out.accu.link.data.converter.DeviceListConverter;
+import com.out.accu.link.data.converter.HistoryConverter;
 import com.out.accu.link.data.converter.LocationConverter;
 import com.out.accu.link.data.converter.LoginConverter;
 import com.out.accu.link.data.converter.LowAlarmConverter;
 import com.out.accu.link.data.converter.LowAlarmEnableConverter;
 import com.out.accu.link.data.converter.LowLowAlarmConverter;
 import com.out.accu.link.data.converter.LowLowAlarmEnableConverter;
-import com.out.accu.link.data.converter.LteStatusConverter;
-import com.out.accu.link.data.converter.PhoneNumberConverter;
+import com.out.accu.link.data.converter.PasswordConverter;
 import com.out.accu.link.data.converter.ReportPeriodConverter;
-import com.out.accu.link.data.converter.TemConverter;
-import com.out.accu.link.data.converter.TxConverter;
+import com.out.accu.link.data.converter.UserMobileConverter;
+import com.out.accu.link.data.converter.UsernameConverter;
 import com.out.accu.link.data.converter.ValueRangeConverter;
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.DeviceHistory;
-import com.out.accu.link.data.mode.Login;
+import com.out.accu.link.data.mode.User;
 import com.out.accu.link.data.udp.UdpHandler;
 import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
 
-import java.util.List;
-
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * <p>Title: <／p>
@@ -43,179 +40,212 @@ public class RemoteService implements DataService {
 
     private UdpHandler mUdpHandler;
 
-    public RemoteService(Platform platform) {
-        mUdpHandler = new UdpHandler(platform.getInet(), platform.getPort());
-//        mUdpHandler.startReceive();
+    public RemoteService(Platform platform, UdpHandler udpHandler) {
+        mUdpHandler = udpHandler;
     }
 
     @Override
-    public Observable<Login> login(String userName, String password) {
-        return Observable.defer(() ->
-                Observable.just(LoginConverter.request(userName, password)))
+    public void login(String userName, String password) {
+        Observable.just(LoginConverter.request(userName, password))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_LOGIN, PacketUtil.TYPE_REQUEST, bytes))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(LoginConverter::response);
-                // .doOnNext(login -> mUdpHandler.send(PacketUtil.receive()));
+                .subscribe();
     }
 
     @Override
-    public Observable<List<Device>> getDevices() {
-        return Observable.just(new byte[0])
+    public void getDevices() {
+        Observable.just(new byte[0])
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_GET_DEVICES, PacketUtil.TYPE_REQUEST, bytes))
                 .map(bytes -> mUdpHandler.send(bytes))
                 .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(DeviceListConverter::response)
-                .doOnNext(devices -> {
-                    for(Device device : devices) {
-                        getDevice(device).subscribe(device1 -> {
-
-                        });
-                    }
-                });
+                .subscribe();
     }
 
     @Override
-    public Observable<Device> getDevice(Device device) {
+    public void getDevice(Device device) {
         byte[] deviceId = ByteUtil.stringToByte(device.id, 6);
-        return Observable.just(device)
+        Observable.just(device)
+                .subscribeOn(Schedulers.io())
                 // 两路量程
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_CHANNEL_RANGE, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> ChannelRangeConverter.response(device, response))
                 // 量程
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_VALUE_RANGE, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> ValueRangeConverter.response(device, response))
                 //上报周期
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_REPORT_PERIOD, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> ReportPeriodConverter.response(device, response))
                 //低报参数
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_LOW_ALARM_ENABLE, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> LowAlarmEnableConverter.response(device, response))
                 //
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> LowAlarmConverter.response(device, response))
                 //
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_LOW_LOW_ALARM_ENABLE, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> LowLowAlarmEnableConverter.response(device, response))
                 //
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_LOW_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> LowLowAlarmConverter.response(device, response))
-                //
-                .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, deviceId))
-                .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> LowAlarmConverter.response(device, response))
+
                 // 别名
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_ALIAS_NAME, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> AliasNameConverter.response(device, response))
                 //
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_LOCATION, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> LocationConverter.response(device, response))
                 //
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_DEFENSE_ENABLE, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> DefenseEnableConverter.response(device, response))
                 // CMD_GET_TEM
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_TEM, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> TemConverter.response(device, response))
                 // CMD_GET_PHONE_NUMBER
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_PHONE_NUMBER, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> PhoneNumberConverter.response(device, response))
                 // CMD_GET_LTE_STATUS
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_LTE_STATUS, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> LteStatusConverter.response(device, response))
                 // CMD_GET_TX
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_TX, PacketUtil.TYPE_REQUEST, deviceId))
                 .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
+    }
+
+    @Override
+    public void getDeviceHistory(String deviceId, long beginTime, long endTime) {
+
+    }
+
+    @Override
+    public void setChannel(String deviceId, int value1, int value2) {
+        Observable.just(ChannelRangeConverter.request(deviceId, value1, value2))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_CHANNEL_RANGE, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setValue(String deviceId, int value) {
+        Observable.just(ValueRangeConverter.request(deviceId, value))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_VALUE_RANGE, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setReportPeriod(String deviceId, int value) {
+        Observable.just(ReportPeriodConverter.request(deviceId, value))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_REPORT_PERIOD, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setLowAlarmEnable(String deviceId, boolean enable) {
+        Observable.just(LowAlarmEnableConverter.request(deviceId, enable))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_ALARM_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+        Observable.just(LowAlarmConverter.request(deviceId, value, phones, sms))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setLowLowAlarmEnable(String deviceId, boolean enable) {
+        Observable.just(LowLowAlarmEnableConverter.request(deviceId, enable))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_LOW_ALARM_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+        Observable.just(LowLowAlarmConverter.request(deviceId, value, phones, sms))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setGps(String deviceId, double lat, double lot) {
+        Observable.just(LocationConverter.request(deviceId, lat, lot))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOCATION, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setDefenseEnable(String deviceId, boolean enable) {
+        Observable.just(DefenseEnableConverter.request(deviceId, enable))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_DEFENSE_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void setAliasName(String deviceId, String name) {
+        Observable.just(AliasNameConverter.request(deviceId, name))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_ALIAS_NAME, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void getHistory(String deviceId, long startTime, long endTime) {
+        Observable.just(HistoryConverter.request(deviceId, startTime, endTime))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_GET_HISTORY, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes));
+    }
+
+    @Override
+    public void getUser() {
+        User user = new User();
+        Observable.just(user)
+                // 用户名
+                .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_USER_NAME, PacketUtil.TYPE_REQUEST, new byte[0]))
+                .map(bytes -> mUdpHandler.send(bytes))
                 .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> TxConverter.response(device, response));
-
+                .map(response -> UsernameConverter.response(user, response))
+                // 手机号
+                .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_USER_PHONE, PacketUtil.TYPE_REQUEST, new byte[0]))
+                .map(bytes -> mUdpHandler.send(bytes))
+                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
+                .map(response -> UserMobileConverter.response(user, response));
     }
 
     @Override
-    public Observable<DeviceHistory> getDeviceHistory(String deviceId, long beginTime, long endTime) {
-        return null;
+    public void setUsername(String username) {
+        Observable.just(username)
+                .map(username1 -> PacketUtil.getPacket(PacketUtil.CMD_SET_NAME, PacketUtil.TYPE_REQUEST, UsernameConverter.request(username1)))
+                .map(bytes -> mUdpHandler.send(bytes))
+                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
+                .map(response -> true);
     }
 
     @Override
-    public Observable<Boolean> setChannel(String deviceId, int value1, int value2) {
-
-        return null;
+    public void setMobile(String mobile) {
+        Observable.just(mobile)
+                .map(mobile1 -> PacketUtil.getPacket(PacketUtil.CMD_SET_PHONE, PacketUtil.TYPE_REQUEST, UsernameConverter.request(mobile1)))
+                .map(bytes -> mUdpHandler.send(bytes))
+                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
+                .map(response -> true);
     }
 
     @Override
-    public Observable<Boolean> setValue(String deviceId, int value) {
-        return null;
+    public void setPassword(String oldPwd, String newPwd) {
+        Observable.just(PasswordConverter.request(oldPwd, newPwd))
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_PASSWORD, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes))
+                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
+                .map(response -> true);
     }
 
     @Override
-    public Observable<Boolean> setReportPeriod(String deviceId, int value) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> setLowAlarmEnable(String deviceId, boolean enable) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> setLowLowAlarmEnable(String deviceId, boolean enable) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> setGps(String deviceId, double lat, double lot) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> setDefenseEnable(String deviceId, boolean enable) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> setAliasName(String deviceId, String name) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<DeviceHistory>> getHistory(long startTime, long endTime) {
-        return null;
+    public void logout() {
+        Observable.just(new byte[0])
+                .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_LOGOUT, PacketUtil.TYPE_REQUEST, bytes))
+                .map(bytes -> mUdpHandler.send(bytes))
+                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
+                .map(response -> true);
     }
 
 }

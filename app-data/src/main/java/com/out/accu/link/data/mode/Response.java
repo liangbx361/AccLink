@@ -12,9 +12,15 @@ package com.out.accu.link.data.mode;
 
 public class Response {
 
-    public boolean isSuccess;
+    public int type;
+
+    public int code;
 
     public byte[] cmd;
 
     public byte[] data;
+
+    public boolean isSuccess() {
+        return code == 0;
+    }
 }

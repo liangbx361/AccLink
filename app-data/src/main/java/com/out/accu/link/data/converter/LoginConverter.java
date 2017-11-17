@@ -28,7 +28,7 @@ public class LoginConverter {
 
     public static Login response(Response response) {
         Login login = new Login();
-        login.isSuccess = response.data[0] != 0;
+        login.isSuccess = response.isSuccess();
         return login;
     }
 }

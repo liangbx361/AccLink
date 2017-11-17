@@ -1,5 +1,7 @@
 package com.out.accu.link.data.converter;
 
+import android.util.Log;
+
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
@@ -16,7 +18,7 @@ import com.out.accu.link.data.util.ByteUtil;
 
 public class AliasNameConverter {
 
-    public byte[] request(String id, String name) {
+    public static byte[] request(String id, String name) {
         byte[] data = new byte[26];
         ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
         ByteUtil.arrayCopy(name.getBytes(), 0, data, 6, 20);
@@ -24,7 +26,9 @@ public class AliasNameConverter {
     }
 
     public static Device response(Device device, Response response) {
+        device.id = ByteUtil.getString(response.data, 0, 6);
         device.aliasName = ByteUtil.getString(response.data, 6, 20);
+        Log.d("response", "aliasName ->" + device.aliasName);
         return device;
     }
 }

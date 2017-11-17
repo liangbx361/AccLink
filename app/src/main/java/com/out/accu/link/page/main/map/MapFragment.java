@@ -7,6 +7,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.out.accu.link.R;
+import com.out.accu.link.data.DataManager;
+import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.mode.ModeData;
 
 /**
  * <p>Title: </p>
@@ -64,6 +67,15 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
 
     @Override
     public void onMapReady(GoogleMap map) {
-        map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        ModeData modeData = DataManager.getInstance().getModeData();
+
+        // 标注设备位置
+        if(modeData.devices != null && modeData.devices.size() > 0) {
+            for(Device device : modeData.devices) {
+                map.addMarker(new MarkerOptions()
+                        .position(new LatLng(device.lat, device.lng))
+                        .title(device.aliasName));
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ import com.out.accu.link.data.util.ByteUtil;
 public class TxConverter {
 
     public static Device response(Device device, Response response) {
+        device.id = ByteUtil.getString(response.data, 0, 6);
         device.currTx = ByteUtil.getInt(response.data, 6);
         return device;
     }

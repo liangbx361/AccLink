@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.transition.Explode;
 
-import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.page.login.LoginActivity;
 import com.out.accu.link.page.main.MainActivity;
 import com.out.accu.link.page.main.device.detail.DeviceDetailActivity;
@@ -40,9 +39,9 @@ public class Navigation {
         activity.finish();
     }
 
-    public static void deviceDetail(Activity activity, Device device) {
+    public static void deviceDetail(Activity activity, String deviceId) {
         Intent intent = new Intent(activity, DeviceDetailActivity.class);
-        intent.putExtra("device", device);
+        intent.putExtra("deviceId", deviceId);
         activity.startActivity(intent);
     }
 }

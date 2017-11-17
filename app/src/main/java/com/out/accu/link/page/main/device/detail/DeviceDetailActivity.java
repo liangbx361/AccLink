@@ -78,9 +78,6 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
     @Override
     public void initView() {
         ButterKnife.bind(this);
-        mDevice = getIntent().getParcelableExtra("device");
-        getPresenter().setDevice(mDevice);
-        showData(mDevice);
 
         mLoadingDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
@@ -122,152 +119,232 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         return new DeviceDetailPresenter(this);
     }
 
+    private boolean checkValue(int vlaue, QMUICommonListItemView itemView) {
+        if (vlaue == -1) {
+            itemView.setDetailText("未获取");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean checkValue(String value, QMUICommonListItemView itemView) {
+        if (value == null) {
+            itemView.setDetailText("未获取");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean checkValue(double value, QMUICommonListItemView itemView) {
+        if (value == -1) {
+            itemView.setDetailText("未获取");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean checkValue(String[] value, QMUICommonListItemView itemView) {
+        if (value == null) {
+            itemView.setDetailText("未获取");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     @Override
     public void showData(Device device) {
         mGroupListView.removeAllViews();
 
-        if(deviceNameItem == null) {
+        if (deviceNameItem == null) {
             deviceNameItem = mGroupListView.createItemView(getResString(R.string.device_name));
         }
-        deviceNameItem.setDetailText(device.aliasName);
+        if (checkValue(device.aliasName, deviceNameItem)) {
+            deviceNameItem.setDetailText(device.aliasName);
+        }
 
         if (channel1Item == null) {
             channel1Item = mGroupListView.createItemView(getString(R.string.channel_1_range_desc));
         }
-        channel1Item.setDetailText(device.channel1Range + "mA");
+        if (checkValue(device.channel1Range, channel1Item)) {
+            channel1Item.setDetailText(device.channel1Range + "mA");
+        }
 
-        if(channel2Item == null) {
+        if (channel2Item == null) {
             channel2Item = mGroupListView.createItemView(getString(R.string.channel_2_range_desc));
         }
-        channel2Item.setDetailText(device.channel2Range + "mA");
+        if (checkValue(device.channel2Range, channel2Item)) {
+            channel2Item.setDetailText(device.channel2Range + "mA");
+        }
 
-        if(valueItem == null) {
+        if (valueItem == null) {
             valueItem = mGroupListView.createItemView(getString(R.string.value_range_desc));
         }
-        valueItem.setDetailText(device.valueRange + "mA");
+        if (checkValue(device.valueRange, valueItem)) {
+            valueItem.setDetailText(device.valueRange + "mA");
+        }
 
-        if(reportPeriodItem == null) {
+        if (reportPeriodItem == null) {
             reportPeriodItem = mGroupListView.createItemView(getString(R.string.report_period_desc));
         }
-        if (device.reportPeriod == 0) {
-            reportPeriodItem.setDetailText(getString(R.string.off));
-        } else {
-            reportPeriodItem.setDetailText(getResources().getString(R.string.report_period_value, device.reportPeriod));
+        if (checkValue(device.reportPeriod, reportPeriodItem)) {
+            if (device.reportPeriod == 0) {
+                reportPeriodItem.setDetailText(getString(R.string.off));
+            } else {
+                reportPeriodItem.setDetailText(getResources().getString(R.string.report_period_value, device.reportPeriod));
+            }
         }
 
         // 低报
-        if(lowAlarmEnableItem == null) {
+        if (lowAlarmEnableItem == null) {
             lowAlarmEnableItem = mGroupListView.createItemView(getString(R.string.low_alarm_enable_desc));
         }
-        if (device.lowAlarmEnable) {
-            lowAlarmEnableItem.setDetailText(getString(R.string.on));
-        } else {
-            lowAlarmEnableItem.setDetailText(getString(R.string.off));
+        if (checkValue(device.lowAlarmEnable, lowAlarmEnableItem)) {
+            if (device.lowAlarmEnable == 1) {
+                lowAlarmEnableItem.setDetailText(getString(R.string.on));
+            } else {
+                lowAlarmEnableItem.setDetailText(getString(R.string.off));
+            }
         }
 
-        if(lowAlarmLimitValueItem == null) {
+        if (lowAlarmLimitValueItem == null) {
             lowAlarmLimitValueItem = mGroupListView.createItemView(getString(R.string.low_alarm_limit_value_desc));
         }
-        lowAlarmLimitValueItem.setDetailText(mDevice.lowAlarmLimitValue + "");
+        if (checkValue(device.lowAlarmLimitValue, lowAlarmEnableItem)) {
+            lowAlarmLimitValueItem.setDetailText(device.lowAlarmLimitValue + "");
+        }
 
-        if(lowNotifyPhonesItem == null) {
+        if (lowNotifyPhonesItem == null) {
             lowNotifyPhonesItem = mGroupListView.createItemView(getString(R.string.low_notify_phones_desc));
         }
-        StringBuilder phoneSb = new StringBuilder();
-        for (String phone : device.lowNotifyPhones) {
-            phoneSb.append(phone);
-            phoneSb.append("...");
-            break;
+        if (checkValue(device.lowNotifyPhones, lowNotifyPhonesItem)) {
+            StringBuilder phoneSb = new StringBuilder();
+            for (String phone : device.lowNotifyPhones) {
+                phoneSb.append(phone);
+                phoneSb.append("...");
+                break;
+            }
+            lowNotifyPhonesItem.setDetailText(phoneSb);
         }
-        lowNotifyPhonesItem.setDetailText(phoneSb);
 
-        if(lowSmsFormatItem == null) {
+        if (lowSmsFormatItem == null) {
             lowSmsFormatItem = mGroupListView.createItemView(getResString(R.string.low_sms_format_desc));
         }
-        lowSmsFormatItem.setDetailText(device.lowSmsContent);
+        if (checkValue(device.lowSmsContent, lowSmsFormatItem)) {
+            lowSmsFormatItem.setDetailText(device.lowSmsContent);
+        }
 
         // 低低报
-        if(lowLowAlarmEnableItem == null) {
+        if (lowLowAlarmEnableItem == null) {
             lowLowAlarmEnableItem = mGroupListView.createItemView(getString(R.string.low_low_alarm_enable_desc));
         }
-        if (device.lowLowAlarmEnable) {
-            lowLowAlarmEnableItem.setDetailText(getString(R.string.on));
-        } else {
-            lowLowAlarmEnableItem.setDetailText(getString(R.string.off));
+        if(checkValue(device.lowAlarmEnable, lowLowAlarmEnableItem)) {
+            if (device.lowLowAlarmEnable == 1) {
+                lowLowAlarmEnableItem.setDetailText(getString(R.string.on));
+            } else {
+                lowLowAlarmEnableItem.setDetailText(getString(R.string.off));
+            }
         }
 
-        if(lowLowAlarmLimitValueItem == null) {
+        if (lowLowAlarmLimitValueItem == null) {
             lowLowAlarmLimitValueItem = mGroupListView.createItemView(getString(R.string.low_alarm_limit_value_desc));
         }
-        lowLowAlarmLimitValueItem.setDetailText(mDevice.lowLowAlarmLimitValue + "");
+        if(checkValue(device.lowLowAlarmLimitValue, lowLowAlarmLimitValueItem)) {
+            lowLowAlarmLimitValueItem.setDetailText(device.lowLowAlarmLimitValue + "");
+        }
 
-        if(lowLowNotifyPhonesItem == null) {
+        if (lowLowNotifyPhonesItem == null) {
             lowLowNotifyPhonesItem = mGroupListView.createItemView(getString(R.string.low_low_notify_phones_desc));
         }
-        StringBuilder lowLowPhoneSb = new StringBuilder();
-        for (String phone : device.lowLowNotifyPhones) {
-            lowLowPhoneSb.append(phone);
-            lowLowPhoneSb.append("...");
-            break;
+        if(checkValue(device.lowLowNotifyPhones, lowLowNotifyPhonesItem)) {
+            StringBuilder lowLowPhoneSb = new StringBuilder();
+            for (String phone : device.lowLowNotifyPhones) {
+                lowLowPhoneSb.append(phone);
+                lowLowPhoneSb.append("...");
+                break;
+            }
+            lowLowNotifyPhonesItem.setDetailText(lowLowPhoneSb);
         }
-        lowLowNotifyPhonesItem.setDetailText(lowLowPhoneSb);
 
-        if(lowLowSmsFormatItem == null) {
+        if (lowLowSmsFormatItem == null) {
             lowLowSmsFormatItem = mGroupListView.createItemView(getResString(R.string.low_low_sms_format_desc));
         }
-        lowLowSmsFormatItem.setDetailText(device.lowLowSmsContent);
+        if(checkValue(device.lowLowSmsContent, lowLowSmsFormatItem)) {
+            lowLowSmsFormatItem.setDetailText(device.lowLowSmsContent);
+        }
 
         //
-        if(gpsItem == null) {
+        if (gpsItem == null) {
             gpsItem = mGroupListView.createItemView(getString(R.string.gps_desc));
         }
-        gpsItem.setDetailText(device.lat + "," + device.lon);
+        if(checkValue(device.lat, gpsItem)) {
+            gpsItem.setDetailText(device.lat + "," + device.lng);
+        }
 
-        if(defenseEnableItem == null) {
+        if (defenseEnableItem == null) {
             defenseEnableItem = mGroupListView.createItemView(getString(R.string.defense_enable_desc));
         }
-        if (device.defenseEnable) {
-            defenseEnableItem.setDetailText(getString(R.string.on));
-        } else {
-            defenseEnableItem.setDetailText(getString(R.string.off));
+        if(checkValue(device.defenseEnable, deviceNameItem)) {
+            if (device.defenseEnable == 1) {
+                defenseEnableItem.setDetailText(getString(R.string.on));
+            } else {
+                defenseEnableItem.setDetailText(getString(R.string.off));
+            }
         }
 
-        if(temperatureItem == null) {
+        if (temperatureItem == null) {
             temperatureItem = mGroupListView.createItemView(getString(R.string.temperature_desc));
         }
-        temperatureItem.setDetailText(getResources().getString(R.string.temperature_value, device.temperature));
+        if(checkValue(device.temperature, temperatureItem)) {
+            temperatureItem.setDetailText(getResources().getString(R.string.temperature_value, device.temperature));
+        }
 
-        if(humidityItem == null) {
+        if (humidityItem == null) {
             humidityItem = mGroupListView.createItemView(getString(R.string.humidity_desc));
         }
-        humidityItem.setDetailText(getResources().getString(R.string.humidity_value, device.humidity));
+        if(checkValue(device.humidity, humidityItem)) {
+            humidityItem.setDetailText(getResources().getString(R.string.humidity_value, device.humidity));
+        }
 
-        if(phoneNumberItem == null) {
+        if (phoneNumberItem == null) {
             phoneNumberItem = mGroupListView.createItemView(getString(R.string.phone_number_desc));
         }
-        phoneNumberItem.setDetailText(device.phoneNumber);
+        if(checkValue(device.phoneNumber, phoneNumberItem)) {
+            phoneNumberItem.setDetailText(device.phoneNumber);
+        }
 
-        if(lteStatusItem == null) {
+        if (lteStatusItem == null) {
             lteStatusItem = mGroupListView.createItemView(getString(R.string.lte_status_desc));
         }
-        String status[] = getResources().getStringArray(R.array.lte_status_value);
-        lteStatusItem.setDetailText(status[device.lteStatus]);
+        if(checkValue(device.lteStatus, lteStatusItem)) {
+            String status[] = getResources().getStringArray(R.array.lte_status_value);
+            lteStatusItem.setDetailText(status[device.lteStatus]);
+        }
 
-        if(lteRssiItem == null) {
+        if (lteRssiItem == null) {
             lteRssiItem = mGroupListView.createItemView(getString(R.string.lte_rssi_desc));
         }
-        lteRssiItem.setDetailText(device.lteRssi + "");
+        if(checkValue(device.lteRssi, lteRssiItem)) {
+            lteRssiItem.setDetailText(device.lteRssi + "");
+        }
 
-        if(lteModeItem == null) {
+        if (lteModeItem == null) {
             lteModeItem = mGroupListView.createItemView(getString(R.string.lte_mode_desc));
         }
-        String modes[] = getResources().getStringArray(R.array.lte_mode_value);
-        lteModeItem.setDetailText(modes[device.lteMode]);
+        if(checkValue(device.lteMode, lteModeItem)) {
+            String modes[] = getResources().getStringArray(R.array.lte_mode_value);
+            lteModeItem.setDetailText(modes[device.lteMode]);
+        }
 
-        if(currTxItem == null) {
+        if (currTxItem == null) {
             currTxItem = mGroupListView.createItemView(getString(R.string.curr_tx_desc));
         }
-        currTxItem.setDetailText(device.currTx + "byte");
+        if(checkValue(device.currTx, currTxItem)) {
+            currTxItem.setDetailText(device.currTx + "byte");
+        }
 
         QMUIGroupListView.newSection(this)
                 .addItemView(deviceNameItem, this)
@@ -335,29 +412,29 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             showDeviceName();
         } else if (v.equals(channel1Item)) {
             showChannel1Dialog();
-        } else if(v.equals(channel2Item)) {
+        } else if (v.equals(channel2Item)) {
             showChannel21Dialog();
-        } else if(v.equals(valueItem)) {
+        } else if (v.equals(valueItem)) {
             showValue1Dialog();
-        } else if(v.equals(reportPeriodItem)) {
+        } else if (v.equals(reportPeriodItem)) {
             showReportPeriodDialog();
-        } else if(v.equals(lowAlarmEnableItem)) {
+        } else if (v.equals(lowAlarmEnableItem)) {
             showLowAlarmEnableDialog();
-        } else if(v.equals(lowAlarmLimitValueItem)) {
+        } else if (v.equals(lowAlarmLimitValueItem)) {
             showLowValueDialog();
-        } else if(v.equals(lowNotifyPhonesItem)) {
+        } else if (v.equals(lowNotifyPhonesItem)) {
             showLowPhonesDialog();
-        } else if(v.equals(lowSmsFormatItem)) {
+        } else if (v.equals(lowSmsFormatItem)) {
             showLowSmsDialog();
-        } else if(v.equals(lowLowAlarmEnableItem)) {
+        } else if (v.equals(lowLowAlarmEnableItem)) {
             showLowLowEnableDialog();
-        } else if(v.equals(lowLowAlarmLimitValueItem)) {
+        } else if (v.equals(lowLowAlarmLimitValueItem)) {
             showLowLowValueDialog();
-        } else if(v.equals(lowLowNotifyPhonesItem)) {
+        } else if (v.equals(lowLowNotifyPhonesItem)) {
             showLowLowPhonesDialog();
-        } else if(v.equals(lowLowSmsFormatItem)) {
+        } else if (v.equals(lowLowSmsFormatItem)) {
             showLowLowSmsDialog();
-        } else if(v.equals(defenseEnableItem)) {
+        } else if (v.equals(defenseEnableItem)) {
             showDefenseEnableDialog();
         }
     }
@@ -503,7 +580,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     private void showLowAlarmEnableDialog() {
         String[] enableSwitch = getResources().getStringArray(R.array.enable_switch);
-        int index = mDevice.lowAlarmEnable ? 1 : 0;
+        int index = mDevice.lowAlarmEnable;
         final QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.low_alarm_enable_desc))
                 .setCheckedIndex(index)
@@ -546,7 +623,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
     }
 
     private void showLowPhonesDialog() {
-        QMUIDialog dialog =new QMUIDialog.CustomDialogBuilder(this)
+        QMUIDialog dialog = new QMUIDialog.CustomDialogBuilder(this)
                 .setLayout(R.layout.item_phones)
                 .setTitle(R.string.low_notify_phones_desc)
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
@@ -561,7 +638,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
                         LinearLayout llPhones = dialog.findViewById(R.id.phones);
                         String[] phones = new String[8];
-                        for(int i=0; i<8; i++) {
+                        for (int i = 0; i < 8; i++) {
                             EditText etPhone = (EditText) llPhones.getChildAt(i);
                             phones[i] = etPhone.getText().toString();
                         }
@@ -576,7 +653,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
         LinearLayout phones = dialog.findViewById(R.id.phones);
         int index = 0;
-        for(String phone : mDevice.lowNotifyPhones) {
+        for (String phone : mDevice.lowNotifyPhones) {
             EditText etPhone = (EditText) phones.getChildAt(index);
             etPhone.setText(phone);
             index++;
@@ -616,7 +693,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     private void showLowLowEnableDialog() {
         String[] enableSwitch = getResources().getStringArray(R.array.enable_switch);
-        int index = mDevice.lowLowAlarmEnable ? 1 : 0;
+        int index = mDevice.lowLowAlarmEnable;
         final QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.low_low_alarm_enable_desc))
                 .setCheckedIndex(index)
@@ -660,7 +737,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
     }
 
     private void showLowLowPhonesDialog() {
-        QMUIDialog dialog =new QMUIDialog.CustomDialogBuilder(this)
+        QMUIDialog dialog = new QMUIDialog.CustomDialogBuilder(this)
                 .setLayout(R.layout.item_phones)
                 .setTitle(R.string.low_low_notify_phones_desc)
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
@@ -675,7 +752,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
                         LinearLayout llPhones = dialog.findViewById(R.id.phones);
                         String[] phones = new String[8];
-                        for(int i=0; i<8; i++) {
+                        for (int i = 0; i < 8; i++) {
                             EditText etPhone = (EditText) llPhones.getChildAt(i);
                             phones[i] = etPhone.getText().toString();
                         }
@@ -690,7 +767,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
         LinearLayout phones = dialog.findViewById(R.id.phones);
         int index = 0;
-        for(String phone : mDevice.lowLowNotifyPhones) {
+        for (String phone : mDevice.lowLowNotifyPhones) {
             EditText etPhone = (EditText) phones.getChildAt(index);
             etPhone.setText(phone);
             index++;
@@ -730,7 +807,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     private void showDefenseEnableDialog() {
         String[] enableSwitch = getResources().getStringArray(R.array.enable_switch);
-        int index = mDevice.lowAlarmEnable ? 1 : 0;
+        int index = mDevice.lowAlarmEnable;
         final QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.defense_enable_desc))
                 .setCheckedIndex(index)
@@ -747,4 +824,6 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
     private void setAliasNameDialog() {
 
     }
+
+
 }

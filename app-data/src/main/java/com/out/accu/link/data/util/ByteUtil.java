@@ -30,7 +30,7 @@ public class ByteUtil {
     public static String getString(byte[] data, int srcPos, int length) {
         byte[] str = new byte[length];
         arrayCopy(data, srcPos, str, 0, length);
-        return new String(str);
+        return new String(str, java.nio.charset.Charset.forName("GB2312"));
     }
 
     public static boolean getBoolean(byte[] data, int srcPos) {
@@ -81,5 +81,18 @@ public class ByteUtil {
             byteRet[i] = (byte) ((value >> 8 * i) & 0xff);
         }
         return byteRet;
+    }
+
+    public static String getId(String deviceId) {
+        byte[] data = deviceId.getBytes();
+        StringBuffer sb = new StringBuffer();
+        for(byte item : data) {
+            String hex = Integer.toHexString(item & 0xFF);
+            if(hex.length() == 1) {
+                hex = '0' + hex;
+            }
+            sb.append(hex);
+        }
+        return sb.toString();
     }
 }

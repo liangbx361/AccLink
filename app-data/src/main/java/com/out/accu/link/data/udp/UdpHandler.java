@@ -1,6 +1,7 @@
 package com.out.accu.link.data.udp;
 
-import android.util.Log;
+import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.util.PacketUtil;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * <p>Title: <／p>
@@ -53,7 +55,7 @@ public class UdpHandler {
         return buf;
     }
 
-    private DatagramSocket getSocket() {
+    private synchronized DatagramSocket getSocket() {
         if(mSocket == null) {
             try {
                 mSocket = new DatagramSocket(PORT);
@@ -65,26 +67,27 @@ public class UdpHandler {
         return mSocket;
     }
 
+    /**
+     * 启动数据接收
+     */
     public void startReceive() {
-        mDisposable = Observable.interval(10, TimeUnit.MILLISECONDS)
-                .doOnNext(time -> {
-                    byte[] buf = new byte[1024];
-                    // 解析数据包
-                    DatagramPacket packet = new DatagramPacket(buf, buf.length);
-                    mSocket.receive(packet);
-
-                    String ip = packet.getAddress().getHostAddress();
-                    buf = packet.getData();
-                    String data = new String(buf, 0, packet.getLength());
-
-                    System.out.println("收到 " + ip + " 发来的消息：" + data);
-                })
-                .subscribe(time -> {
-
-                });
+        mDisposable = Observable.interval(1, 1, TimeUnit.MILLISECONDS)
+                .map(time -> {
+                    byte[] buf = receive();
+                    Response response = PacketUtil.parserPacket(buf);
+                    PublishSubject<Response> publishSubject = TaskQueue.getInstance().getTask(response.cmd);
+                    // FIXME 需要处理错误
+                    if(response.isSuccess()) {
+                        publishSubject.onNext(response);
+                    }
+                    return response;
+                }).subscribe();
     }
 
-    public void stop() {
+    /**
+     * 结束数据接收
+     */
+    public void stopReceive() {
         if (mDisposable != null) {
             mSocket.close();
             mDisposable.dispose();
@@ -93,13 +96,15 @@ public class UdpHandler {
 
     private void printLog(String tag, byte[] datas) {
         StringBuffer sb = new StringBuffer();
-        for(int i=0; i<datas.length; i++) {
-            String hex = Integer.toHexString(datas[i] & 0xFF);
+        int length = datas[2] + (datas[3] << 8);
+        for(int i=0; i<length; i++) {
+            String hex = Integer.toHexString(datas[i+6] & 0xFF);
             if(hex.length() == 1) {
                 hex = '0' + hex;
             }
             sb.append("0x"+hex+"|");
         }
-        Log.d(tag, sb.toString());
+//        Log.d(tag, sb.toString());
+        System.out.println(tag+sb.toString());
     }
 }

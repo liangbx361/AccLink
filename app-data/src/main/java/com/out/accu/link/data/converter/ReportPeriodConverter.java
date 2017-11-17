@@ -24,6 +24,7 @@ public class ReportPeriodConverter {
     }
 
     public static Device response(Device device, Response response) {
+        device.id = ByteUtil.getString(response.data, 0, 6);
         device.reportPeriod = ByteUtil.getInt(response.data, 6);
         return device;
     }

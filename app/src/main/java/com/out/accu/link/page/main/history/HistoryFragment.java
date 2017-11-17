@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.cyou17173.android.arch.base.app.Smart;
 import com.cyou17173.android.arch.base.page.SmartStateFragment;
 import com.cyou17173.android.component.state.view.StateManager;
 import com.github.mikephil.charting.charts.LineChart;
@@ -36,8 +35,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.out.accu.link.AppConfig.DEVICE_LIST;
 
 /**
  * <p>Title: </p>
@@ -95,8 +92,7 @@ public class HistoryFragment extends SmartStateFragment<HistoryContract.Presente
     @Override
     public void initView() {
         ButterKnife.bind(this, getView());
-        mDevices = Smart.getApp().getConfig()
-                .getRuntimeConfig().getParcelableArrayList(DEVICE_LIST);
+        mDevices = DataManager.getInstance().getModeData().devices;
 
         List<String> deviceDesc = new ArrayList<>();
         for(Device device : mDevices) {

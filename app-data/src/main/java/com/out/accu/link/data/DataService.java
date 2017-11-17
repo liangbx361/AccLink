@@ -1,12 +1,6 @@
 package com.out.accu.link.data;
 
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.DeviceHistory;
-import com.out.accu.link.data.mode.Login;
-
-import java.util.List;
-
-import io.reactivex.Observable;
 
 /**
  * <p>Title: <／p>
@@ -25,75 +19,100 @@ public interface DataService {
      * @param userName 用户名
      * @param password 密码
      */
-    Observable<Login> login(String userName, String password);
+    void login(String userName, String password);
 
     /**
      * 设备列表
      */
-    Observable<List<Device>> getDevices();
+    void getDevices();
 
     /**
      * 获取设备
      */
-    Observable<Device> getDevice(Device device);
+    void getDevice(Device device);
 
     /**
      * 获取设备历史数据
      */
-    Observable<DeviceHistory> getDeviceHistory(String deviceId, long beginTime, long endTime);
+    void getDeviceHistory(String deviceId, long beginTime, long endTime);
 
     /**
      * 设置两路量程
      */
-    Observable<Boolean> setChannel(String deviceId, int value1, int value2);
+    void setChannel(String deviceId, int value1, int value2);
 
     /**
      * 设置值量程
      */
-    Observable<Boolean> setValue(String deviceId, int value);
+    void setValue(String deviceId, int value);
 
     /**
      * 设置上报周期
      */
-    Observable<Boolean> setReportPeriod(String deviceId, int value);
+    void setReportPeriod(String deviceId, int value);
 
     /**
      * 设置数据低报开关
      */
-    Observable<Boolean> setLowAlarmEnable(String deviceId, boolean enable);
+    void setLowAlarmEnable(String deviceId, boolean enable);
 
     /**
      * 设置数据低报参数
      */
-    Observable<Boolean> setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms);
+    void setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms);
 
     /**
      * 设置数据低低报开关
      */
-    Observable<Boolean> setLowLowAlarmEnable(String deviceId, boolean enable);
+    void setLowLowAlarmEnable(String deviceId, boolean enable);
 
     /**
      * 设置数据低低报参数
      */
-    Observable<Boolean> setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms);
+    void setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms);
 
     /**
      * 设置GPS坐标
      */
-    Observable<Boolean> setGps(String deviceId, double lat, double lot);
+    void setGps(String deviceId, double lat, double lot);
 
     /**
      * 设置设置设备布防使能开关
      */
-    Observable<Boolean> setDefenseEnable(String deviceId, boolean enable);
+    void setDefenseEnable(String deviceId, boolean enable);
 
     /**
      * 设置模块别名
      */
-    Observable<Boolean> setAliasName(String deviceId, String name);
+    void setAliasName(String deviceId, String name);
 
     /**
      * 历史数据查询
      */
-    Observable<List<DeviceHistory>> getHistory(long startTime, long endTime);
+    void getHistory(String deviceId, long startTime, long endTime);
+
+    /**
+     * 获取用户信息
+     */
+    void getUser();
+
+    /**
+     * 设置用户名
+     */
+    void setUsername(String username);
+
+    /**
+     * 设置手机号
+     */
+    void setMobile(String mobile);
+
+    /**
+     * 设置密码
+     */
+    void setPassword(String oldPwd, String newPwd);
+
+    /**
+     * 登出
+     */
+    void logout();
 }

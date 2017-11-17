@@ -20,6 +20,10 @@
     <string name="menu_graph">Graph</string>
     <string name="menu_setting">Settings</string>
 
+    <string name="modify_username">用户名</string>
+    <string name="modify_mobile">手机号</string>
+    <string name="modify_password">修改密码</string>
+
     <string name="is_online_desc">连接状态</string>
     <string name="device_name">设备名</string>
     <string name="channel_1_range_desc">频道1量程</string>

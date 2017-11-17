@@ -11,23 +11,14 @@ import com.out.accu.link.data.util.ByteUtil;
  * <p>Company: <／p>
  *
  * @author liangbx
- * @version 2017/10/25
+ * @version 2017/11/15
  */
 
-public class LowLowAlarmEnableConverter {
-
-    public static byte[] request(String id, boolean enable) {
-        byte[] data = new byte[7];
-        ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
-        if(enable) {
-            data[6] = 1;
-        }
-        return data;
-    }
+public class UploadOnlineConverter {
 
     public static Device response(Device device, Response response) {
         device.id = ByteUtil.getString(response.data, 0, 6);
-        device.lowLowAlarmEnable = response.data[6];
+        device.isOnline = response.data[7] > 0;
         return device;
     }
 }
