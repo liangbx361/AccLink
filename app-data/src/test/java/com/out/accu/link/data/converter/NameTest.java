@@ -2,6 +2,8 @@ package com.out.accu.link.data.converter;
 
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * <p>Title: <／p>
  * <p>Description: <／p>
@@ -20,4 +22,19 @@ public class NameTest {
         String name = new String(names, java.nio.charset.Charset.forName("GB2312"));
         System.out.println(name);
     }
+
+    @Test
+    public void gb2312Name() {
+        String name = new String("张三");
+
+        try {
+            String gbName = new String(name.getBytes("GB2312"), "GB2312");
+            System.out.println(gbName);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

@@ -44,8 +44,8 @@ public class PacketUtil {
     public static byte[] CMD_SET_LOW_LOW_ALARM_ENABLE = {(byte) 0xA2, 0x06};
     public static byte[] CMD_SET_LOW_LOW_ALARM_PARAMS = {(byte) 0xA2, 0x07};
     public static byte[] CMD_SET_ALIAS_NAME = {(byte) 0xA2, 0x08};
-    public static byte[] CMD_SET_LOCATION = {(byte) 0xA2, 0x09};
-    public static byte[] CMD_SET_DEFENSE_ENABLE = {(byte) 0xA2, 0x0A};
+    public static byte[] CMD_SET_LOCATION = {(byte) 0xA2, 0x0A};
+    public static byte[] CMD_SET_DEFENSE_ENABLE = {(byte) 0xA2, 0x09};
 
     public static byte[] CMD_GET_CHANNEL_RANGE = {(byte) 0xA3, 0x01};
     public static byte[] CMD_GET_VALUE_RANGE = {(byte) 0xA3, 0x02};

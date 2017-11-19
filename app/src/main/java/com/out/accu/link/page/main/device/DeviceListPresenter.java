@@ -52,9 +52,9 @@ class DeviceListPresenter extends SmartListPresenterImpl implements DeviceListCo
             }
     )
     public void onDevices(ModeData modeData) {
-        onRemoteLoadSuccess(modeData.devices, true);
+        onRemoteLoadSuccess(modeData.getDevices(), true);
 
-        for(Device device : modeData.devices) {
+        for(Device device : modeData.getDevices()) {
             if(device.isOnline) {
                 DataManager.getInstance().getDataService().getDevice(device);
             }
@@ -68,6 +68,6 @@ class DeviceListPresenter extends SmartListPresenterImpl implements DeviceListCo
             }
     )
     public void onlineDevice(Device device) {
-        onRemoteLoadSuccess(DataManager.getInstance().getModeData().devices, true);
+        onRemoteLoadSuccess(DataManager.getInstance().getModeData().getDevices(), true);
     }
 }

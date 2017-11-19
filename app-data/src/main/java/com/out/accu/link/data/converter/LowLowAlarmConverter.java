@@ -4,6 +4,8 @@ import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * <p>Title: <／p>
  * <p>Description: <／p>
@@ -21,10 +23,17 @@ public class LowLowAlarmConverter {
         ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
         ByteUtil.arrayCopy(ByteUtil.intToByte(value), 0, data, 6, 4);
         int i=0;
-        for(String phone : phones) {
-            ByteUtil.arrayCopy(phone.getBytes(), 0, data, 10+i*20, 20);
+        if(phones != null) {
+            for (String phone : phones) {
+                ByteUtil.arrayCopy(phone.getBytes(), 0, data, 10 + i * 20, 20);
+                i++;
+            }
         }
-        ByteUtil.arrayCopy(content.getBytes(), 0, data, 170, 128);
+        try {
+            ByteUtil.arrayCopy(content.getBytes("GB2312"), 0, data, 170, 128);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 

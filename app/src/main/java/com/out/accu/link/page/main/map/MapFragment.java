@@ -70,8 +70,8 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
         ModeData modeData = DataManager.getInstance().getModeData();
 
         // 标注设备位置
-        if(modeData.devices != null && modeData.devices.size() > 0) {
-            for(Device device : modeData.devices) {
+        if(modeData.getDevices() != null && modeData.getDevices().size() > 0) {
+            for(Device device : modeData.getDevices()) {
                 map.addMarker(new MarkerOptions()
                         .position(new LatLng(device.lat, device.lng))
                         .title(device.aliasName));

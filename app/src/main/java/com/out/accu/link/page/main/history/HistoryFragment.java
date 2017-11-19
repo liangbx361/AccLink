@@ -92,7 +92,7 @@ public class HistoryFragment extends SmartStateFragment<HistoryContract.Presente
     @Override
     public void initView() {
         ButterKnife.bind(this, getView());
-        mDevices = DataManager.getInstance().getModeData().devices;
+        mDevices = DataManager.getInstance().getModeData().getDevices();
 
         List<String> deviceDesc = new ArrayList<>();
         for(Device device : mDevices) {

@@ -1,5 +1,7 @@
 package com.out.accu.link.data.converter;
 
+import android.util.Log;
+
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
@@ -24,8 +26,10 @@ public class ValueRangeConverter {
     }
 
     public static Device response(Device device, Response response) {
-        device.valueRange = response.data[9] << 24 | response.data[8] << 16
-                | response.data[7] << 8 | response.data[6];
+        device.id = ByteUtil.getString(response.data, 0, 6);
+        device.valueRange = ByteUtil.getInt(response.data, 6);
+        Log.d("response", "device id ->" + ByteUtil.getId(device.id));
+        Log.d("response", "valueRange ->" + device.valueRange);
         return device;
     }
 }

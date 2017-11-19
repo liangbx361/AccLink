@@ -1,5 +1,7 @@
 package com.out.accu.link.data.udp;
 
+import android.util.Log;
+
 import com.cyou17173.android.arch.base.bus.SmartBus;
 import com.cyou17173.android.arch.base.page.SmartTransformer;
 import com.out.accu.link.data.BusAction;
@@ -27,9 +29,12 @@ import com.out.accu.link.data.converter.ValueRangeConverter;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Login;
 import com.out.accu.link.data.mode.ModeData;
+import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.mode.User;
+import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -69,23 +74,27 @@ public class ResponseHandler {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     List<Device> devices = DeviceListConverter.response(response);
-                    if(mModeData.devices.size() == 0) {
-                        mModeData.devices = devices;
+                    if(mModeData.getDevices().size() == 0) {
+                        mModeData.addAll(devices);
                     } else {
+                        Log.d("response", "devies add");
                         // 排除相同的设备
                         boolean isFind;
-                        for(Device device : mModeData.devices) {
+                        List<Device> newDevices = new ArrayList<>();
+                        for(Device device : devices) {
                             isFind = false;
-                            for(Device device1 : devices) {
+                            for(Device device1 : mModeData.getDevices()) {
                                 if(device.id.equals(device1.id)) {
+                                    device1.isOnline = device.isOnline;
                                     isFind = true;
                                     break;
                                 }
                             }
                             if(!isFind) {
-                                mModeData.devices.add(device);
+                                newDevices.add(device);
                             }
                         }
+                        mModeData.addAll(newDevices);
                     }
 
                     SmartBus.get().post(BusAction.RESP_DEVICES, mModeData);
@@ -102,10 +111,10 @@ public class ResponseHandler {
                         device1.channel2Range = device.channel2Range;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
 
-                    SmartBus.get().post(BusAction.UPDATE_DEVICE, device.id);
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_VALUE_RANGE)
@@ -118,8 +127,10 @@ public class ResponseHandler {
                         device1.valueRange = device.valueRange;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_ALIAS_NAME)
@@ -132,8 +143,10 @@ public class ResponseHandler {
                         device1.aliasName = device.aliasName;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_ALARM_ENABLE)
@@ -146,8 +159,10 @@ public class ResponseHandler {
                         device1.lowAlarmEnable = device.lowAlarmEnable;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_ALARM_PARAMS)
@@ -162,8 +177,10 @@ public class ResponseHandler {
                         device1.lowSmsContent = device.lowSmsContent;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_LOW_ALARM_ENABLE)
@@ -176,8 +193,10 @@ public class ResponseHandler {
                         device1.lowLowAlarmEnable = device.lowLowAlarmEnable;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_LOW_ALARM_PARAMS)
@@ -192,8 +211,10 @@ public class ResponseHandler {
                         device1.lowLowSmsContent = device.lowLowSmsContent;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_DEFENSE_ENABLE)
@@ -206,8 +227,10 @@ public class ResponseHandler {
                         device1.defenseEnable = device.defenseEnable;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOCATION)
@@ -221,8 +244,10 @@ public class ResponseHandler {
                         device1.lng = device.lng;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LTE_STATUS)
@@ -237,8 +262,10 @@ public class ResponseHandler {
                         device1.lteStatus = device.lteRssi;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_PHONE_NUMBER)
@@ -248,13 +275,13 @@ public class ResponseHandler {
                     PhoneNumberConverter.response(device, response);
                     try {
                         Device device1 = mModeData.getDevice(device.id);
-                        device1.lteMode = device.lteMode;
-                        device1.lteRssi = device.lteRssi;
-                        device1.lteStatus = device.lteRssi;
+                        device1.phoneNumber = device.phoneNumber;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_REPORT_PERIOD)
@@ -267,8 +294,10 @@ public class ResponseHandler {
                         device1.reportPeriod = device.reportPeriod;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_TEM)
@@ -282,11 +311,14 @@ public class ResponseHandler {
                         device1.humidity = device.humidity;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_TX)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     Device device = new Device();
                     TxConverter.response(device, response);
@@ -295,8 +327,10 @@ public class ResponseHandler {
                         device1.currTx = device.currTx;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
+                    SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_USER_NAME)
@@ -322,6 +356,7 @@ public class ResponseHandler {
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_DEVICE_VALUE_UPLOAD)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     Device device = new Device();
                     UploadValueConverter.response(device, response);
@@ -330,10 +365,12 @@ public class ResponseHandler {
                         device1.channel1Range = device.channel1Range;
                         device1.channel2Range = device.channel2Range;
                         device1.valueRange = device.valueRange;
+                        SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
+
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_DEVICE_ONLINE_UPLOAD)
@@ -346,19 +383,97 @@ public class ResponseHandler {
                         device1.isOnline = device.isOnline;
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
-                        mModeData.devices.add(device);
+//                        mModeData.addDevice(device);
                     }
 
-                    SmartBus.get().post(BusAction.UPDATE_DEVICE, device);
+                    SmartBus.get().post(BusAction.ONLINE_DEVICE, device);
 
                     // 在线后刷新所有数据
                     DataManager.getInstance().getDataService().getDevice(device);
                 });
 
-//        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_CHANNEL_RANGE)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(response -> {
-//
-//                })
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_CHANNEL_RANGE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_CHANNEL, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_VALUE_RANGE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_VALUE, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_DEFENSE_ENABLE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_DEFENSE_ENABLE, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOCATION)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_LOCATION, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_LOW_ALARM_PARAMS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_PARAMS, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_LOW_ALARM_ENABLE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_ENABLE, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_ALARM_PARAMS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_PARAMS, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_ALARM_ENABLE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_ENABLE, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_REPORT_PERIOD)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_REPORT_PERIOD, getDeviceId(response));
+                    }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_ALIAS_NAME)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccess()) {
+                        SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME, getDeviceId(response));
+                    }
+                });
+    }
+
+    private String getDeviceId(Response response) {
+        return ByteUtil.getString(response.data, 0, 6);
     }
 }

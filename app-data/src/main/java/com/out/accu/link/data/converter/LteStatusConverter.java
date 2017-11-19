@@ -32,6 +32,7 @@ public class LteStatusConverter {
         device.lteStatus = response.data[6];
         device.lteRssi = response.data[7];
         device.lteMode = response.data[8];
+        Log.d("response", "device id ->" + ByteUtil.getId(device.id));
         Log.d("response", "lteStatus ->" + device.lteStatus);
         Log.d("response", "lteRssi ->" + device.lteRssi);
         Log.d("response", "lteMode ->" + device.lteMode);

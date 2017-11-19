@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import com.cyou17173.android.arch.base.page.SmartStateActivity;
 import com.out.accu.link.R;
 import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.util.ByteUtil;
+import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
@@ -30,13 +32,10 @@ import butterknife.ButterKnife;
 public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContract.Presenter> implements
         DeviceDetailContract.View, View.OnClickListener {
 
-    //    @BindView(R.id.topbar)
-//    QMUITopBar mTopbar;
     @BindView(R.id.groupListView)
     QMUIGroupListView mGroupListView;
 
-    Device mDevice;
-
+    QMUITopBar mQMUITopBar;
     QMUICommonListItemView deviceNameItem;
     QMUICommonListItemView channel1Item;
     QMUICommonListItemView channel2Item;
@@ -79,10 +78,16 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
     public void initView() {
         ButterKnife.bind(this);
 
+        getPresenter().initArgument();
+
+        mQMUITopBar = findViewById(R.id.topbar);
+        mQMUITopBar.setTitle(ByteUtil.getId(getPresenter().getDevice().id));
+
         mLoadingDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
                 .setTipWord("修改中...")
                 .create();
+        mLoadingDialog.setCancelable(true);
 
         mSuccessDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
@@ -287,7 +292,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         if (defenseEnableItem == null) {
             defenseEnableItem = mGroupListView.createItemView(getString(R.string.defense_enable_desc));
         }
-        if(checkValue(device.defenseEnable, deviceNameItem)) {
+        if(checkValue(device.defenseEnable, defenseEnableItem)) {
             if (device.defenseEnable == 1) {
                 defenseEnableItem.setDetailText(getString(R.string.on));
             } else {
@@ -463,7 +468,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.aliasName + "");
+        builder.getEditText().setText(getPresenter().getDevice().aliasName + "");
     }
 
     private void showChannel1Dialog() {
@@ -482,7 +487,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         CharSequence text = builder.getEditText().getText();
                         try {
                             int value = Integer.valueOf(text.toString());
-                            getPresenter().setChannelRange(value, mDevice.channel2Range);
+                            getPresenter().setChannelRange(value, getPresenter().getDevice().channel2Range);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -491,7 +496,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.channel1Range + "");
+        builder.getEditText().setText(getPresenter().getDevice().channel1Range + "");
     }
 
     private void showChannel21Dialog() {
@@ -510,7 +515,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         CharSequence text = builder.getEditText().getText();
                         try {
                             int value = Integer.valueOf(text.toString());
-                            getPresenter().setChannelRange(mDevice.channel1Range, value);
+                            getPresenter().setChannelRange(getPresenter().getDevice().channel1Range, value);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -519,7 +524,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.channel2Range + "");
+        builder.getEditText().setText(getPresenter().getDevice().channel2Range + "");
     }
 
     private void showValue1Dialog() {
@@ -547,7 +552,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.valueRange + "");
+        builder.getEditText().setText(getPresenter().getDevice().valueRange + "");
     }
 
     private void showReportPeriodDialog() {
@@ -575,12 +580,12 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.reportPeriod + "");
+        builder.getEditText().setText(getPresenter().getDevice().reportPeriod + "");
     }
 
     private void showLowAlarmEnableDialog() {
         String[] enableSwitch = getResources().getStringArray(R.array.enable_switch);
-        int index = mDevice.lowAlarmEnable;
+        int index = getPresenter().getDevice().lowAlarmEnable;
         final QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.low_alarm_enable_desc))
                 .setCheckedIndex(index)
@@ -610,7 +615,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         CharSequence text = builder.getEditText().getText();
                         try {
                             int value = Integer.valueOf(text.toString());
-                            getPresenter().setLowAlarmLimitValue(value, mDevice.lowNotifyPhones, mDevice.lowSmsContent);
+                            getPresenter().setLowAlarmLimitValue(value, getPresenter().getDevice().lowNotifyPhones, getPresenter().getDevice().lowSmsContent);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -619,7 +624,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.lowAlarmLimitValue + "");
+        builder.getEditText().setText(getPresenter().getDevice().lowAlarmLimitValue + "");
     }
 
     private void showLowPhonesDialog() {
@@ -643,8 +648,8 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                             phones[i] = etPhone.getText().toString();
                         }
 
-                        getPresenter().setLowAlarmLimitValue(mDevice.lowAlarmLimitValue, phones,
-                                mDevice.lowSmsContent);
+                        getPresenter().setLowAlarmLimitValue(getPresenter().getDevice().lowAlarmLimitValue, phones,
+                                getPresenter().getDevice().lowSmsContent);
 
                         dialog.dismiss();
                     }
@@ -653,11 +658,14 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
         LinearLayout phones = dialog.findViewById(R.id.phones);
         int index = 0;
-        for (String phone : mDevice.lowNotifyPhones) {
-            EditText etPhone = (EditText) phones.getChildAt(index);
-            etPhone.setText(phone);
-            index++;
+        if(getPresenter().getDevice().lowNotifyPhones != null) {
+            for (String phone : getPresenter().getDevice().lowNotifyPhones) {
+                EditText etPhone = (EditText) phones.getChildAt(index);
+                etPhone.setText(phone);
+                index++;
+            }
         }
+
 
         dialog.show();
     }
@@ -678,8 +686,8 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         CharSequence text = builder.getEditText().getText();
                         try {
                             String value = text.toString();
-                            getPresenter().setLowAlarmLimitValue(mDevice.lowAlarmLimitValue,
-                                    mDevice.lowNotifyPhones, value);
+                            getPresenter().setLowAlarmLimitValue(getPresenter().getDevice().lowAlarmLimitValue,
+                                    getPresenter().getDevice().lowNotifyPhones, value);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -688,12 +696,12 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.lowSmsContent + "");
+        builder.getEditText().setText(getPresenter().getDevice().lowSmsContent + "");
     }
 
     private void showLowLowEnableDialog() {
         String[] enableSwitch = getResources().getStringArray(R.array.enable_switch);
-        int index = mDevice.lowLowAlarmEnable;
+        int index = getPresenter().getDevice().lowLowAlarmEnable;
         final QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.low_low_alarm_enable_desc))
                 .setCheckedIndex(index)
@@ -723,8 +731,8 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         CharSequence text = builder.getEditText().getText();
                         try {
                             int value = Integer.valueOf(text.toString());
-                            getPresenter().setLowLowAlarmLimitValue(value, mDevice.lowLowNotifyPhones,
-                                    mDevice.lowLowSmsContent);
+                            getPresenter().setLowLowAlarmLimitValue(value, getPresenter().getDevice().lowLowNotifyPhones,
+                                    getPresenter().getDevice().lowLowSmsContent);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -733,7 +741,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.lowLowAlarmLimitValue + "");
+        builder.getEditText().setText(getPresenter().getDevice().lowLowAlarmLimitValue + "");
     }
 
     private void showLowLowPhonesDialog() {
@@ -757,8 +765,8 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                             phones[i] = etPhone.getText().toString();
                         }
 
-                        getPresenter().setLowLowAlarmLimitValue(mDevice.lowLowAlarmLimitValue, phones,
-                                mDevice.lowLowSmsContent);
+                        getPresenter().setLowLowAlarmLimitValue(getPresenter().getDevice().lowLowAlarmLimitValue, phones,
+                                getPresenter().getDevice().lowLowSmsContent);
 
                         dialog.dismiss();
                     }
@@ -767,10 +775,12 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
         LinearLayout phones = dialog.findViewById(R.id.phones);
         int index = 0;
-        for (String phone : mDevice.lowLowNotifyPhones) {
-            EditText etPhone = (EditText) phones.getChildAt(index);
-            etPhone.setText(phone);
-            index++;
+        if(getPresenter().getDevice().lowLowNotifyPhones != null) {
+            for (String phone : getPresenter().getDevice().lowLowNotifyPhones) {
+                EditText etPhone = (EditText) phones.getChildAt(index);
+                etPhone.setText(phone);
+                index++;
+            }
         }
 
         dialog.show();
@@ -792,8 +802,8 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         CharSequence text = builder.getEditText().getText();
                         try {
                             String value = text.toString();
-                            getPresenter().setLowLowAlarmLimitValue(mDevice.lowLowAlarmLimitValue,
-                                    mDevice.lowLowNotifyPhones, value);
+                            getPresenter().setLowLowAlarmLimitValue(getPresenter().getDevice().lowLowAlarmLimitValue,
+                                    getPresenter().getDevice().lowLowNotifyPhones, value);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -802,12 +812,12 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(mDevice.lowLowSmsContent + "");
+        builder.getEditText().setText(getPresenter().getDevice().lowLowSmsContent + "");
     }
 
     private void showDefenseEnableDialog() {
         String[] enableSwitch = getResources().getStringArray(R.array.enable_switch);
-        int index = mDevice.lowAlarmEnable;
+        int index = getPresenter().getDevice().lowAlarmEnable;
         final QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.defense_enable_desc))
                 .setCheckedIndex(index)

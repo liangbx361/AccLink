@@ -73,14 +73,20 @@ public class UdpHandler {
     public void startReceive() {
         mDisposable = Observable.interval(1, 1, TimeUnit.MILLISECONDS)
                 .map(time -> {
-                    byte[] buf = receive();
-                    Response response = PacketUtil.parserPacket(buf);
-                    PublishSubject<Response> publishSubject = TaskQueue.getInstance().getTask(response.cmd);
-                    // FIXME 需要处理错误
-                    if(response.isSuccess()) {
-                        publishSubject.onNext(response);
+                    try {
+                        byte[] buf = receive();
+                        Response response = PacketUtil.parserPacket(buf);
+                        PublishSubject<Response> publishSubject = TaskQueue.getInstance().getTask(response.cmd);
+                        // FIXME 需要处理错误
+                        if (response.isSuccess()) {
+                            publishSubject.onNext(response);
+                        }
+                        return response;
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    return response;
+
+                    return new Response();
                 }).subscribe();
     }
 

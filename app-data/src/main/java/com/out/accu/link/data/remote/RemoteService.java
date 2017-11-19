@@ -122,71 +122,91 @@ public class RemoteService implements DataService {
     @Override
     public void setChannel(String deviceId, int value1, int value2) {
         Observable.just(ChannelRangeConverter.request(deviceId, value1, value2))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_CHANNEL_RANGE, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setValue(String deviceId, int value) {
         Observable.just(ValueRangeConverter.request(deviceId, value))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_VALUE_RANGE, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setReportPeriod(String deviceId, int value) {
         Observable.just(ReportPeriodConverter.request(deviceId, value))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_REPORT_PERIOD, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setLowAlarmEnable(String deviceId, boolean enable) {
         Observable.just(LowAlarmEnableConverter.request(deviceId, enable))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_ALARM_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
         Observable.just(LowAlarmConverter.request(deviceId, value, phones, sms))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setLowLowAlarmEnable(String deviceId, boolean enable) {
         Observable.just(LowLowAlarmEnableConverter.request(deviceId, enable))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_LOW_ALARM_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
         Observable.just(LowLowAlarmConverter.request(deviceId, value, phones, sms))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setGps(String deviceId, double lat, double lot) {
         Observable.just(LocationConverter.request(deviceId, lat, lot))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOCATION, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setDefenseEnable(String deviceId, boolean enable) {
         Observable.just(DefenseEnableConverter.request(deviceId, enable))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_DEFENSE_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override
     public void setAliasName(String deviceId, String name) {
         Observable.just(AliasNameConverter.request(deviceId, name))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_ALIAS_NAME, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override

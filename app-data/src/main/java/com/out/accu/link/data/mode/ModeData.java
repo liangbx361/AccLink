@@ -17,9 +17,9 @@ public class ModeData {
 
     public User user;
 
-    public List<Device> devices = new ArrayList<>();
+    private List<Device> devices = new ArrayList<>();
 
-    public Device getDevice(String id) {
+    public synchronized Device getDevice(String id) {
         for(Device device : devices) {
             if(device.id.equals(id)) {
                 return device;
@@ -27,5 +27,17 @@ public class ModeData {
         }
 
         throw new NullPointerException();
+    }
+
+    public synchronized void addDevice(Device device) {
+        devices.add(device);
+    }
+
+    public synchronized void addAll(List<Device> devices) {
+        this.devices.addAll(devices);
+    }
+
+    public synchronized List<Device> getDevices() {
+        return devices;
     }
 }

@@ -26,6 +26,8 @@ public interface DeviceDetailContract {
     }
 
     interface Presenter extends SmartStatePresenter {
+        void initArgument();
+        Device getDevice();
         void setDevice(Device device);
         void setChannelRange(int channel1, int channel2);
         void setValueRange(int value);

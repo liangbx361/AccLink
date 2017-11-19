@@ -23,14 +23,14 @@ public class ByteUtil {
     }
 
     public static int getInt(byte[] data, int srcPos) {
-        return data[srcPos+3] << 24 | data[srcPos+2] << 16
-                | data[srcPos+1] << 8 | data[srcPos];
+        return data[srcPos] << 24 | data[srcPos+1] << 16
+                | data[srcPos+2] << 8 | data[srcPos+3];
     }
 
     public static String getString(byte[] data, int srcPos, int length) {
         byte[] str = new byte[length];
         arrayCopy(data, srcPos, str, 0, length);
-        return new String(str, java.nio.charset.Charset.forName("GB2312"));
+        return new String(str, java.nio.charset.Charset.forName("GB2312")).trim();
     }
 
     public static boolean getBoolean(byte[] data, int srcPos) {

@@ -23,4 +23,8 @@ public class Response {
     public boolean isSuccess() {
         return code == 0;
     }
+
+    public boolean isUpload() {
+        return code == 2;
+    }
 }

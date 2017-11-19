@@ -1,8 +1,12 @@
 package com.out.accu.link.data.converter;
 
+import android.util.Log;
+
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * <p>Title: <／p>
@@ -21,10 +25,17 @@ public class LowAlarmConverter {
         ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
         ByteUtil.arrayCopy(ByteUtil.intToByte(value), 0, data, 6, 4);
         int i=0;
-        for(String phone : phones) {
-            ByteUtil.arrayCopy(phone.getBytes(), 0, data, 10+i*20, 20);
+        if(phones != null) {
+            for (String phone : phones) {
+                ByteUtil.arrayCopy(phone.getBytes(), 0, data, 10 + i * 20, 20);
+                i++;
+            }
         }
-        ByteUtil.arrayCopy(content.getBytes(), 0, data, 170, 128);
+        try {
+            ByteUtil.arrayCopy(content.getBytes("GB2312"), 0, data, 170, 128);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 
@@ -35,8 +46,19 @@ public class LowAlarmConverter {
         for(int i=0; i<8; i++) {
             phones[i] = ByteUtil.getString(response.data, 10+i*20, 20);
         }
-        device.lowLowNotifyPhones = phones;
+        device.lowNotifyPhones = phones;
         device.lowSmsContent = ByteUtil.getString(response.data, 170, 128);
+
+        Log.d("response", "device id ->" + ByteUtil.getId(device.id));
+        Log.d("response", "lowAlarmLimitValue ->" + device.lowAlarmLimitValue);
+        StringBuilder phoneSb = new StringBuilder();
+        for(String phone : phones) {
+            phoneSb.append(phone);
+            phoneSb.append("-");
+        }
+        Log.d("response", "phone ->" + phoneSb.toString());
+        Log.d("response", "lowSmsContent ->" + device.lowSmsContent);
+
         return device;
     }
 }
