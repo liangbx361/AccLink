@@ -1,5 +1,6 @@
 package com.out.accu.link.page.login;
 
+import android.app.ProgressDialog;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 
 import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.out.accu.link.R;
+import com.out.accu.link.util.ProgressHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +31,8 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     @BindView(R.id.bt_go)
     Button btGo;
 
+    ProgressDialog mProgressDialog;
+
     /**
      * 设置布局ID
      */
@@ -45,6 +49,8 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
         ButterKnife.bind(this);
         etUsername.setText("user1");
         etPassword.setText("123456");
+
+        mProgressDialog = ProgressHelper.getProgressBar(this);
     }
 
     /**
@@ -97,5 +103,10 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
         }
 
         return password;
+    }
+
+    @Override
+    public ProgressDialog getProgress() {
+        return mProgressDialog;
     }
 }

@@ -1,5 +1,8 @@
 package com.out.accu.link.data.mode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>Title: <／p>
  * <p>Description: <／p>
@@ -12,9 +15,18 @@ package com.out.accu.link.data.mode;
 
 public class DeviceHistory {
 
-    // 时间
-    public float time;
+    public String deviceId;
+    public List<Item> list = new ArrayList<>();
 
-    // 值
-    public int value;
+    public static class Item {
+
+        // 时间
+        public long time;
+
+        // 值
+        public int value;
+
+        // 时间显示用
+        public String timeDesc;
+    }
 }

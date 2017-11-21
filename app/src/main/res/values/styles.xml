@@ -12,7 +12,7 @@
     <!--</style>-->
 
     <style name="TextViewStyle">
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textColorHint">#B2FFFFFF</item>
     </style>
 
@@ -47,5 +47,14 @@
         <item name="android:background">@drawable/selector_bg_edit</item>
         <item name="android:inputType">phone</item>
         <item name="android:imeOptions">actionNext</item>
+    </style>
+
+    <style name="PassportDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否模糊 -->
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 </resources>

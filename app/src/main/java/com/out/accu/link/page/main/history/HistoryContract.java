@@ -1,10 +1,8 @@
 package com.out.accu.link.page.main.history;
 
-import com.cyou17173.android.arch.base.mvp.SmartStatePresenter;
-import com.cyou17173.android.arch.base.mvp.SmartStateView;
+import com.cyou17173.android.arch.base.mvp.SmartPresenter;
+import com.cyou17173.android.arch.base.mvp.SmartView;
 import com.out.accu.link.data.mode.DeviceHistory;
-
-import java.util.List;
 
 /**
  * <p>Title: </p>
@@ -17,13 +15,13 @@ import java.util.List;
  */
 public interface HistoryContract {
 
-    interface View extends SmartStateView {
+    interface View extends SmartView {
 
-        void showHistory(List<DeviceHistory> histories);
+        void showHistory(DeviceHistory history);
     }
 
-    interface Presenter extends SmartStatePresenter {
+    interface Presenter extends SmartPresenter {
 
-        void search(long start, long end);
+        void search(String deviceId, long start, long end);
     }
 }

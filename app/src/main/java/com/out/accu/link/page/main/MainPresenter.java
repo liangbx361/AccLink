@@ -6,6 +6,7 @@ import com.out.accu.link.R;
 import com.out.accu.link.page.main.device.DeviceListFragment;
 import com.out.accu.link.page.main.history.HistoryFragment;
 import com.out.accu.link.page.main.map.MapFragment;
+import com.out.accu.link.page.main.settings.SettingsFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -62,6 +63,11 @@ public class MainPresenter implements MainContract.Presenter {
                 break;
 
             case R.id.nav_settings:
+                if(mView.isCachedFragment(MAIN_TAB.SETTINGS)) {
+                    mView.showCacheFragment(MAIN_TAB.SETTINGS);
+                } else {
+                    mView.showFragmentAndCache(MAIN_TAB.SETTINGS, new SettingsFragment());
+                }
                 break;
         }
     }

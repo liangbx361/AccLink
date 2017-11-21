@@ -1,5 +1,7 @@
 package com.out.accu.link.data.converter;
 
+import com.out.accu.link.data.util.ByteUtil;
+
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -36,5 +38,17 @@ public class NameTest {
 
     }
 
+    @Test
+    public void time() {
+        byte[] timeStart = new byte[]{0x00, 0x00, 0x00, 0x00, 0x40, 0x06, (byte) 0xe5, 0x40};
+        byte[] timeEnd = new byte[]{0x00, 0x00, 0x00, 0x00, 0x60, 0x06, (byte) 0xe5, 0x40};
+        long timeSL = ByteUtil.getLong(timeStart, 0);
+        long timeEL = ByteUtil.getLong(timeEnd, 0);
+
+        byte[] tmp = ByteUtil.longToByte(timeEL);
+        System.out.println(timeSL + "-" + timeEL);
+
+
+    }
 
 }

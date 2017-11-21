@@ -1,22 +1,13 @@
 package com.out.accu.link.page.main.history;
 
-import android.app.DatePickerDialog;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.cyou17173.android.arch.base.page.SmartStateFragment;
-import com.cyou17173.android.component.state.view.StateManager;
+import com.cyou17173.android.arch.base.page.SmartFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
@@ -26,12 +17,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.out.accu.link.R;
 import com.out.accu.link.data.DataManager;
-import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.DeviceHistory;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,37 +33,19 @@ import butterknife.ButterKnife;
  * @author
  * @version 2017-10-15
  */
-public class HistoryFragment extends SmartStateFragment<HistoryContract.Presenter> implements HistoryContract.View {
+public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> implements HistoryContract.View,
+        SearchDialog.OnSearchListener{
 
-    @BindView(R.id.devices)
-    Spinner mSpDevices;
-    @BindView(R.id.startTime)
-    TextView mTvStartTime;
-    @BindView(R.id.endTime)
-    TextView mTvEndTime;
     @BindView(R.id.chart)
     LineChart mChart;
     @BindView(R.id.search)
-    Button mBtnSearch;
+    FloatingActionButton mBtnSearch;
+    SearchDialog mSearchDialog;
 
-    private List<Device> mDevices;
-
-    private int mStartYear;
-    private int mStartMonth;
-    private int mStartDay;
-    private int mEndYear;
-    private int mEndMonth;
-    private int mEndDay;
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(getLayoutId(), container, false);
-        View view = rootView.findViewById(R.id.chart);
-        StateManager.Builder builder = buildStateView(view);
-        builder.onClickListener(this);
-        setStateManager(builder.build());
-        return rootView;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        activity.setTitle(getContext().getString(R.string.menu_graph));
     }
 
     /**
@@ -92,25 +62,11 @@ public class HistoryFragment extends SmartStateFragment<HistoryContract.Presente
     @Override
     public void initView() {
         ButterKnife.bind(this, getView());
-        mDevices = DataManager.getInstance().getModeData().getDevices();
 
-        List<String> deviceDesc = new ArrayList<>();
-        for(Device device : mDevices) {
-            deviceDesc.add(device.aliasName);
-        }
-
-        ArrayAdapter adapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_item, deviceDesc);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpDevices.setAdapter(adapter);
-
-        final Calendar c = Calendar.getInstance();
-        mStartYear = c.get(Calendar.YEAR);
-        mStartMonth = c.get(Calendar.MONTH);
-        mStartDay = c.get(Calendar.DAY_OF_MONTH);
-        mEndYear = mStartYear;
-        mEndMonth = mStartMonth;
-        mEndDay = mStartDay;
+        mSearchDialog = new SearchDialog();
+        mSearchDialog.initView(getView());
+        mSearchDialog.setOnSearchListener(this);
+        mSearchDialog.hide();
 
         // ============= 图表 =============
         // no description text
@@ -150,39 +106,21 @@ public class HistoryFragment extends SmartStateFragment<HistoryContract.Presente
     }
 
     /**
+     * 注册事件，如事件监听、广播接收等
+     */
+    @Override
+    public void registerEvent() {
+        mBtnSearch.setOnClickListener(v -> {
+            mSearchDialog.show();
+        });
+    }
+
+    /**
      * 注销事件
      */
     @Override
     public void unregisterEvent() {
 
-    }
-
-    /**
-     * 注册事件，如事件监听、广播接收等
-     */
-    @Override
-    public void registerEvent() {
-        mTvStartTime.setOnClickListener(v -> {
-            new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
-                mStartYear = year;
-                mStartMonth = month;
-                mStartDay = dayOfMonth;
-                mTvStartTime.setText(year + "-" + month + "-" + dayOfMonth);
-            }, mStartYear, mStartMonth, mStartDay).show();
-        });
-
-        mTvEndTime.setOnClickListener(v -> {
-            new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
-                mEndYear = year;
-                mEndMonth = month;
-                mEndDay = dayOfMonth;
-                mTvEndTime.setText(year + "-" + month + "-" + dayOfMonth);
-            }, mStartYear, mStartMonth, mStartDay).show();
-        });
-
-        mBtnSearch.setOnClickListener(v -> {
-            getPresenter().search(0, 0);
-        });
     }
 
     /**
@@ -194,11 +132,11 @@ public class HistoryFragment extends SmartStateFragment<HistoryContract.Presente
     }
 
     @Override
-    public void showHistory(List<DeviceHistory> histories) {
+    public void showHistory(DeviceHistory history) {
 
         ArrayList<Entry> values = new ArrayList<>();
-        for(DeviceHistory history : histories) {
-            Entry entry = new Entry(history.time, history.value);
+        for(DeviceHistory.Item item : history.list) {
+            Entry entry = new Entry(item.time, item.value);
             values.add(entry);
         }
 
@@ -246,5 +184,10 @@ public class HistoryFragment extends SmartStateFragment<HistoryContract.Presente
             // set data
             mChart.setData(data);
         }
+    }
+
+    @Override
+    public void onSearch(String id, long start, long end) {
+        getPresenter().search(id, start, end);
     }
 }

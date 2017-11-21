@@ -42,4 +42,5 @@ public interface BusAction {
 
     String RESP_SET_LOCATION = "RESP_SET_LOCATION";
 
+    String RESP_HISTORY = "RESP_HISTORY";
 }

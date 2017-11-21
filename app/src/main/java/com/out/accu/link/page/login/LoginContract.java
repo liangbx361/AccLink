@@ -1,5 +1,7 @@
 package com.out.accu.link.page.login;
 
+import android.app.ProgressDialog;
+
 import com.cyou17173.android.arch.base.mvp.SmartPresenter;
 import com.cyou17173.android.arch.base.mvp.SmartView;
 
@@ -16,6 +18,7 @@ public interface LoginContract {
 
     interface View extends SmartView {
 
+        ProgressDialog getProgress();
     }
 
     interface Presenter extends SmartPresenter {

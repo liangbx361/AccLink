@@ -10,6 +10,7 @@ import com.out.accu.link.data.converter.AliasNameConverter;
 import com.out.accu.link.data.converter.ChannelRangeConverter;
 import com.out.accu.link.data.converter.DefenseEnableConverter;
 import com.out.accu.link.data.converter.DeviceListConverter;
+import com.out.accu.link.data.converter.HistoryConverter;
 import com.out.accu.link.data.converter.LocationConverter;
 import com.out.accu.link.data.converter.LoginConverter;
 import com.out.accu.link.data.converter.LowAlarmConverter;
@@ -27,6 +28,7 @@ import com.out.accu.link.data.converter.UserMobileConverter;
 import com.out.accu.link.data.converter.UsernameConverter;
 import com.out.accu.link.data.converter.ValueRangeConverter;
 import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.mode.DeviceHistory;
 import com.out.accu.link.data.mode.Login;
 import com.out.accu.link.data.mode.ModeData;
 import com.out.accu.link.data.mode.Response;
@@ -470,6 +472,13 @@ public class ResponseHandler {
                     if(response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME, getDeviceId(response));
                     }
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_HISTORY)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    DeviceHistory history = HistoryConverter.response(response);
+                    SmartBus.get().post(BusAction.RESP_HISTORY, history);
                 });
     }
 

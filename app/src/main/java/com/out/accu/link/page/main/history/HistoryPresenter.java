@@ -1,6 +1,14 @@
 package com.out.accu.link.page.main.history;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
+import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataService;
+import com.out.accu.link.data.mode.DeviceHistory;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * <p>Title: </p>
@@ -15,6 +23,8 @@ class HistoryPresenter implements HistoryContract.Presenter {
 
     private HistoryContract.View mView;
     private DataService mDataService;
+    private DeviceHistory mDeviceHistory = new DeviceHistory();
+    private PublishSubject<DeviceHistory> mPublishSubject;
 
     HistoryPresenter(HistoryContract.View view, DataService dataService) {
         mView = view;
@@ -26,24 +36,31 @@ class HistoryPresenter implements HistoryContract.Presenter {
      */
     @Override
     public void start() {
+        mPublishSubject = PublishSubject.create();
+        mPublishSubject
+//                .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(history1 -> {
+                    mView.showHistory(mDeviceHistory);
+                });
 
     }
 
-    /**
-     * 重新加载
-     */
     @Override
-    public void retryLoad() {
-
+    public void search(String deviceId, long start, long end) {
+        mDataService.getHistory(deviceId, start/1000, end/1000);
     }
 
-    @Override
-    public void search(long start, long end) {
-//        mDataService.getHistory("", start, end)
-//                .compose(SmartTransformer.applySchedulers())
-//                .compose(mView.bindToLifecycle())
-//                .subscribe(deviceHistories -> {
-//                    mView.showHistory(deviceHistories);
-//                }, throwable -> throwable.printStackTrace());
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_HISTORY),
+            }
+    )
+    public void respHistory(DeviceHistory history) {
+        mDeviceHistory.deviceId = history.deviceId;
+        mDeviceHistory.list.addAll(history.list);
+        mPublishSubject.onNext(mDeviceHistory);
     }
+
 }

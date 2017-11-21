@@ -1,5 +1,7 @@
 package com.out.accu.link.page.main.map;
 
+import android.app.Activity;
+
 import com.cyou17173.android.arch.base.page.SmartFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,6 +24,12 @@ import com.out.accu.link.data.mode.ModeData;
  */
 public class MapFragment extends SmartFragment<MapContract.Presenter> implements MapContract.View,
         OnMapReadyCallback{
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        activity.setTitle(getContext().getString(R.string.menu_map));
+    }
 
     /**
      * 设置布局ID

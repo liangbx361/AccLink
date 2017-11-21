@@ -1,5 +1,6 @@
 package com.out.accu.link.page.main.settings;
 
+import android.app.Activity;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -33,6 +34,12 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
     QMUICommonListItemView userNameItem;
     QMUICommonListItemView mobileNameItem;
     QMUICommonListItemView passwordItem;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        activity.setTitle(getContext().getString(R.string.menu_setting));
+    }
 
     /**
      * 设置布局ID

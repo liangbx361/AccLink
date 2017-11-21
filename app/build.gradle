@@ -27,6 +27,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:11.4.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     implementation 'com.qmuiteam:qmui:1.0.4'
+    implementation 'com.contrarywind:Android-PickerView:3.2.7'
 
     implementation cyou17173.smart
     implementation cyou17173.smartToolbar

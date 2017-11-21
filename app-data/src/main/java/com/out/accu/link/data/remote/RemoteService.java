@@ -212,8 +212,10 @@ public class RemoteService implements DataService {
     @Override
     public void getHistory(String deviceId, long startTime, long endTime) {
         Observable.just(HistoryConverter.request(deviceId, startTime, endTime))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_GET_HISTORY, PacketUtil.TYPE_REQUEST, bytes))
-                .map(bytes -> mUdpHandler.send(bytes));
+                .map(bytes -> mUdpHandler.send(bytes))
+                .subscribe();
     }
 
     @Override

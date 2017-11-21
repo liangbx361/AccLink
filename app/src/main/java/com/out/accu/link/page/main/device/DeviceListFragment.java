@@ -3,6 +3,7 @@ package com.out.accu.link.page.main.device;
 import android.app.Activity;
 
 import com.cyou17173.android.arch.base.page.SmartListFragment;
+import com.out.accu.link.R;
 import com.out.accu.link.data.mode.Device;
 
 import me.drakeet.multitype.MultiTypeAdapter;
@@ -21,7 +22,7 @@ public class DeviceListFragment extends SmartListFragment<DeviceListContract.Pre
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        activity.setTitle("设备列表");
+        activity.setTitle(getContext().getString(R.string.menu_device));
     }
 
     /**
