@@ -6,6 +6,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.out.accu.link.data.BusAction;
+import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Login;
 import com.out.accu.link.router.Navigation;
 
@@ -36,10 +37,10 @@ class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String username, String password) {
-        Navigation.main(mView.getActivity());
-//        mView.getProgress().show();
-//        DataManager.getInstance().getDataService().login(username, password);
-//        DataManager.getInstance().getUdpHandler().startReceive();
+//        Navigation.main(mView.getActivity());
+        mView.getProgress().show();
+        DataManager.getInstance().getDataService().login(username, password);
+        DataManager.getInstance().getUdpHandler().startReceive();
     }
 
     @Subscribe(

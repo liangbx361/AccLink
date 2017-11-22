@@ -1,5 +1,12 @@
 package com.out.accu.link.page.main.settings;
 
+import android.widget.Toast;
+
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
+import com.out.accu.link.data.BusAction;
+import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.DataService;
 import com.out.accu.link.data.mode.User;
 
@@ -16,7 +23,7 @@ class SettingsPresenter implements SettingsContract.Presenter {
 
     private SettingsContract.View mView;
     private DataService mService;
-    private User mUser;
+    private User mTmpUser = new User();
 
     SettingsPresenter(SettingsContract.View view, DataService service) {
         mView = view;
@@ -28,7 +35,7 @@ class SettingsPresenter implements SettingsContract.Presenter {
      */
     @Override
     public void start() {
-
+        mView.showUser(getUser());
     }
 
     /**
@@ -41,46 +48,74 @@ class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public User getUser() {
-        return mUser;
+        return DataManager.getInstance().getModeData().user;
     }
 
     @Override
     public void modifyUsername(String username) {
-//        mService.setUsername(username)
-//                .compose(SmartTransformer.applySchedulers())
-//                .compose(mView.bindUntilDestroy())
-//                .subscribe(aBoolean -> {
-//                    mUser.username = username;
-//                    mView.showUser(mUser);
-//                    Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
-//                }, throwable -> {
-//                    Toast.makeText(mView.getActivity(), "修改失败", Toast.LENGTH_SHORT).show();
-//                });
+        mView.showLoadingDialog();
+        mTmpUser.username = username;
+        mService.setUsername(username);
     }
 
     @Override
     public void modifyMobile(String mobile) {
-//        mService.setMobile(mobile)
-//                .compose(SmartTransformer.applySchedulers())
-//                .compose(mView.bindUntilDestroy())
-//                .subscribe(aBoolean -> {
-//                    mUser.mobile = mobile;
-//                    mView.showUser(mUser);
-//                    Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
-//                }, throwable -> {
-//                    Toast.makeText(mView.getActivity(), "修改失败", Toast.LENGTH_SHORT).show();
-//                });
+        mView.showLoadingDialog();
+        mTmpUser.mobile = mobile;
+        mService.setMobile(mobile);
     }
 
     @Override
     public void modifyPassword(String oldPwd, String newPwd) {
-//        mService.setPassword(oldPwd, newPwd)
-//                .compose(SmartTransformer.applySchedulers())
-//                .compose(mView.bindUntilDestroy())
-//                .subscribe(aBoolean -> {
-//                    Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
-//                }, throwable -> {
-//                    Toast.makeText(mView.getActivity(), "修改失败", Toast.LENGTH_SHORT).show();
-//                });
+        mView.showLoadingDialog();
+        mService.setPassword(oldPwd, newPwd);
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_GET_USERNAME),
+                    @Tag(BusAction.RESP_GET_USER_MOBILE)
+            }
+    )
+    public void updateDate(Object o) {
+        mView.showUser(getUser());
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_SET_USERNAME_SUCCESS)
+            }
+    )
+    public void onSetUserName(Object o) {
+        mView.hideLoadingDialog();
+        getUser().username = mTmpUser.username;
+        mView.showUser(getUser());
+        Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_SET_USER_MOBILE_SUCCESS)
+            }
+    )
+    public void onSetMobile(Object o) {
+        mView.hideLoadingDialog();
+        getUser().mobile = mTmpUser.mobile;
+        mView.showUser(getUser());
+        Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_SET_PASSWORD_SUCCESS)
+            }
+    )
+    public void onSetPassword(Object o) {
+        mView.hideLoadingDialog();
+        Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
     }
 }

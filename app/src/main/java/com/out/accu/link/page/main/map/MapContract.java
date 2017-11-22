@@ -15,10 +15,12 @@ import com.cyou17173.android.arch.base.mvp.SmartView;
 public interface MapContract {
 
     interface View extends SmartView {
-
+        void showLoadingDialog();
+        void hideLoadingDialog();
+        void refreshLocation();
     }
 
     interface Presenter extends SmartPresenter {
-
+        void setLocation(String deviceId, double lat, double lng);
     }
 }

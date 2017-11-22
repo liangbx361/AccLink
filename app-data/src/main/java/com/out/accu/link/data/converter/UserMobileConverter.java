@@ -23,7 +23,7 @@ public class UserMobileConverter {
     }
 
     public static User response(User user, Response response) {
-        user.mobile = new String(response.data).trim();
+        user.mobile = ByteUtil.getString(response.data, 0, 20).trim();
         return user;
     }
 }

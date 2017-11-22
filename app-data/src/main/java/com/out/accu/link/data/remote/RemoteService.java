@@ -14,11 +14,9 @@ import com.out.accu.link.data.converter.LowLowAlarmConverter;
 import com.out.accu.link.data.converter.LowLowAlarmEnableConverter;
 import com.out.accu.link.data.converter.PasswordConverter;
 import com.out.accu.link.data.converter.ReportPeriodConverter;
-import com.out.accu.link.data.converter.UserMobileConverter;
 import com.out.accu.link.data.converter.UsernameConverter;
 import com.out.accu.link.data.converter.ValueRangeConverter;
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.User;
 import com.out.accu.link.data.udp.UdpHandler;
 import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
@@ -220,54 +218,52 @@ public class RemoteService implements DataService {
 
     @Override
     public void getUser() {
-        User user = new User();
-        Observable.just(user)
+        Observable.just("")
+                .subscribeOn(Schedulers.io())
                 // 用户名
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_USER_NAME, PacketUtil.TYPE_REQUEST, new byte[0]))
                 .map(bytes -> mUdpHandler.send(bytes))
                 .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> UsernameConverter.response(user, response))
                 // 手机号
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_USER_PHONE, PacketUtil.TYPE_REQUEST, new byte[0]))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> UserMobileConverter.response(user, response));
+                .subscribe();
     }
 
     @Override
     public void setUsername(String username) {
         Observable.just(username)
+                .subscribeOn(Schedulers.io())
                 .map(username1 -> PacketUtil.getPacket(PacketUtil.CMD_SET_NAME, PacketUtil.TYPE_REQUEST, UsernameConverter.request(username1)))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> true);
+                .subscribe();
     }
 
     @Override
     public void setMobile(String mobile) {
         Observable.just(mobile)
+                .subscribeOn(Schedulers.io())
                 .map(mobile1 -> PacketUtil.getPacket(PacketUtil.CMD_SET_PHONE, PacketUtil.TYPE_REQUEST, UsernameConverter.request(mobile1)))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> true);
+                .subscribe();
     }
 
     @Override
     public void setPassword(String oldPwd, String newPwd) {
         Observable.just(PasswordConverter.request(oldPwd, newPwd))
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_PASSWORD, PacketUtil.TYPE_REQUEST, bytes))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> true);
+                .subscribe();
     }
 
     @Override
     public void logout() {
         Observable.just(new byte[0])
+                .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_LOGOUT, PacketUtil.TYPE_REQUEST, bytes))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
-                .map(response -> true);
+                .subscribe();
     }
 
 }

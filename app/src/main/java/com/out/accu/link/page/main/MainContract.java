@@ -22,6 +22,7 @@ public class MainContract {
         boolean isCachedFragment(@NonNull String tag);
         void showFragmentAndCache(@NonNull String tag, @NonNull Fragment fragment);
         void showCacheFragment(@NonNull String tag);
+        void showUsername(String username);
     }
 
     interface Presenter extends SmartPresenter {

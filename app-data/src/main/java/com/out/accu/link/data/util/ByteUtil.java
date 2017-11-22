@@ -71,31 +71,11 @@ public class ByteUtil {
     }
 
     public static double getDouble(byte[] data, int srcPos){
-        long l;
-
-        l=data[srcPos+7];
-        l&=0xff;
-
-        l|=((long)data[srcPos+6]<<8);
-        l&=0xffff;
-
-        l|=((long)data[srcPos+5]<<16);
-        l&=0xffffff;
-
-        l|=((long)data[srcPos+4]<<24);
-        l&= 0xffffffffL;
-
-        l|=((long)data[srcPos+3]<<32);
-        l&= 0xffffffffffL;
-
-        l|=((long)data[srcPos+2]<<40);
-        l&= 0xffffffffffffL;
-
-        l|=((long)data[srcPos+1]<<48);
-        l&= 0xffffffffffffffL;
-
-        l|=((long)data[srcPos]<<56);
-        return Double.longBitsToDouble(l);
+        long value = 0;
+        for (int i = 0; i < 8; i++) {
+            value |= ((long) (data[i+srcPos] & 0xff)) << (8 * i);
+        }
+        return Double.longBitsToDouble(value);
     }
 
     public static byte[] stringToByte(String str, int length) {

@@ -1,5 +1,6 @@
 package com.out.accu.link.page.main.history;
 
+import com.cyou17173.android.arch.base.page.SmartTransformer;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
@@ -7,6 +8,11 @@ import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataService;
 import com.out.accu.link.data.mode.DeviceHistory;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
+
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.PublishSubject;
 
@@ -44,6 +50,12 @@ class HistoryPresenter implements HistoryContract.Presenter {
                     mView.showHistory(mDeviceHistory);
                 });
 
+        Observable.defer(() -> Observable.just(getTestData()))
+                .compose(SmartTransformer.applySchedulers())
+                .subscribe(history -> {
+                    mView.showHistory(history);
+                });
+
     }
 
     @Override
@@ -63,4 +75,18 @@ class HistoryPresenter implements HistoryContract.Presenter {
         mPublishSubject.onNext(mDeviceHistory);
     }
 
+    public DeviceHistory getTestData() {
+        DeviceHistory history = new DeviceHistory();
+        history.deviceId = "0";
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(2001, 10, 1));
+        for(int i=0; i<20; i++) {
+            DeviceHistory.Item item = new DeviceHistory.Item();
+            item.time = calendar.getTime().getTime();
+            item.value = new Random().nextInt(50);
+            history.list.add(item);
+            calendar.set(Calendar.DAY_OF_MONTH,calendar.get(Calendar.DAY_OF_MONTH)+1);
+        }
+        return history;
+    }
 }

@@ -2,7 +2,12 @@ package com.out.accu.link.page.main;
 
 import android.support.annotation.StringDef;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.out.accu.link.R;
+import com.out.accu.link.data.BusAction;
+import com.out.accu.link.data.DataManager;
 import com.out.accu.link.page.main.device.DeviceListFragment;
 import com.out.accu.link.page.main.history.HistoryFragment;
 import com.out.accu.link.page.main.map.MapFragment;
@@ -31,7 +36,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
-
+        DataManager.getInstance().getDataService().getUser();
     }
 
     @Override
@@ -79,5 +84,15 @@ public class MainPresenter implements MainContract.Presenter {
         String MAP = "map";
         String GRAPH = "graph";
         String SETTINGS = "settings";
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_GET_USERNAME)
+            }
+    )
+    public void setUserName(Object o) {
+        mView.showUsername(DataManager.getInstance().getModeData().user.username);
     }
 }

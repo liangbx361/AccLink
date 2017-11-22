@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ModeData {
 
-    public User user;
+    public User user = new User();
 
     private List<Device> devices = new ArrayList<>();
 

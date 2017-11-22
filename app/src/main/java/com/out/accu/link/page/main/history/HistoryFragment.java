@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import com.cyou17173.android.arch.base.page.SmartFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.utils.Utils;
 import com.out.accu.link.R;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.DeviceHistory;
+import com.out.accu.link.util.TimeUtil;
 
 import java.util.ArrayList;
 
@@ -103,6 +105,9 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
 //        l.setYOffset(11f);
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setValueFormatter((value, axis) -> TimeUtil.format(value));
     }
 
     /**

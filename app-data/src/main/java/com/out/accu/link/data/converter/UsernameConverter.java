@@ -23,7 +23,7 @@ public class UsernameConverter {
     }
 
     public static User response(User user, Response response) {
-        user.username = new String(response.data).trim();
+        user.username = ByteUtil.getString(response.data, 0, 20).trim();
         return user;
     }
 }

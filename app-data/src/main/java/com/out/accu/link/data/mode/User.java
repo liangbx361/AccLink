@@ -21,4 +21,6 @@ public class User {
      * 手机号
      */
     public String mobile;
+
+    public String password;
 }

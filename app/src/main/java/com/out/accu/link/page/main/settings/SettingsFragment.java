@@ -11,10 +11,12 @@ import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.User;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * <p>Title: </p>
@@ -35,6 +37,8 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
     QMUICommonListItemView mobileNameItem;
     QMUICommonListItemView passwordItem;
 
+    QMUITipDialog mLoadingDialog;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -54,7 +58,13 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
      */
     @Override
     public void initView() {
+        ButterKnife.bind(this, getView());
 
+        mLoadingDialog = new QMUITipDialog.Builder(getContext())
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("修改中...")
+                .create();
+        mLoadingDialog.setCancelable(true);
     }
 
     /**
@@ -107,6 +117,16 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
     }
 
     @Override
+    public void showLoadingDialog() {
+        mLoadingDialog.show();
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+        mLoadingDialog.dismiss();
+    }
+
+    @Override
     public void onClick(View v) {
         if(v.equals(userNameItem)) {
             onUserName();
@@ -119,7 +139,7 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
 
     private void onUserName() {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
-        builder.setTitle(getString(R.string.modify_mobile))
+        builder.setTitle(getString(R.string.modify_username))
                 .setInputType(InputType.TYPE_CLASS_TEXT)
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
                     @Override

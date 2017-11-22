@@ -17,6 +17,8 @@ public interface SettingsContract {
 
     interface View extends SmartStateView {
         void showUser(User user);
+        void showLoadingDialog();
+        void hideLoadingDialog();
     }
 
     interface Presenter extends SmartStatePresenter {

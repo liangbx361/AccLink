@@ -346,6 +346,24 @@ public class ResponseHandler {
                     }
                 });
 
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_NAME)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    SmartBus.get().post(BusAction.RESP_SET_USERNAME_SUCCESS, "");
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_PHONE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    SmartBus.get().post(BusAction.RESP_SET_USER_MOBILE_SUCCESS, "");
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_PASSWORD)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    SmartBus.get().post(BusAction.RESP_SET_PASSWORD_SUCCESS, "");
+                });
+
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_USER_PHONE)
                 .subscribe(response -> {
                     User user = new User();
