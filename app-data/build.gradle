@@ -6,6 +6,7 @@ dependencies {
     implementation cyou17173.smart
     implementation libs.rxJava
     implementation libs.rxAndroid
+    implementation cyou17173.logger
     implementation "com.cyou17173.android.component:common-util:0.0.14-SNAPSHOT"
 
     // 单元测试库

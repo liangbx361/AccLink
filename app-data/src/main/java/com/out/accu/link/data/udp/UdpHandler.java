@@ -1,5 +1,8 @@
 package com.out.accu.link.data.udp;
 
+import android.util.Log;
+
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.PacketUtil;
 
@@ -76,10 +79,15 @@ public class UdpHandler {
                     try {
                         byte[] buf = receive();
                         Response response = PacketUtil.parserPacket(buf);
+                        // -84
+//                        AppLogger.get().d("response", "get -->" + (response.cmd[0]+response.cmd[1]));
                         PublishSubject<Response> publishSubject = TaskQueue.getInstance().getTask(response.cmd);
-                        // FIXME 需要处理错误
+//                        AppLogger.get().d("response", "has get -->" + (response.cmd[0]+response.cmd[1]));
                         if (response.isSuccess()) {
+//                            AppLogger.get().d("response", "PublishSubject-->onNext");
                             publishSubject.onNext(response);
+                        } else {
+                            publishSubject.onError(new Exception());
                         }
                         return response;
                     } catch (Exception e) {
@@ -101,16 +109,17 @@ public class UdpHandler {
     }
 
     private void printLog(String tag, byte[] datas) {
-        StringBuffer sb = new StringBuffer();
-        int length = datas[2] + (datas[3] << 8);
-        for(int i=0; i<length; i++) {
-            String hex = Integer.toHexString(datas[i+6] & 0xFF);
-            if(hex.length() == 1) {
-                hex = '0' + hex;
+        if(AppLogger.get().isDebug()) {
+            StringBuffer sb = new StringBuffer();
+            int length = datas[2] + (datas[3] << 8);
+            for (int i = 0; i < length; i++) {
+                String hex = Integer.toHexString(datas[i + 6] & 0xFF);
+                if (hex.length() == 1) {
+                    hex = '0' + hex;
+                }
+                sb.append("0x" + hex + "|");
             }
-            sb.append("0x"+hex+"|");
+            Log.d(tag, sb.toString());
         }
-//        Log.d(tag, sb.toString());
-        System.out.println(tag+sb.toString());
     }
 }

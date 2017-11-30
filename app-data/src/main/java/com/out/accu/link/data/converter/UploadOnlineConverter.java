@@ -18,7 +18,7 @@ public class UploadOnlineConverter {
 
     public static Device response(Device device, Response response) {
         device.id = ByteUtil.getString(response.data, 0, 6);
-        device.isOnline = response.data[7] > 0;
+        device.isOnline = true;
         return device;
     }
 }

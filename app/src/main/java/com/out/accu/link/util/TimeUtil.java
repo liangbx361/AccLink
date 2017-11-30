@@ -20,4 +20,8 @@ public class TimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
         return format.format(new Date(timeL));
     }
+
+    public static boolean compareTime(Date date1, Date date2) {
+        return date1.compareTo(date2) == -1;
+    }
 }

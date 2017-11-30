@@ -10,6 +10,8 @@ import com.cyou17173.android.arch.base.page.SmartStateActivity;
 import com.out.accu.link.R;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.util.ByteUtil;
+import com.out.accu.link.util.ContentHelper;
+import com.out.accu.link.util.NumberUtil;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
@@ -85,18 +87,18 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
         mLoadingDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
-                .setTipWord("修改中...")
+                .setTipWord(getString(R.string.modifying))
                 .create();
         mLoadingDialog.setCancelable(true);
 
         mSuccessDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
-                .setTipWord("修改成功")
+                .setTipWord(getString(R.string.modify_success))
                 .create();
 
         mFailDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
-                .setTipWord("修改失败")
+                .setTipWord(getString(R.string.modify_fail))
                 .create();
     }
 
@@ -126,7 +128,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     private boolean checkValue(int vlaue, QMUICommonListItemView itemView) {
         if (vlaue == -1) {
-            itemView.setDetailText("未获取");
+            itemView.setDetailText(getResString(R.string.fetching));
             return false;
         } else {
             return true;
@@ -135,7 +137,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     private boolean checkValue(String value, QMUICommonListItemView itemView) {
         if (value == null) {
-            itemView.setDetailText("未获取");
+            itemView.setDetailText(getResString(R.string.fetching));
             return false;
         } else {
             return true;
@@ -144,7 +146,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     private boolean checkValue(double value, QMUICommonListItemView itemView) {
         if (value == -1) {
-            itemView.setDetailText("未获取");
+            itemView.setDetailText(getResString(R.string.fetching));
             return false;
         } else {
             return true;
@@ -153,7 +155,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     private boolean checkValue(String[] value, QMUICommonListItemView itemView) {
         if (value == null) {
-            itemView.setDetailText("未获取");
+            itemView.setDetailText(getResString(R.string.fetching));
             return false;
         } else {
             return true;
@@ -175,21 +177,21 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             channel1Item = mGroupListView.createItemView(getString(R.string.channel_1_range_desc));
         }
         if (checkValue(device.channel1Range, channel1Item)) {
-            channel1Item.setDetailText(device.channel1Range + "mA");
+            channel1Item.setDetailText(NumberUtil.formateInt(device.channel1Range) + "kg");
         }
 
         if (channel2Item == null) {
             channel2Item = mGroupListView.createItemView(getString(R.string.channel_2_range_desc));
         }
         if (checkValue(device.channel2Range, channel2Item)) {
-            channel2Item.setDetailText(device.channel2Range + "mA");
+            channel2Item.setDetailText(NumberUtil.formateInt(device.channel2Range) + "kg");
         }
 
         if (valueItem == null) {
             valueItem = mGroupListView.createItemView(getString(R.string.value_range_desc));
         }
         if (checkValue(device.valueRange, valueItem)) {
-            valueItem.setDetailText(device.valueRange + "mA");
+            valueItem.setDetailText(device.valueRange + "cm");
         }
 
         if (reportPeriodItem == null) {
@@ -448,13 +450,13 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.device_name))
                 .setInputType(InputType.TYPE_CLASS_TEXT)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
@@ -474,19 +476,20 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
     private void showChannel1Dialog() {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.channel_1_range_desc))
-                .setInputType(InputType.TYPE_CLASS_NUMBER)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         try {
-                            int value = Integer.valueOf(text.toString());
+                            double dValue = Double.valueOf(text.toString());
+                            int value = NumberUtil.formateDouble(dValue);
                             getPresenter().setChannelRange(value, getPresenter().getDevice().channel2Range);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -496,25 +499,26 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(getPresenter().getDevice().channel1Range + "");
+        builder.getEditText().setText(NumberUtil.formateInt(getPresenter().getDevice().channel1Range) + "");
     }
 
     private void showChannel21Dialog() {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.channel_2_range_desc))
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         try {
-                            int value = Integer.valueOf(text.toString());
+                            double dValue = Double.valueOf(text.toString());
+                            int value = NumberUtil.formateDouble(dValue);
                             getPresenter().setChannelRange(getPresenter().getDevice().channel1Range, value);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -524,20 +528,20 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(getPresenter().getDevice().channel2Range + "");
+        builder.getEditText().setText(NumberUtil.formateInt(getPresenter().getDevice().channel2Range) + "");
     }
 
     private void showValue1Dialog() {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.value_range_desc))
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
@@ -559,13 +563,13 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.report_period_desc))
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
@@ -603,13 +607,13 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.low_alarm_limit_value_desc))
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
@@ -631,13 +635,13 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         QMUIDialog dialog = new QMUIDialog.CustomDialogBuilder(this)
                 .setLayout(R.layout.item_phones)
                 .setTitle(R.string.low_notify_phones_desc)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
 
@@ -671,32 +675,34 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
     }
 
     private void showLowSmsDialog() {
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
-        builder.setTitle(getString(R.string.low_sms_format_desc))
-                .setInputType(InputType.TYPE_CLASS_TEXT)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+        QMUIDialog dialog = new QMUIDialog.CustomDialogBuilder(this)
+                .setLayout(R.layout.item_content)
+                .setTitle(R.string.low_sms_format_desc)
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
-                        CharSequence text = builder.getEditText().getText();
-                        try {
-                            String value = text.toString();
-                            getPresenter().setLowAlarmLimitValue(getPresenter().getDevice().lowAlarmLimitValue,
-                                    getPresenter().getDevice().lowNotifyPhones, value);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        dialog.dismiss();
-                    }
-                })
-                .show();
 
-        builder.getEditText().setText(getPresenter().getDevice().lowSmsContent + "");
+                        EditText etContent = dialog.findViewById(R.id.content);
+                        String value = etContent.getText().toString();
+                        getPresenter().setLowAlarmLimitValue(getPresenter().getDevice().lowAlarmLimitValue,
+                                getPresenter().getDevice().lowNotifyPhones, value);
+
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+        ContentHelper contentHelper = new ContentHelper(dialog.getWindow().getDecorView());
+        EditText etContent = dialog.findViewById(R.id.content);
+        etContent.setText(getPresenter().getDevice().lowSmsContent);
+
+        dialog.show();
     }
 
     private void showLowLowEnableDialog() {
@@ -719,13 +725,13 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.low_low_alarm_limit_value_desc))
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
@@ -748,13 +754,13 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         QMUIDialog dialog = new QMUIDialog.CustomDialogBuilder(this)
                 .setLayout(R.layout.item_phones)
                 .setTitle(R.string.low_low_notify_phones_desc)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
 
@@ -787,32 +793,34 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
     }
 
     private void showLowLowSmsDialog() {
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
-        builder.setTitle(getString(R.string.low_sms_format_desc))
-                .setInputType(InputType.TYPE_CLASS_TEXT)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+        QMUIDialog dialog = new QMUIDialog.CustomDialogBuilder(this)
+                .setLayout(R.layout.item_content)
+                .setTitle(R.string.low_sms_format_desc)
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
-                        CharSequence text = builder.getEditText().getText();
-                        try {
-                            String value = text.toString();
-                            getPresenter().setLowLowAlarmLimitValue(getPresenter().getDevice().lowLowAlarmLimitValue,
-                                    getPresenter().getDevice().lowLowNotifyPhones, value);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        dialog.dismiss();
-                    }
-                })
-                .show();
 
-        builder.getEditText().setText(getPresenter().getDevice().lowLowSmsContent + "");
+                        EditText etContent = dialog.findViewById(R.id.content);
+                        String value = etContent.getText().toString();
+                        getPresenter().setLowLowAlarmLimitValue(getPresenter().getDevice().lowLowAlarmLimitValue,
+                                getPresenter().getDevice().lowLowNotifyPhones, value);
+
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+        ContentHelper contentHelper = new ContentHelper(dialog.getWindow().getDecorView());
+        EditText etContent = dialog.findViewById(R.id.content);
+        etContent.setText(getPresenter().getDevice().lowLowSmsContent);
+
+        dialog.show();
     }
 
     private void showDefenseEnableDialog() {

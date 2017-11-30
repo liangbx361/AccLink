@@ -17,10 +17,10 @@ import java.util.Date;
 
 public class ByteUtil {
 
-    public static void arrayCopy(byte[] src,  int srcPos,
-                                   byte[] dest, int destPos,
-                                   int maxLength) {
-        if(src.length < maxLength) {
+    public static void arrayCopy(byte[] src, int srcPos,
+                                 byte[] dest, int destPos,
+                                 int maxLength) {
+        if (src.length < maxLength) {
             System.arraycopy(src, srcPos, dest, destPos, src.length);
         } else {
             System.arraycopy(src, srcPos, dest, destPos, maxLength);
@@ -28,13 +28,21 @@ public class ByteUtil {
     }
 
     public static int getInt(byte[] data, int srcPos) {
-        return data[srcPos] << 24 | data[srcPos+1] << 16
-                | data[srcPos+2] << 8 | data[srcPos+3];
+        int value;
+        value = (data[srcPos] & 0xFF)
+                | ((data[srcPos + 1] & 0xFF) << 8)
+                | ((data[srcPos + 2] & 0xFF) << 16)
+                | ((data[srcPos + 3] & 0xFF) << 24);
+        return value;
     }
 
-    public static int getIntLow(byte[] data, int srcPos) {
-        return data[srcPos+3] << 24 | data[srcPos+2] << 16
-                | data[srcPos+1] << 8 | data[srcPos+0];
+    public static byte[] intToByte(int value) {
+        return new byte[]{
+                (byte) ((value) & 0xFF),
+                (byte) ((value >> 8) & 0xFF),
+                (byte) ((value >> 16) & 0xFF),
+                (byte) (value >> 24 & 0xFF)
+        };
     }
 
     public static String getString(byte[] data, int srcPos, int length) {
@@ -50,30 +58,30 @@ public class ByteUtil {
     public static long getLong(byte[] data, int srcPos) {
         long l;
 
-        l=data[srcPos+7];
-        l&=0xff;
-        l|=((long)data[srcPos+6]<<8);
-        l&=0xffff;
-        l|=((long)data[srcPos+5]<<16);
-        l&=0xffffff;
-        l|=((long)data[srcPos+4]<<24);
-        l&=0xffffffffl;
-        l|=((long)data[srcPos+3]<<32);
-        l&=0xffffffffffl;
+        l = data[srcPos];
+        l &= 0xff;
+        l |= ((long) data[srcPos + 1] << 8);
+        l &= 0xffff;
+        l |= ((long) data[srcPos + 2] << 16);
+        l &= 0xffffff;
+        l |= ((long) data[srcPos + 3] << 24);
+        l &= 0xffffffffl;
+        l |= ((long) data[srcPos + 4] << 32);
+        l &= 0xffffffffffl;
 
-        l|=((long)data[srcPos+2]<<40);
-        l&=0xffffffffffffl;
-        l|=((long)data[srcPos+1]<<48);
+        l |= ((long) data[srcPos + 5] << 40);
+        l &= 0xffffffffffffl;
+        l |= ((long) data[srcPos + 6] << 48);
 
-        l|=((long)data[srcPos]<<56);
+        l |= ((long) data[srcPos + 7] << 56);
 
         return l;
     }
 
-    public static double getDouble(byte[] data, int srcPos){
+    public static double getDouble(byte[] data, int srcPos) {
         long value = 0;
         for (int i = 0; i < 8; i++) {
-            value |= ((long) (data[i+srcPos] & 0xff)) << (8 * i);
+            value |= ((long) (data[i + srcPos] & 0xff)) << (8 * i);
         }
         return Double.longBitsToDouble(value);
     }
@@ -84,14 +92,6 @@ public class ByteUtil {
         return strByte;
     }
 
-    public static byte[] intToByte(int value) {
-        return new byte[] {
-                (byte) ((value >> 24) & 0xFF),
-                (byte) ((value >> 16) & 0xFF),
-                (byte) ((value >> 8) & 0xFF),
-                (byte) (value & 0xFF)
-        };
-    }
 
     public static byte[] doubleToByte(double d) {
         long value = Double.doubleToRawLongBits(d);
@@ -103,24 +103,24 @@ public class ByteUtil {
     }
 
     public static byte[] longToByte(long value) {
-        return new byte[] {
-                (byte) ((value >> 56) & 0xFF),
-                (byte) ((value >> 48) & 0xFF),
-                (byte) ((value >> 40) & 0xFF),
-                (byte) ((value >> 32) & 0xFF),
-                (byte) ((value >> 24) & 0xFF),
-                (byte) ((value >> 16) & 0xFF),
+        return new byte[]{
+                (byte) ((value >> 0) & 0xFF),
                 (byte) ((value >> 8) & 0xFF),
-                (byte) (value & 0xFF)
+                (byte) ((value >> 16) & 0xFF),
+                (byte) ((value >> 24) & 0xFF),
+                (byte) ((value >> 32) & 0xFF),
+                (byte) ((value >> 40) & 0xFF),
+                (byte) ((value >> 48) & 0xFF),
+                (byte) ((value >> 56) & 0xFF)
         };
     }
 
     public static String getId(String deviceId) {
         byte[] data = deviceId.getBytes();
         StringBuffer sb = new StringBuffer();
-        for(byte item : data) {
+        for (byte item : data) {
             String hex = Integer.toHexString(item & 0xFF);
-            if(hex.length() == 1) {
+            if (hex.length() == 1) {
                 hex = '0' + hex;
             }
             sb.append(hex);
@@ -130,9 +130,9 @@ public class ByteUtil {
 
     public static byte[] formatTime(long time) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(time*1000));
+        calendar.setTime(new Date(time * 1000));
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH)+1;
+        int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
@@ -150,16 +150,16 @@ public class ByteUtil {
     }
 
     public static long formatTime(byte[] timeByte, int index) {
-        int year = ((timeByte[index+1] << 8)&0xff00) | (timeByte[index]&0xff);
-        int month = timeByte[index+2];
-        int day = timeByte[index+3];
-        int hour = timeByte[index+4];
-        int minute = timeByte[index+5];
-        int second = timeByte[index+6];
+        int year = ((timeByte[index + 1] << 8) & 0xff00) | (timeByte[index] & 0xff);
+        int month = timeByte[index + 2];
+        int day = timeByte[index + 3];
+        int hour = timeByte[index + 4];
+        int minute = timeByte[index + 5];
+        int second = timeByte[index + 6];
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = format.parse(year+"-"+month+"-"+day+" " +hour+":"+minute+":"+second);
+            Date date = format.parse(year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second);
             return date.getTime();
         } catch (ParseException e) {
             e.printStackTrace();

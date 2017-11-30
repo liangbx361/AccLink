@@ -1,5 +1,6 @@
 package com.out.accu.link.page.main;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,13 +16,14 @@ import android.widget.TextView;
 import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.cyou17173.android.component.common.util.fragment.FragmentInstanceManager;
 import com.out.accu.link.R;
+import com.out.accu.link.util.ExitAppController;
 
 public class MainActivity extends SmartActivity<MainContract.Presenter> implements
         NavigationView.OnNavigationItemSelectedListener, MainContract.View {
 
     TextView mTvUsername;
-
     FragmentInstanceManager mInstanceManager;
+    ExitAppController mExitAppController;
 
     @Override
     public int getLayoutId() {
@@ -51,6 +53,8 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
         navigationView.setCheckedItem(R.id.nav_device);
 
         mInstanceManager = new FragmentInstanceManager(getSupportFragmentManager(), R.id.content);
+
+        mExitAppController = new ExitAppController(this);
     }
 
     @Override
@@ -74,7 +78,15 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(!mExitAppController.onBackPressed()) {
+//                super.onBackPressed();
+//                android.os.Process.killProcess(android.os.Process.myPid());
+
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+            }
         }
     }
 

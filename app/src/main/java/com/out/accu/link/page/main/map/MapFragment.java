@@ -60,7 +60,7 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
 
         mLoadingDialog = new QMUITipDialog.Builder(getContext())
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
-                .setTipWord("修改中...")
+                .setTipWord(getString(R.string.modifying))
                 .create();
         mLoadingDialog.setCancelable(true);
     }

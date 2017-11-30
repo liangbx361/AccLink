@@ -22,9 +22,9 @@ public class AliasNameConverter {
 
     public static byte[] request(String id, String name) {
         try {
-            byte[] data = new byte[26];
+            byte[] data = new byte[56];
             ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
-            ByteUtil.arrayCopy(name.getBytes("GB2312"), 0, data, 6, 20);
+            ByteUtil.arrayCopy(name.getBytes("GB2312"), 0, data, 6, 50);
             return data;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -36,7 +36,7 @@ public class AliasNameConverter {
 
     public static Device response(Device device, Response response) {
         device.id = ByteUtil.getString(response.data, 0, 6);
-        device.aliasName = ByteUtil.getString(response.data, 6, 20).trim();
+        device.aliasName = ByteUtil.getString(response.data, 6, 50).trim();
         Log.d("response", "aliasName ->" + device.aliasName);
         return device;
     }

@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.out.accu.link.R;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.DataService;
@@ -92,7 +93,7 @@ class SettingsPresenter implements SettingsContract.Presenter {
         mView.hideLoadingDialog();
         getUser().username = mTmpUser.username;
         mView.showUser(getUser());
-        Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe(
@@ -105,7 +106,7 @@ class SettingsPresenter implements SettingsContract.Presenter {
         mView.hideLoadingDialog();
         getUser().mobile = mTmpUser.mobile;
         mView.showUser(getUser());
-        Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe(
@@ -116,6 +117,6 @@ class SettingsPresenter implements SettingsContract.Presenter {
     )
     public void onSetPassword(Object o) {
         mView.hideLoadingDialog();
-        Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
     }
 }

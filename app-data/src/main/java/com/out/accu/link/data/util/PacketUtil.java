@@ -1,6 +1,7 @@
 package com.out.accu.link.data.util;
 
 import com.out.accu.link.data.DataManager;
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Response;
 
 /**
@@ -119,7 +120,7 @@ public class PacketUtil {
         response.data = new byte[length];
         System.arraycopy(data, 24, response.data, 0, length);
 
-
+        AppLogger.get().d("response", "parserPacket" + (response.cmd[0]+response.cmd[1]));
         return response;
     }
 

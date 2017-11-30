@@ -75,24 +75,25 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_DEVICES)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
+                    Log.d("response", "CMD_GET_DEVICES");
                     List<Device> devices = DeviceListConverter.response(response);
-                    if(mModeData.getDevices().size() == 0) {
+                    if (mModeData.getDevices().size() == 0) {
                         mModeData.addAll(devices);
                     } else {
                         Log.d("response", "devies add");
                         // 排除相同的设备
                         boolean isFind;
                         List<Device> newDevices = new ArrayList<>();
-                        for(Device device : devices) {
+                        for (Device device : devices) {
                             isFind = false;
-                            for(Device device1 : mModeData.getDevices()) {
-                                if(device.id.equals(device1.id)) {
+                            for (Device device1 : mModeData.getDevices()) {
+                                if (device.id.equals(device1.id)) {
                                     device1.isOnline = device.isOnline;
                                     isFind = true;
                                     break;
                                 }
                             }
-                            if(!isFind) {
+                            if (!isFind) {
                                 newDevices.add(device);
                             }
                         }
@@ -149,6 +150,7 @@ public class ResponseHandler {
                     }
 
                     SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
+                    SmartBus.get().post(BusAction.UPDATE_ALIAS_NAME, device.id);
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_ALARM_ENABLE)
@@ -339,7 +341,7 @@ public class ResponseHandler {
                 .subscribe(response -> {
                     User user = new User();
                     UsernameConverter.response(user, response);
-                    if(mModeData.user == null) {
+                    if (mModeData.user == null) {
                         mModeData.user = user;
                     } else {
                         mModeData.user.username = user.username;
@@ -368,7 +370,7 @@ public class ResponseHandler {
                 .subscribe(response -> {
                     User user = new User();
                     UserMobileConverter.response(user, response);
-                    if(mModeData.user == null) {
+                    if (mModeData.user == null) {
                         mModeData.user = user;
                     } else {
                         mModeData.user.mobile = user.mobile;
@@ -415,7 +417,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_CHANNEL_RANGE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_CHANNEL, getDeviceId(response));
                     }
                 });
@@ -423,7 +425,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_VALUE_RANGE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_VALUE, getDeviceId(response));
                     }
                 });
@@ -431,7 +433,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_DEFENSE_ENABLE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_DEFENSE_ENABLE, getDeviceId(response));
                     }
                 });
@@ -439,7 +441,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOCATION)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOCATION, getDeviceId(response));
                     }
                 });
@@ -447,7 +449,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_LOW_ALARM_PARAMS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_PARAMS, getDeviceId(response));
                     }
                 });
@@ -455,7 +457,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_LOW_ALARM_ENABLE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_ENABLE, getDeviceId(response));
                     }
                 });
@@ -463,7 +465,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_ALARM_PARAMS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_PARAMS, getDeviceId(response));
                     }
                 });
@@ -471,7 +473,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_ALARM_ENABLE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_ENABLE, getDeviceId(response));
                     }
                 });
@@ -479,7 +481,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_REPORT_PERIOD)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_REPORT_PERIOD, getDeviceId(response));
                     }
                 });
@@ -487,9 +489,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_ALIAS_NAME)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
-                        SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME, getDeviceId(response));
-                    }
+                    SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME, getDeviceId(response));
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_HISTORY)
@@ -497,6 +497,8 @@ public class ResponseHandler {
                 .subscribe(response -> {
                     DeviceHistory history = HistoryConverter.response(response);
                     SmartBus.get().post(BusAction.RESP_HISTORY, history);
+                }, throwable -> {
+                    SmartBus.get().post(BusAction.RESP_HISTORY_ERROR, throwable);
                 });
     }
 

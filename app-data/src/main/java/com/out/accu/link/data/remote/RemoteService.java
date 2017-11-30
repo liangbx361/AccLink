@@ -57,7 +57,6 @@ public class RemoteService implements DataService {
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_GET_DEVICES, PacketUtil.TYPE_REQUEST, bytes))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
                 .subscribe();
     }
 
@@ -223,7 +222,6 @@ public class RemoteService implements DataService {
                 // 用户名
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_USER_NAME, PacketUtil.TYPE_REQUEST, new byte[0]))
                 .map(bytes -> mUdpHandler.send(bytes))
-                .map(success -> PacketUtil.parserPacket(mUdpHandler.receive()))
                 // 手机号
                 .map(device1 -> PacketUtil.getPacket(PacketUtil.CMD_GET_USER_PHONE, PacketUtil.TYPE_REQUEST, new byte[0]))
                 .map(bytes -> mUdpHandler.send(bytes))

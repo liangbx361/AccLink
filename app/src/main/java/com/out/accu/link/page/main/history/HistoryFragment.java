@@ -1,6 +1,7 @@
 package com.out.accu.link.page.main.history;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.utils.Utils;
 import com.out.accu.link.R;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.DeviceHistory;
+import com.out.accu.link.util.ProgressHelper;
 import com.out.accu.link.util.TimeUtil;
 
 import java.util.ArrayList;
@@ -44,6 +46,8 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
     FloatingActionButton mBtnSearch;
     SearchDialog mSearchDialog;
 
+    ProgressDialog mProgressDialog;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -64,6 +68,8 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
     @Override
     public void initView() {
         ButterKnife.bind(this, getView());
+
+        mProgressDialog = ProgressHelper.getProgressBar(getContext());
 
         mSearchDialog = new SearchDialog();
         mSearchDialog.initView(getView());
@@ -189,6 +195,16 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
             // set data
             mChart.setData(data);
         }
+    }
+
+    @Override
+    public void showLoading() {
+        mProgressDialog.show();
+    }
+
+    @Override
+    public void hideLoading() {
+        mProgressDialog.dismiss();
     }
 
     @Override

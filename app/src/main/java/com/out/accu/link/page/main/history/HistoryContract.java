@@ -16,8 +16,9 @@ import com.out.accu.link.data.mode.DeviceHistory;
 public interface HistoryContract {
 
     interface View extends SmartView {
-
         void showHistory(DeviceHistory history);
+        void showLoading();
+        void hideLoading();
     }
 
     interface Presenter extends SmartPresenter {

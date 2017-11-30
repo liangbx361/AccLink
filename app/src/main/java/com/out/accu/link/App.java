@@ -14,6 +14,8 @@ import com.cyou17173.android.component.swipe.view.SwipeLayout;
 import com.cyou17173.android.component.swipe.view.footer.LoadFinishDisplayMode;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.config.Platform;
+import com.out.accu.link.data.logger.AppLogger;
+import com.tencent.bugly.Bugly;
 
 /**
  * <p>Title: <／p>
@@ -34,6 +36,7 @@ public class App extends SmartApplication {
 
     @Override
     protected void asyncInit() {
+        AppLogger.get().setDebug(BuildConfig.DEBUG);
         DataManager.init(Platform.TEST);
 
         // SwipeView全局初始化
@@ -64,6 +67,6 @@ public class App extends SmartApplication {
 
     @Override
     protected void syncInit() {
-
+        Bugly.init(getApplicationContext(), "b08dbb8909", BuildConfig.DEBUG);
     }
 }

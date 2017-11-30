@@ -21,6 +21,8 @@ public interface BusAction {
     // 更新设备数据
     String UPDATE_DEVICE_DATA = "UPDATE_DEVICE_DATA";
 
+    String UPDATE_ALIAS_NAME = "UPDATE_ALIAS_NAME";
+
     String RESP_SET_CHANNEL = "RESP_SET_CHANNEL";
 
     String RESP_SET_VALUE = "RESP_SET_VALUE";
@@ -43,6 +45,8 @@ public interface BusAction {
     String RESP_SET_LOCATION = "RESP_SET_LOCATION";
 
     String RESP_HISTORY = "RESP_HISTORY";
+
+    String RESP_HISTORY_ERROR = "RESP_HISTORY_ERROR";
 
     String RESP_GET_USERNAME = "RESP_GET_USERNAME";
 

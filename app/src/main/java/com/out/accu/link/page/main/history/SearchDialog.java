@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.out.accu.link.R;
@@ -63,7 +64,9 @@ public class SearchDialog {
 
         List<String> deviceDesc = new ArrayList<>();
         for (Device device : mDevices) {
-            deviceDesc.add(ByteUtil.getId(device.id));
+            if(device.isOnline) {
+                deviceDesc.add(ByteUtil.getId(device.id));
+            }
         }
         ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_spinner_item, deviceDesc);
@@ -93,9 +96,23 @@ public class SearchDialog {
         });
 
         mBtnSearch.setOnClickListener(v -> {
+            if(mStartDate == null) {
+                Toast.makeText(v.getContext(), R.string.start_time_empty, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(mEndDate == null) {
+                Toast.makeText(v.getContext(), R.string.end_time_empty, Toast.LENGTH_SHORT).show();
+            }
+
+            if(mStartDate.compareTo(mEndDate) == 1) {
+                Toast.makeText(v.getContext(), R.string.start_time_must_less_end_time, Toast.LENGTH_SHORT).show();
+            }
+
             int position = mSpDevices.getSelectedItemPosition();
             String deviceId = mDevices.get(position).id;
             mOnSearchListener.onSearch(deviceId, mStartDate.getTime(), mEndDate.getTime());
+            hide();
         });
 
         mBtnCancel.setOnClickListener(v -> {

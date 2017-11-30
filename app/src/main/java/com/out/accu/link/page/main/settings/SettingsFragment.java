@@ -62,7 +62,7 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
 
         mLoadingDialog = new QMUITipDialog.Builder(getContext())
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
-                .setTipWord("修改中...")
+                .setTipWord(getResources().getString(R.string.modifying))
                 .create();
         mLoadingDialog.setCancelable(true);
     }
@@ -141,13 +141,13 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.modify_username))
                 .setInputType(InputType.TYPE_CLASS_TEXT)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
@@ -168,13 +168,13 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.modify_mobile))
                 .setInputType(InputType.TYPE_CLASS_PHONE)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
@@ -195,13 +195,13 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
         QMUIDialog dialog =new QMUIDialog.CustomDialogBuilder(getContext())
                 .setLayout(R.layout.item_password)
                 .setTitle(R.string.modify_password)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         dialog.dismiss();
                     }
                 })
-                .addAction("修改", new QMUIDialogAction.ActionListener() {
+                .addAction(R.string.modify, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         EditText mEtOldPwd = dialog.findViewById(R.id.oldPwd);

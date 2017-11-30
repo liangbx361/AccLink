@@ -1,9 +1,11 @@
 package com.out.accu.link.page.main.history;
 
-import com.cyou17173.android.arch.base.page.SmartTransformer;
+import android.widget.Toast;
+
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.out.accu.link.R;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataService;
 import com.out.accu.link.data.mode.DeviceHistory;
@@ -11,9 +13,10 @@ import com.out.accu.link.data.mode.DeviceHistory;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -32,6 +35,8 @@ class HistoryPresenter implements HistoryContract.Presenter {
     private DeviceHistory mDeviceHistory = new DeviceHistory();
     private PublishSubject<DeviceHistory> mPublishSubject;
 
+    int count = 0;
+
     HistoryPresenter(HistoryContract.View view, DataService dataService) {
         mView = view;
         mDataService = dataService;
@@ -43,23 +48,27 @@ class HistoryPresenter implements HistoryContract.Presenter {
     @Override
     public void start() {
         mPublishSubject = PublishSubject.create();
+        mPublishSubject.subscribeOn(Schedulers.io());
+        mPublishSubject.observeOn(AndroidSchedulers.mainThread());
+
         mPublishSubject
-//                .debounce(500, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
+                .debounce(1000, TimeUnit.MILLISECONDS)
                 .subscribe(history1 -> {
                     mView.showHistory(mDeviceHistory);
                 });
 
-        Observable.defer(() -> Observable.just(getTestData()))
-                .compose(SmartTransformer.applySchedulers())
-                .subscribe(history -> {
-                    mView.showHistory(history);
-                });
-
+//        Observable.defer(() -> Observable.just(getTestData()))
+//                .compose(SmartTransformer.applySchedulers())
+//                .subscribe(history -> {
+//                    mView.showHistory(history);
+//                });
     }
 
     @Override
     public void search(String deviceId, long start, long end) {
+        mView.showLoading();
+        mDeviceHistory.list.clear();
+        count=0;
         mDataService.getHistory(deviceId, start/1000, end/1000);
     }
 
@@ -70,9 +79,24 @@ class HistoryPresenter implements HistoryContract.Presenter {
             }
     )
     public void respHistory(DeviceHistory history) {
-        mDeviceHistory.deviceId = history.deviceId;
-        mDeviceHistory.list.addAll(history.list);
-        mPublishSubject.onNext(mDeviceHistory);
+        if(count == 0) {
+            mView.hideLoading();
+            count++;
+            mDeviceHistory.deviceId = history.deviceId;
+            mDeviceHistory.list.addAll(history.list);
+            mPublishSubject.onNext(mDeviceHistory);
+        }
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_HISTORY_ERROR),
+            }
+    )
+    public void respHistoryError(Object o) {
+        mView.hideLoading();
+        Toast.makeText(mView.getActivity(), R.string.fetch_history_error, Toast.LENGTH_SHORT).show();
     }
 
     public DeviceHistory getTestData() {

@@ -32,7 +32,7 @@ public class HistoryConverter {
             int length = (response.data.length - 6) / 12;
             for (int i=0; i<length; i++) {
                 int index = 6 + i*12;
-                int value = ByteUtil.getIntLow(response.data, index);
+                int value = ByteUtil.getInt(response.data, index);
                 long time = ByteUtil.formatTime(response.data, index+4);
                 DeviceHistory.Item item = new DeviceHistory.Item();
                 item.time = time;

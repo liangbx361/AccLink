@@ -70,4 +70,15 @@ class DeviceListPresenter extends SmartListPresenterImpl implements DeviceListCo
     public void onlineDevice(Device device) {
         onRemoteLoadSuccess(DataManager.getInstance().getModeData().getDevices(), true);
     }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.UPDATE_ALIAS_NAME)
+            }
+    )
+    public void updateDevice(String deviceId) {
+        ModeData modeData = DataManager.getInstance().getModeData();
+        onRemoteLoadSuccess(modeData.getDevices(), true);
+    }
 }

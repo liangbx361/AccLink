@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.out.accu.link.R;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Device;
@@ -160,7 +161,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             Device device = DataManager.getInstance().getModeData().getDevice(mDeviceId);
             device.aliasName = mSetDevice.aliasName;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -177,7 +178,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             device.channel1Range = mSetDevice.channel1Range;
             device.channel2Range = mSetDevice.channel2Range;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -193,7 +194,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             Device device = DataManager.getInstance().getModeData().getDevice(mDeviceId);
             device.valueRange = mSetDevice.valueRange;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -209,7 +210,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             Device device = DataManager.getInstance().getModeData().getDevice(mDeviceId);
             device.defenseEnable = mSetDevice.defenseEnable;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -226,7 +227,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             device.lat = mSetDevice.lat;
             device.lng = mSetDevice.lng;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -242,7 +243,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             Device device = DataManager.getInstance().getModeData().getDevice(mDeviceId);
             device.lowAlarmEnable = mSetDevice.lowAlarmEnable;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -260,7 +261,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             device.lowNotifyPhones = mSetDevice.lowNotifyPhones;
             device.lowSmsContent = mSetDevice.lowSmsContent;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -276,7 +277,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             Device device = DataManager.getInstance().getModeData().getDevice(mDeviceId);
             device.lowLowAlarmEnable = mSetDevice.lowLowAlarmEnable;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -294,7 +295,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             device.lowLowNotifyPhones = mSetDevice.lowLowNotifyPhones;
             device.lowLowSmsContent = mSetDevice.lowLowSmsContent;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -310,7 +311,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
             Device device = DataManager.getInstance().getModeData().getDevice(mDeviceId);
             device.reportPeriod = mSetDevice.reportPeriod;
             mView.showData(device);
-            Toast.makeText(mView.getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mView.getActivity(), R.string.modify_success, Toast.LENGTH_SHORT).show();
         }
     }
 
