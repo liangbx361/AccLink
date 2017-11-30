@@ -97,7 +97,7 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
         String userName = etUsername.getText().toString();
 
         if(TextUtils.isEmpty(userName)) {
-            Toast.makeText(this, "用户名不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.user_name_not_empty, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
 
@@ -108,7 +108,7 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
         String password = etPassword.getText().toString();
 
         if(TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.password_not_empty, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
 
@@ -119,14 +119,14 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
         String server = etServer.getText().toString();
 
         if(TextUtils.isEmpty(server)) {
-            Toast.makeText(this, "服务不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.server_not_empty, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
 
         try {
             InetAddress.getByName(server);
         } catch (UnknownHostException e) {
-            Toast.makeText(this, "服务格式不正确", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.server_not_correct, Toast.LENGTH_SHORT).show();
             return null;
         }
 
@@ -137,14 +137,14 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
         String port = etPort.getText().toString();
 
         if(TextUtils.isEmpty(port)) {
-            Toast.makeText(this, "端口不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.port_not_empty, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
 
         try {
             return Integer.valueOf(port);
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "端口格式不正确", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.port_not_correct, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
     }

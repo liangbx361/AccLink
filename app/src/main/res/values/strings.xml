@@ -16,6 +16,12 @@
     <string name="go">登录</string>
     <string name="login_success">登录成功</string>
     <string name="login_fail">登录失败</string>
+    <string name="user_name_not_empty">用户名不能为空</string>
+    <string name="password_not_empty">密码不能为空</string>
+    <string name="server_not_empty">服务不能为空</string>
+    <string name="server_not_correct">服务格式不正确</string>
+    <string name="port_not_empty">端口不能为空</string>
+    <string name="port_not_correct">端口格式不正确</string>
 
     <!-- 主页面 -->
     <string name="navigation_drawer_open">打开侧边导航</string>
