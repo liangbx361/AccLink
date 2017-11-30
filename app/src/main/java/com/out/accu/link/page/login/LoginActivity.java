@@ -8,7 +8,11 @@ import android.widget.Toast;
 
 import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.out.accu.link.R;
+import com.out.accu.link.data.mode.LoginInfo;
 import com.out.accu.link.util.ProgressHelper;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +32,10 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     EditText etUsername;
     @BindView(R.id.et_password)
     EditText etPassword;
+    @BindView(R.id.et_server)
+    EditText etServer;
+    @BindView(R.id.et_port)
+    EditText etPort;
     @BindView(R.id.bt_go)
     Button btGo;
 
@@ -47,8 +55,10 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     @Override
     public void initView() {
         ButterKnife.bind(this);
-        etUsername.setText("user1");
-        etPassword.setText("123456");
+//        etUsername.setText("user1");
+//        etPassword.setText("123456");
+//        etServer.setText("211.72.229.132");
+//        etPort.setText("60003");
 
         mProgressDialog = ProgressHelper.getProgressBar(this);
     }
@@ -60,7 +70,7 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     public void registerEvent() {
         btGo.setOnClickListener(view -> {
             try {
-                getPresenter().login(getUserName(), getPassword());
+                getPresenter().login(getLoginInfo());
             } catch (IllegalArgumentException ignored) {
 
             }
@@ -105,8 +115,60 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
         return password;
     }
 
+    private String getServer() throws IllegalArgumentException {
+        String server = etServer.getText().toString();
+
+        if(TextUtils.isEmpty(server)) {
+            Toast.makeText(this, "服务不能为空", Toast.LENGTH_SHORT).show();
+            throw new IllegalArgumentException("");
+        }
+
+        try {
+            InetAddress.getByName(server);
+        } catch (UnknownHostException e) {
+            Toast.makeText(this, "服务格式不正确", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        return server;
+    }
+
+    private int getPort() throws IllegalArgumentException {
+        String port = etPort.getText().toString();
+
+        if(TextUtils.isEmpty(port)) {
+            Toast.makeText(this, "端口不能为空", Toast.LENGTH_SHORT).show();
+            throw new IllegalArgumentException("");
+        }
+
+        try {
+            return Integer.valueOf(port);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "端口格式不正确", Toast.LENGTH_SHORT).show();
+            throw new IllegalArgumentException("");
+        }
+    }
+
     @Override
     public ProgressDialog getProgress() {
         return mProgressDialog;
+    }
+
+    @Override
+    public void showLoginInfo(LoginInfo loginInfo) {
+        etUsername.setText(loginInfo.user);
+        etPassword.setText(loginInfo.password);
+        etServer.setText(loginInfo.server);
+        etPort.setText(loginInfo.port+"");
+    }
+
+    @Override
+    public LoginInfo getLoginInfo() {
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.user = getUserName();
+        loginInfo.password = getPassword();
+        loginInfo.server = getServer();
+        loginInfo.port = getPort();
+        return loginInfo;
     }
 }

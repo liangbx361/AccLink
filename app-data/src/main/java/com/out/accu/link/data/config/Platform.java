@@ -45,4 +45,12 @@ public enum Platform {
     public int getPort() {
         return mPort;
     }
+
+    public void setIp(String ip) {
+        mIp = ip;
+    }
+
+    public void setPort(int port) {
+        mPort = port;
+    }
 }

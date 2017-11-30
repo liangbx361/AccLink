@@ -79,12 +79,8 @@ public class UdpHandler {
                     try {
                         byte[] buf = receive();
                         Response response = PacketUtil.parserPacket(buf);
-                        // -84
-//                        AppLogger.get().d("response", "get -->" + (response.cmd[0]+response.cmd[1]));
                         PublishSubject<Response> publishSubject = TaskQueue.getInstance().getTask(response.cmd);
-//                        AppLogger.get().d("response", "has get -->" + (response.cmd[0]+response.cmd[1]));
                         if (response.isSuccess()) {
-//                            AppLogger.get().d("response", "PublishSubject-->onNext");
                             publishSubject.onNext(response);
                         } else {
                             publishSubject.onError(new Exception());
@@ -103,8 +99,11 @@ public class UdpHandler {
      */
     public void stopReceive() {
         if (mDisposable != null) {
-            mSocket.close();
             mDisposable.dispose();
+        }
+
+        if(mSocket != null) {
+            mSocket.close();
         }
     }
 

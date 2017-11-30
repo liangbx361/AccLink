@@ -2,6 +2,7 @@ package com.out.accu.link.data.mock;
 
 import com.out.accu.link.data.DataService;
 import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.mode.LoginInfo;
 
 /**
  * <p>Title: <／p>
@@ -14,8 +15,9 @@ import com.out.accu.link.data.mode.Device;
  */
 
 public class MockService implements DataService {
+
     @Override
-    public void login(String userName, String password) {
+    public void login(LoginInfo loginInfo) {
 
     }
 
@@ -112,6 +114,16 @@ public class MockService implements DataService {
     @Override
     public void logout() {
 
+    }
+
+    @Override
+    public void saveLoginInfo(LoginInfo loginInfo) {
+
+    }
+
+    @Override
+    public LoginInfo getLoginInfo() {
+        return null;
     }
 
 //    @Override

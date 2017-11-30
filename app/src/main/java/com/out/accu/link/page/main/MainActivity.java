@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.cyou17173.android.component.common.util.fragment.FragmentInstanceManager;
 import com.out.accu.link.R;
+import com.out.accu.link.data.mode.LoginInfo;
 import com.out.accu.link.util.ExitAppController;
 
 public class MainActivity extends SmartActivity<MainContract.Presenter> implements

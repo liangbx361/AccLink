@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 
 import com.cyou17173.android.arch.base.mvp.SmartPresenter;
 import com.cyou17173.android.arch.base.mvp.SmartView;
+import com.out.accu.link.data.mode.LoginInfo;
 
 /**
  * <p>Title: </p>
@@ -19,10 +20,14 @@ public interface LoginContract {
     interface View extends SmartView {
 
         ProgressDialog getProgress();
+
+        void showLoginInfo(LoginInfo loginInfo);
+
+        LoginInfo getLoginInfo();
     }
 
     interface Presenter extends SmartPresenter {
 
-        void login(String username, String password);
+        void login(LoginInfo loginInfo);
     }
 }

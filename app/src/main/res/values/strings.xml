@@ -11,6 +11,8 @@
     <string name="login">登录</string>
     <string name="username">用户名</string>
     <string name="password">密码</string>
+    <string name="server">服务器</string>
+    <string name="port">端口</string>
     <string name="go">登录</string>
     <string name="login_success">登录成功</string>
     <string name="login_fail">登录失败</string>

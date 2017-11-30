@@ -8,6 +8,7 @@ import com.hwangjr.rxbus.thread.EventThread;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Login;
+import com.out.accu.link.data.mode.LoginInfo;
 import com.out.accu.link.router.Navigation;
 
 /**
@@ -22,6 +23,7 @@ import com.out.accu.link.router.Navigation;
 class LoginPresenter implements LoginContract.Presenter {
 
     private LoginContract.View mView;
+    private LoginInfo mLoginInfo;
 
     LoginPresenter(LoginContract.View view) {
         mView = view;
@@ -32,15 +34,10 @@ class LoginPresenter implements LoginContract.Presenter {
      */
     @Override
     public void start() {
-
-    }
-
-    @Override
-    public void login(String username, String password) {
-//        Navigation.main(mView.getActivity());
-        mView.getProgress().show();
-        DataManager.getInstance().getDataService().login(username, password);
-        DataManager.getInstance().getUdpHandler().startReceive();
+        LoginInfo loginInfo = DataManager.getInstance().getDataService().getLoginInfo();
+        if(loginInfo != null) {
+            mView.showLoginInfo(loginInfo);
+        }
     }
 
     @Subscribe(
@@ -53,8 +50,16 @@ class LoginPresenter implements LoginContract.Presenter {
         mView.getProgress().dismiss();
         if(login.isSuccess) {
             Navigation.main(mView.getActivity());
+            DataManager.getInstance().getDataService().saveLoginInfo(mLoginInfo);
         } else {
             Toast.makeText(mView.getActivity(), "登录失败", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void login(LoginInfo loginInfo) {
+        mView.getProgress().show();
+        DataManager.getInstance().getDataService().login(loginInfo);
+        mLoginInfo = loginInfo;
     }
 }

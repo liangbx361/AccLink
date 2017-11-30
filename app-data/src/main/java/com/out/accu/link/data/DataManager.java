@@ -37,7 +37,6 @@ public class DataManager {
     private DataManager(Platform platform) {
         mPlatform = platform;
         mModeData = new ModeData();
-        mUdpHandler = new UdpHandler(platform.getInet(), platform.getPort());
         mResponseHandler = new ResponseHandler(mModeData);
 
         switch (platform) {
@@ -46,11 +45,11 @@ public class DataManager {
                 break;
             case TEST:
                 ByteUtil.arrayCopy(Build.SERIAL.getBytes(), 0, deviceId, 0, 6);
-                mDataService = new RemoteService(platform, mUdpHandler);
+                mDataService = new RemoteService();
                 break;
             case RELEASE:
                 ByteUtil.arrayCopy(Build.SERIAL.getBytes(), 0, deviceId, 0, 6);
-                mDataService = new RemoteService(platform, mUdpHandler);
+                mDataService = new RemoteService();
                 break;
         }
     }
@@ -89,4 +88,7 @@ public class DataManager {
         return mUdpHandler;
     }
 
+    public void setUdpHandler(UdpHandler udpHandler) {
+        mUdpHandler = udpHandler;
+    }
 }

@@ -88,5 +88,9 @@
 
     <!-- 提示 -->
     <string name="loading">加载中...</string>
-    <string name="modifying">修复中...</string>
+    <string name="modifying">修改中...</string>
+    <string name="modify_success">修改成功</string>
+    <string name="modify_fail">修改失败</string>
+    <string name="cancel">取消</string>
+    <string name="modify">修改</string>
 </resources>

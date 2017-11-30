@@ -1,6 +1,7 @@
 package com.out.accu.link.data;
 
 import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.mode.LoginInfo;
 
 /**
  * <p>Title: <／p>
@@ -16,10 +17,8 @@ public interface DataService {
 
     /**
      * 登录
-     * @param userName 用户名
-     * @param password 密码
      */
-    void login(String userName, String password);
+    void login(LoginInfo loginInfo);
 
     /**
      * 设备列表
@@ -115,4 +114,14 @@ public interface DataService {
      * 登出
      */
     void logout();
+
+    /**
+     * 保存登录信息
+     */
+    void saveLoginInfo(LoginInfo loginInfo);
+
+    /**
+     * 获取登录信息
+     */
+    LoginInfo getLoginInfo();
 }

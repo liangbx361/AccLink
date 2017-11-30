@@ -1,7 +1,7 @@
 package com.out.accu.link.data.remote;
 
+import com.cyou17173.android.arch.base.app.Smart;
 import com.out.accu.link.data.DataService;
-import com.out.accu.link.data.config.Platform;
 import com.out.accu.link.data.converter.AliasNameConverter;
 import com.out.accu.link.data.converter.ChannelRangeConverter;
 import com.out.accu.link.data.converter.DefenseEnableConverter;
@@ -17,9 +17,13 @@ import com.out.accu.link.data.converter.ReportPeriodConverter;
 import com.out.accu.link.data.converter.UsernameConverter;
 import com.out.accu.link.data.converter.ValueRangeConverter;
 import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.mode.LoginInfo;
 import com.out.accu.link.data.udp.UdpHandler;
 import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
@@ -38,13 +42,28 @@ public class RemoteService implements DataService {
 
     private UdpHandler mUdpHandler;
 
-    public RemoteService(Platform platform, UdpHandler udpHandler) {
-        mUdpHandler = udpHandler;
+    public RemoteService() {
+
+    }
+
+    public InetAddress getInet(String host) {
+        try {
+            return InetAddress.getByName(host);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void login(String userName, String password) {
-        Observable.just(LoginConverter.request(userName, password))
+    public void login(LoginInfo loginInfo) {
+        if(mUdpHandler != null) {
+            mUdpHandler.stopReceive();
+        }
+        mUdpHandler = new UdpHandler(getInet(loginInfo.server), loginInfo.port);
+        mUdpHandler.startReceive();
+
+        Observable.just(LoginConverter.request(loginInfo.user, loginInfo.password))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_LOGIN, PacketUtil.TYPE_REQUEST, bytes))
                 .map(bytes -> mUdpHandler.send(bytes))
@@ -262,6 +281,16 @@ public class RemoteService implements DataService {
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_LOGOUT, PacketUtil.TYPE_REQUEST, bytes))
                 .map(bytes -> mUdpHandler.send(bytes))
                 .subscribe();
+    }
+
+    @Override
+    public void saveLoginInfo(LoginInfo loginInfo) {
+        Smart.getApp().getConfig().getAppConfig().saveObject("loginInfo", loginInfo);
+    }
+
+    @Override
+    public LoginInfo getLoginInfo() {
+        return Smart.getApp().getConfig().getAppConfig().readObject("loginInfo", LoginInfo.class);
     }
 
 }
