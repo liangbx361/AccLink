@@ -46,6 +46,12 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
         TextView mTvAliasName;
         @BindView(R.id.status)
         TextView mTvStatus;
+        @BindView(R.id.channel1Value)
+        TextView mTvChannel1Value;
+        @BindView(R.id.channel2Value)
+        TextView mTvChannel2Value;
+        @BindView(R.id.sampleValue)
+        TextView mTvSampleValue;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -64,6 +70,24 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
                 mTvStatus.setText(R.string.online);
             } else {
                 mTvStatus.setText(R.string.offline);
+            }
+
+            if(device.channel1Value != -1) {
+                mTvChannel1Value.setText(getContext().getResources().getString(R.string.channel1_value, device.channel1Value));
+            } else {
+                mTvChannel1Value.setText("");
+            }
+
+            if(device.channel2Value != -1) {
+                mTvChannel2Value.setText(getContext().getResources().getString(R.string.channel2_value, device.channel2Value));
+            } else {
+                mTvChannel2Value.setText("");
+            }
+
+            if(device.sampleValue != -1) {
+                mTvSampleValue.setText(getContext().getResources().getString(R.string.sample_value, device.sampleValue));
+            } else {
+                mTvSampleValue.setText("");
             }
         }
     }

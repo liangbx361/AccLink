@@ -81,4 +81,15 @@ class DeviceListPresenter extends SmartListPresenterImpl implements DeviceListCo
         ModeData modeData = DataManager.getInstance().getModeData();
         onRemoteLoadSuccess(modeData.getDevices(), true);
     }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.UPDATE_DEVICE_VALUE)
+            }
+    )
+    public void updateDeviceValue(String deviceId) {
+        ModeData modeData = DataManager.getInstance().getModeData();
+        onRemoteLoadSuccess(modeData.getDevices(), true);
+    }
 }

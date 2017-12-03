@@ -23,6 +23,8 @@ public interface BusAction {
 
     String UPDATE_ALIAS_NAME = "UPDATE_ALIAS_NAME";
 
+    String UPDATE_DEVICE_VALUE = "UPDATE_DEVICE_VALUE";
+
     String RESP_SET_CHANNEL = "RESP_SET_CHANNEL";
 
     String RESP_SET_VALUE = "RESP_SET_VALUE";

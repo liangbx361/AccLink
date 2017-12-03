@@ -18,9 +18,9 @@ public class UploadValueConverter {
 
     public static Device response(Device device, Response response) {
         device.id = ByteUtil.getString(response.data, 0, 6);
-        device.channel1Range = ByteUtil.getInt(response.data, 6);
-        device.channel2Range = ByteUtil.getInt(response.data, 10);
-        device.valueRange = ByteUtil.getInt(response.data, 14);
+        device.channel1Value = ByteUtil.getInt(response.data, 6);
+        device.channel2Value = ByteUtil.getInt(response.data, 10);
+        device.sampleValue = ByteUtil.getInt(response.data, 14);
         return device;
     }
 }

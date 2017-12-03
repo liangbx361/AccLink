@@ -86,4 +86,10 @@ public class Device {
     // 当前月总发送数据字节数
     public int currTx = -1;
 
+    public int sampleValue = -1;
+
+    public int channel1Value = -1;
+
+    public int channel2Value = -1;
+
 }

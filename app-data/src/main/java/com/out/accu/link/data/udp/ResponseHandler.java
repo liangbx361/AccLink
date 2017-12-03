@@ -384,10 +384,10 @@ public class ResponseHandler {
                     UploadValueConverter.response(device, response);
                     try {
                         Device device1 = mModeData.getDevice(device.id);
-                        device1.channel1Range = device.channel1Range;
-                        device1.channel2Range = device.channel2Range;
-                        device1.valueRange = device.valueRange;
-                        SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
+                        device1.channel1Value = device.channel1Value;
+                        device1.channel2Value = device.channel2Value;
+                        device1.sampleValue = device.sampleValue;
+                        SmartBus.get().post(BusAction.UPDATE_DEVICE_VALUE, device.id);
                     } catch (NullPointerException e) {
                         // 无法找到对应Device 需要创建一个
 //                        mModeData.addDevice(device);

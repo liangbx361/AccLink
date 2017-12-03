@@ -87,6 +87,9 @@
     <string name="off">关闭</string>
     <string name="offline">离线</string>
     <string name="online">在线</string>
+    <string name="channel1_value">频道1量程值:%d</string>
+    <string name="channel2_value">频道2量程值:%d</string>
+    <string name="sample_value">值量程值:%d</string>
 
     <!-- 历史数据页面 -->
     <string name="start_time_empty">起始时间不能为空</string>
