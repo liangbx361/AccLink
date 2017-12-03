@@ -192,7 +192,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             valueItem = mGroupListView.createItemView(getString(R.string.value_range_desc));
         }
         if (checkValue(device.valueRange, valueItem)) {
-            valueItem.setDetailText(device.valueRange + "cm");
+            valueItem.setDetailText(device.valueRange/1000 + "cm");
         }
 
         if (reportPeriodItem == null) {

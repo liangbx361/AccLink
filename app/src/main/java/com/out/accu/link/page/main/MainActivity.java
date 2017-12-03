@@ -1,6 +1,5 @@
 package com.out.accu.link.page.main;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.cyou17173.android.component.common.util.fragment.FragmentInstanceManager;
 import com.out.accu.link.R;
-import com.out.accu.link.data.mode.LoginInfo;
 import com.out.accu.link.util.ExitAppController;
 
 public class MainActivity extends SmartActivity<MainContract.Presenter> implements
@@ -80,13 +78,13 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if(!mExitAppController.onBackPressed()) {
-//                super.onBackPressed();
-//                android.os.Process.killProcess(android.os.Process.myPid());
+                super.onBackPressed();
+                android.os.Process.killProcess(android.os.Process.myPid());
 
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_MAIN);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.addCategory(Intent.CATEGORY_HOME);
+//                startActivity(intent);
             }
         }
     }

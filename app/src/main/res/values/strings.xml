@@ -2,106 +2,107 @@
     <string name="app_name">AccuLink</string>
 
     <!-- 菜单 -->
-    <string name="menu_device">设备</string>
-    <string name="menu_map">设备坐标</string>
-    <string name="menu_graph">历史数据</string>
-    <string name="menu_setting">用户设置</string>
+    <string name="menu_device">Module List</string>
+    <string name="menu_map">Map Navigation</string>
+    <string name="menu_graph">Trend</string>
+    <string name="menu_setting">User Info</string>
 
     <!-- 登录页面 -->
-    <string name="login">登录</string>
-    <string name="username">用户名</string>
-    <string name="password">密码</string>
-    <string name="server">服务器</string>
-    <string name="port">端口</string>
-    <string name="go">登录</string>
-    <string name="login_success">登录成功</string>
-    <string name="login_fail">登录失败</string>
-    <string name="user_name_not_empty">用户名不能为空</string>
-    <string name="password_not_empty">密码不能为空</string>
-    <string name="server_not_empty">服务不能为空</string>
-    <string name="server_not_correct">服务格式不正确</string>
-    <string name="port_not_empty">端口不能为空</string>
-    <string name="port_not_correct">端口格式不正确</string>
+    <string name="login">Login</string>
+    <string name="username">User ID</string>
+    <string name="password">Password</string>
+    <string name="server">Server</string>
+    <string name="port">Port</string>
+    <string name="go">Go</string>
+    <string name="login_success">Verity success!</string>
+    <string name="login_fail">Verity failed!</string>
+    <string name="user_name_not_empty">User name can\'t be empty</string>
+    <string name="password_not_empty">Password can\'t be empty</string>
+    <string name="server_not_empty">Server can\'t be empty</string>
+    <string name="server_not_correct">Server can\'t be correct</string>
+    <string name="port_not_empty">Port can\'t be empty</string>
+    <string name="port_not_correct">Port can\'t be correct</string>
 
     <!-- 主页面 -->
-    <string name="navigation_drawer_open">打开侧边导航</string>
-    <string name="navigation_drawer_close">关闭侧边导航</string>
-    <string name="action_settings">设置</string>
-    <string name="press_again_exit">再按一次退出</string>
+    <string name="navigation_drawer_open">Navigation open</string>
+    <string name="navigation_drawer_close">Navigation close</string>
+    <string name="action_settings">settings</string>
+    <string name="press_again_exit">One more exit</string>
 
     <!-- 地图 -->
-    <string name="set_device_location">标注设备坐标</string>
+    <string name="set_device_location">Marking coordinates</string>
 
     <!-- 设置页面 -->
-    <string name="modify_username">用户名</string>
-    <string name="modify_mobile">手机号</string>
-    <string name="modify_password">修改密码</string>
-    <string name="old_password">旧密码</string>
-    <string name="new_password">新密码</string>
+    <string name="modify_username">User</string>
+    <string name="modify_mobile">Phone Number</string>
+    <string name="modify_password">Modify Password</string>
+    <string name="old_password">Current password</string>
+    <string name="new_password">New Password</string>
 
     <!-- 设备页面 -->
-    <string name="fetching">获取中</string>
-    <string name="is_online_desc">连接状态</string>
-    <string name="device_name">设备名</string>
-    <string name="channel_1_range_desc">频道1量程</string>
-    <string name="channel_2_range_desc">频道2量程</string>
-    <string name="value_range_desc">值量程</string>
-    <string name="report_period_desc">上报周期</string>
-    <string name="report_period_value">%d分钟</string>
-    <string name="low_alarm_enable_desc">数据底报开关</string>
-    <string name="low_alarm_limit_value_desc">低报阈值</string>
-    <string name="low_notify_phones_desc">底报短信通知号码</string>
-    <string name="low_sms_format_desc">底报短信内容</string>
-    <string name="low_low_alarm_enable_desc">数据底底报开关</string>
-    <string name="low_low_alarm_limit_value_desc">低低报阈值</string>
-    <string name="low_low_notify_phones_desc">底底报短信通知号码</string>
-    <string name="low_low_sms_format_desc">底底报短信内容</string>
-    <string name="gps_desc">位置</string>
-    <string name="defense_enable_desc">布防状态</string>
-    <string name="temperature_desc">内部温度</string>
+    <string name="fetching">Gettig</string>
+    <string name="is_online_desc">Connect State</string>
+    <string name="device_name">Module Name</string>
+    <string name="channel_1_range_desc">PT1 Range</string>
+    <string name="channel_2_range_desc">PT2 Range</string>
+    <string name="value_range_desc">Tank Range</string>
+    <string name="report_period_desc">Collect Frequence</string>
+    <string name="report_period_value">%dMinutes</string>
+    <string name="low_alarm_enable_desc">Low Alarm</string>
+    <string name="low_alarm_limit_value_desc">Low Alarm Threshold</string>
+    <string name="low_notify_phones_desc">Low Alarm Notify Phones</string>
+    <string name="low_sms_format_desc">Low Alarm Message Content</string>
+    <string name="low_low_alarm_enable_desc">Lowest Alarm</string>
+    <string name="low_low_alarm_limit_value_desc">Lowwest Alarm Threshold</string>
+    <string name="low_low_notify_phones_desc">Lowest Alarm Notify Phones</string>
+    <string name="low_low_sms_format_desc">Lowest Alarm Message Content</string>
+    <string name="gps_desc">Position</string>
+    <string name="defense_enable_desc">Isolate State</string>
+    <string name="temperature_desc">Temperature</string>
     <string name="temperature_value">%d℃</string>
-    <string name="humidity_desc">内部湿度</string>
+    <string name="humidity_desc">Humidity</string>
     <string name="humidity_value">%d%%RH</string>
-    <string name="phone_number_desc">模块号码</string>
-    <string name="lte_status_desc">通讯状态</string>
+    <string name="phone_number_desc">Phone Number</string>
+    <string name="lte_status_desc">LTE State</string>
     <string-array name="lte_status_value">
-        <item>工作正常</item>
-        <item>模块初始化失败</item>
-        <item>不能注册网络</item>
-        <item>其他</item>
+        <item>Normal</item>
+        <item>Module initialization failed.</item>
+        <item>Cant't registed.</item>
+        <item>Unknown</item>
     </string-array>
-    <string name="lte_rssi_desc">信号强度</string>
-    <string name="lte_mode_desc">工作模式</string>
+    <string name="lte_rssi_desc">Signal</string>
+    <string name="lte_mode_desc">LTE Mode</string>
     <string-array name="lte_mode_value">
         <item>GPRS</item>
         <item>3G</item>
         <item>4G</item>
         <item>LTE</item>
     </string-array>
-    <string name="curr_tx_desc">月发送字节数</string>
+    <string name="curr_tx_desc">Monthly Flow</string>
     <string-array name="enable_switch">
         <item>@string/off</item>
         <item>@string/on</item>
     </string-array>
-    <string name="on">打开</string>
-    <string name="off">关闭</string>
-    <string name="offline">离线</string>
-    <string name="online">在线</string>
-    <string name="channel1_value">频道1量程值:%d</string>
-    <string name="channel2_value">频道2量程值:%d</string>
-    <string name="sample_value">值量程值:%d</string>
+    <string name="on">Open</string>
+    <string name="off">Close</string>
+    <string name="offline">Offline</string>
+    <string name="online">Online</string>
+
+    <string name="channel1_value">PT1 Value:%d</string>
+    <string name="channel2_value">PT2 Value:%d</string>
+    <string name="sample_value">Tank Value:%d</string>
 
     <!-- 历史数据页面 -->
-    <string name="start_time_empty">起始时间不能为空</string>
-    <string name="end_time_empty">结束时间不能为空</string>
-    <string name="start_time_must_less_end_time">起始时间必须小于结束时间</string>
-    <string name="fetch_history_error">获取历史数据失败</string>
+    <string name="start_time_empty">The start time can\'t be empty.</string>
+    <string name="end_time_empty">The end time can\'t be empty.</string>
+    <string name="start_time_must_less_end_time">The start time must be less than the end time.</string>
+    <string name="fetch_history_error">Failed to obtain history data.</string>
 
     <!-- 提示 -->
-    <string name="loading">加载中...</string>
-    <string name="modifying">修改中...</string>
-    <string name="modify_success">修改成功</string>
-    <string name="modify_fail">修改失败</string>
-    <string name="cancel">取消</string>
-    <string name="modify">修改</string>
+    <string name="loading">Loading...</string>
+    <string name="modifying">Revising...</string>
+    <string name="modify_success">Modify Success.</string>
+    <string name="modify_fail">Modify Failed.</string>
+    <string name="cancel">Cancel</string>
+    <string name="modify">Modify</string>
 </resources>

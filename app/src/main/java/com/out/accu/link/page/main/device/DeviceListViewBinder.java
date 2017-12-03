@@ -73,19 +73,22 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
             }
 
             if(device.channel1Value != -1) {
-                mTvChannel1Value.setText(getContext().getResources().getString(R.string.channel1_value, device.channel1Value));
+                mTvChannel1Value.setText(getContext().getResources().getString(R.string.channel1_value,
+                        device.channel1Value/1000));
             } else {
                 mTvChannel1Value.setText("");
             }
 
             if(device.channel2Value != -1) {
-                mTvChannel2Value.setText(getContext().getResources().getString(R.string.channel2_value, device.channel2Value));
+                mTvChannel2Value.setText(getContext().getResources().getString(R.string.channel2_value,
+                        device.channel2Value/1000));
             } else {
                 mTvChannel2Value.setText("");
             }
 
             if(device.sampleValue != -1) {
-                mTvSampleValue.setText(getContext().getResources().getString(R.string.sample_value, device.sampleValue));
+                mTvSampleValue.setText(getContext().getResources().getString(R.string.sample_value,
+                        device.sampleValue/1000));
             } else {
                 mTvSampleValue.setText("");
             }
