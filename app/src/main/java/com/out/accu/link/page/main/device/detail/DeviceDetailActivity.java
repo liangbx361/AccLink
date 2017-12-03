@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import com.cyou17173.android.arch.base.page.SmartStateActivity;
 import com.out.accu.link.R;
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.util.ContentHelper;
+import com.out.accu.link.util.DeviceUtil;
 import com.out.accu.link.util.NumberUtil;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -83,7 +83,6 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         getPresenter().initArgument();
 
         mQMUITopBar = findViewById(R.id.topbar);
-        mQMUITopBar.setTitle(ByteUtil.getId(getPresenter().getDevice().id));
 
         mLoadingDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
@@ -164,6 +163,8 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     @Override
     public void showData(Device device) {
+        mQMUITopBar.setTitle(DeviceUtil.getDeviceName(device));
+
         mGroupListView.removeAllViews();
 
         if (deviceNameItem == null) {
