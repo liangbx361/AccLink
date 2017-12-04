@@ -12,6 +12,7 @@ import com.out.accu.link.R;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.router.Navigation;
 import com.out.accu.link.util.DeviceUtil;
+import com.out.accu.link.util.NumberUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,24 +74,30 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
             }
 
             if(device.channel1Value != -1) {
-                mTvChannel1Value.setText(getContext().getResources().getString(R.string.channel1_value,
-                        device.channel1Value/1000));
+                String value = NumberUtil.formateInt(device.channel1Value);
+                mTvChannel1Value.setText(getContext().getResources().getString(R.string.channel1_value, value));
+                mTvChannel1Value.setVisibility(View.VISIBLE);
             } else {
                 mTvChannel1Value.setText("");
+                mTvChannel1Value.setVisibility(View.GONE);
             }
 
             if(device.channel2Value != -1) {
-                mTvChannel2Value.setText(getContext().getResources().getString(R.string.channel2_value,
-                        device.channel2Value/1000));
+                String value = NumberUtil.formateInt(device.channel2Value);
+                mTvChannel2Value.setText(getContext().getResources().getString(R.string.channel2_value, value));
+                mTvChannel2Value.setVisibility(View.VISIBLE);
             } else {
                 mTvChannel2Value.setText("");
+                mTvChannel2Value.setVisibility(View.GONE);
             }
 
             if(device.sampleValue != -1) {
                 mTvSampleValue.setText(getContext().getResources().getString(R.string.sample_value,
                         device.sampleValue/1000));
+                mTvSampleValue.setVisibility(View.VISIBLE);
             } else {
                 mTvSampleValue.setText("");
+                mTvSampleValue.setVisibility(View.GONE);
             }
         }
     }

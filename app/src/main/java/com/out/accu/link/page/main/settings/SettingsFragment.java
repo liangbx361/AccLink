@@ -67,6 +67,12 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
         mLoadingDialog.setCancelable(true);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPresenter().start();
+    }
+
     /**
      * 注册事件，如事件监听、广播接收等
      */

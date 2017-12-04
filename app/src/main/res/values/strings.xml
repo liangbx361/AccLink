@@ -88,9 +88,9 @@
     <string name="offline">Offline</string>
     <string name="online">Online</string>
 
-    <string name="channel1_value">PT1 Value:%d</string>
-    <string name="channel2_value">PT2 Value:%d</string>
-    <string name="sample_value">Tank Value:%d</string>
+    <string name="channel1_value">PT1 Value:%skg</string>
+    <string name="channel2_value">PT2 Value:%skg</string>
+    <string name="sample_value">Tank Value:%dcm</string>
 
     <!-- 历史数据页面 -->
     <string name="start_time_empty">The start time can\'t be empty.</string>

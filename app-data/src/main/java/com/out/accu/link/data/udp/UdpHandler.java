@@ -80,11 +80,7 @@ public class UdpHandler {
                         byte[] buf = receive();
                         Response response = PacketUtil.parserPacket(buf);
                         PublishSubject<Response> publishSubject = TaskQueue.getInstance().getTask(response.cmd);
-                        if (response.isSuccess()) {
-                            publishSubject.onNext(response);
-                        } else {
-                            publishSubject.onError(new Exception());
-                        }
+                        publishSubject.onNext(response);
                         return response;
                     } catch (Exception e) {
                         e.printStackTrace();

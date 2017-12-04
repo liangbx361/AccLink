@@ -329,7 +329,11 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         }
         if(checkValue(device.lteStatus, lteStatusItem)) {
             String status[] = getResources().getStringArray(R.array.lte_status_value);
-            lteStatusItem.setDetailText(status[device.lteStatus]);
+            try {
+                lteStatusItem.setDetailText(status[device.lteStatus]);
+            } catch (Exception e) {
+                lteStatusItem.setDetailText(status[3]);
+            }
         }
 
         if (lteRssiItem == null) {

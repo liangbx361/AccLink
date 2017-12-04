@@ -14,6 +14,8 @@ public interface BusAction {
 
     String RESP_LOGIN = "RESP_LOGIN";
 
+    String RESP_LOGIN_FAIL = "RESP_LOGIN_FAIL";
+
     String RESP_DEVICES = "RESP_DEVICES";
 
     String ONLINE_DEVICE = "ONLINE_DEVICE";
@@ -41,6 +43,8 @@ public interface BusAction {
     String RESP_SET_LOW_LOW_ALARM_PARAMS = "RESP_SET_LOW_LOW_ALARM_PARAMS";
 
     String RESP_SET_ALIAS_NAME = "RESP_SET_ALIAS_NAME";
+
+    String RESP_SET_ALIAS_NAME_FAIL = "RESP_SET_ALIAS_NAME_FAIL";
 
     String RESP_SET_DEFENSE_ENABLE = "RESP_SET_DEFENSE_ENABLE";
 
