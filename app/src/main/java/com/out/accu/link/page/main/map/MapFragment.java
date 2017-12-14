@@ -113,7 +113,7 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
                 .addItems(deviceIds, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getPresenter().setLocation(devices.get(which).id, lat, lng);
+                        getPresenter().setLocation(devices.get(which).idBytes, lat, lng);
                         dialog.dismiss();
                     }
                 })

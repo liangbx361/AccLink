@@ -21,6 +21,6 @@ public interface MapContract {
     }
 
     interface Presenter extends SmartPresenter {
-        void setLocation(String deviceId, double lat, double lng);
+        void setLocation(byte[] deviceId, double lat, double lng);
     }
 }

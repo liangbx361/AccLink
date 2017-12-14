@@ -18,15 +18,15 @@ import com.out.accu.link.data.util.ByteUtil;
 
 public class ReportPeriodConverter {
 
-    public static byte[] request(String id, int reportPeriod) {
+    public static byte[] request(byte[] deviceId, int reportPeriod) {
         byte[] data = new byte[10];
-        ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
+        ByteUtil.arrayCopy(deviceId, 0, data, 0, 6);
         ByteUtil.arrayCopy(ByteUtil.intToByte(reportPeriod), 0, data, 6, 4);
         return data;
     }
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.reportPeriod = ByteUtil.getInt(response.data, 6);
         Log.d("response", "device id ->" + ByteUtil.getId(device.id));
         Log.d("response", "reportPeriod ->" + device.reportPeriod);

@@ -16,10 +16,10 @@ import com.out.accu.link.data.util.ByteUtil;
 
 public class HistoryConverter {
 
-    public static byte[] request(String deviceId, long startTime, long endTime) {
+    public static byte[] request(byte[] deviceId, long startTime, long endTime) {
         byte[] data = new byte[22];
 
-        ByteUtil.arrayCopy(deviceId.getBytes(), 0, data, 0, 6);
+        ByteUtil.arrayCopy(deviceId, 0, data, 0, 6);
         ByteUtil.arrayCopy(ByteUtil.formatTime(startTime), 0, data, 6, 8);
         ByteUtil.arrayCopy(ByteUtil.formatTime(endTime), 0, data, 14, 8);
         return data;
@@ -27,7 +27,7 @@ public class HistoryConverter {
 
     public static DeviceHistory response(Response response) {
         DeviceHistory history = new DeviceHistory();
-        history.deviceId = ByteUtil.getString(response.data, 0, 6);
+        history.deviceId = ByteUtil.getIdString(response.data, 0, 6);
         if(response.data.length > 0) {
             int length = (response.data.length - 6) / 12;
             for (int i=0; i<length; i++) {

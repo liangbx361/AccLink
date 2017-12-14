@@ -20,10 +20,10 @@ import java.io.UnsupportedEncodingException;
 
 public class AliasNameConverter {
 
-    public static byte[] request(String id, String name) {
+    public static byte[] request(byte[] deviceId, String name) {
         try {
             byte[] data = new byte[56];
-            ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
+            ByteUtil.arrayCopy(deviceId, 0, data, 0, 6);
             ByteUtil.arrayCopy(name.getBytes("GB2312"), 0, data, 6, 50);
             return data;
         } catch (UnsupportedEncodingException e) {
@@ -35,7 +35,7 @@ public class AliasNameConverter {
     }
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.aliasName = ByteUtil.getString(response.data, 6, 50).trim();
         Log.d("response", "aliasName ->" + device.aliasName);
         return device;

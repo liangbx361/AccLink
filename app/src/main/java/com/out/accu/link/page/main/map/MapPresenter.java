@@ -8,6 +8,7 @@ import com.hwangjr.rxbus.thread.EventThread;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.util.ByteUtil;
 
 /**
  * <p>Title: </p>
@@ -36,9 +37,10 @@ class MapPresenter implements MapContract.Presenter {
     }
 
     @Override
-    public void setLocation(String deviceId, double lat, double lng) {
+    public void setLocation(byte[] deviceId, double lat, double lng) {
         mView.showLoadingDialog();
-        mDevice.id = deviceId;
+        mDevice.id = ByteUtil.getIdString(deviceId);
+        mDevice.idBytes = deviceId;
         mDevice.lat = lat;
         mDevice.lng = lng;
         DataManager.getInstance().getDataService().setGps(deviceId, lat, lng);

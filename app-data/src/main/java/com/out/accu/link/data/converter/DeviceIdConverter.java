@@ -11,14 +11,15 @@ import com.out.accu.link.data.util.ByteUtil;
  * <p>Company: <／p>
  *
  * @author liangbx
- * @version 2017/10/31
+ * @version 2017/12/14
  */
 
-public class TxConverter {
+public class DeviceIdConverter {
 
-    public static Device response(Device device, Response response) {
-        DeviceIdConverter.convert(device, response);
-        device.currTx = ByteUtil.getInt(response.data, 6);
-        return device;
+    public static void convert(Device device, Response response) {
+        byte[] idBytes = new byte[6];
+        ByteUtil.arrayCopy(response.data, 0, idBytes, 0, 6);
+        device.id = ByteUtil.getIdString(idBytes);
+        device.idBytes = idBytes;
     }
 }

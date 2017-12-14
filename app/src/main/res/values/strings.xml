@@ -22,6 +22,8 @@
     <string name="server_not_correct">Server can\'t be correct</string>
     <string name="port_not_empty">Port can\'t be empty</string>
     <string name="port_not_correct">Port can\'t be correct</string>
+    <string name="show_server_info">Modify Server Settings</string>
+    <string name="hide_server_info">Hide Server Settings</string>
 
     <!-- 主页面 -->
     <string name="navigation_drawer_open">Navigation open</string>
@@ -43,8 +45,8 @@
     <string name="fetching">Gettig</string>
     <string name="is_online_desc">Connect State</string>
     <string name="device_name">Module Name</string>
-    <string name="channel_1_range_desc">PT1 Range</string>
-    <string name="channel_2_range_desc">PT2 Range</string>
+    <string name="channel_1_range_desc">High End Range</string>
+    <string name="channel_2_range_desc">Low End Range</string>
     <string name="value_range_desc">Tank Range</string>
     <string name="report_period_desc">Collect Frequence</string>
     <string name="report_period_value">%dMinutes</string>
@@ -83,14 +85,14 @@
         <item>@string/off</item>
         <item>@string/on</item>
     </string-array>
-    <string name="on">Open</string>
-    <string name="off">Close</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
     <string name="offline">Offline</string>
     <string name="online">Online</string>
 
-    <string name="channel1_value">PT1 Value:%skg</string>
-    <string name="channel2_value">PT2 Value:%skg</string>
-    <string name="sample_value">Tank Value:%dcm</string>
+    <string name="channel1_value">High_End:%skg</string>
+    <string name="channel2_value">Low_End:%skg</string>
+    <string name="sample_value">Tank Level:%dcm</string>
 
     <!-- 历史数据页面 -->
     <string name="start_time_empty">The start time can\'t be empty.</string>
@@ -105,4 +107,13 @@
     <string name="modify_fail">Modify Failed.</string>
     <string name="cancel">Cancel</string>
     <string name="modify">Modify</string>
+
+    <string name="pickerview_cancel">Cancel</string>
+    <string name="pickerview_day"></string>
+    <string name="pickerview_hours"></string>
+    <string name="pickerview_minutes"></string>
+    <string name="pickerview_month"></string>
+    <string name="pickerview_seconds"></string>
+    <string name="pickerview_submit">OK</string>
+    <string name="pickerview_year"></string>
 </resources>

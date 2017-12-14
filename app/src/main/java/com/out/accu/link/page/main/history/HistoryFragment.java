@@ -3,20 +3,18 @@ package com.out.accu.link.page.main.history;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 
 import com.cyou17173.android.arch.base.page.SmartFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.out.accu.link.R;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.DeviceHistory;
@@ -126,6 +124,20 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSearchDialog.updateDevices();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden) {
+            mSearchDialog.updateDevices();
+        }
+    }
+
     /**
      * 注销事件
      */
@@ -145,9 +157,17 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
     @Override
     public void showHistory(DeviceHistory history) {
 
+        if(history.list == null) {
+            return;
+        }
+
+        if(history.list.size() == 0) {
+            return;
+        }
+
         ArrayList<Entry> values = new ArrayList<>();
         for(DeviceHistory.Item item : history.list) {
-            Entry entry = new Entry(item.time, item.value);
+            Entry entry = new Entry(item.time, item.value/1000);
             values.add(entry);
         }
 
@@ -164,27 +184,36 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
             set1.setDrawIcons(false);
 
             // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f);
-            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            set1.setColor(Color.BLACK);
-            set1.setCircleColor(Color.BLACK);
-            set1.setLineWidth(1f);
-            set1.setCircleRadius(3f);
-            set1.setDrawCircleHole(false);
-            set1.setValueTextSize(9f);
-            set1.setDrawFilled(true);
-            set1.setFormLineWidth(1f);
-            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-            set1.setFormSize(15.f);
+//            set1.enableDashedLine(10f, 5f, 0f);
+//            set1.enableDashedHighlightLine(10f, 5f, 0f);
+//            set1.setColor(Color.BLACK);
+//            set1.setCircleColor(Color.BLACK);
+//            set1.setLineWidth(1f);
+//            set1.setCircleRadius(3f);
+//            set1.setDrawCircleHole(false);
+//            set1.setValueTextSize(9f);
+//            set1.setDrawFilled(true);
+//            set1.setFormLineWidth(1f);
+//            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+//            set1.setFormSize(15.f);
 
-            if (Utils.getSDKInt() >= 18) {
-                // fill drawable only supported on api level 18 and above
-                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_red);
-                set1.setFillDrawable(drawable);
-            }
-            else {
-                set1.setFillColor(Color.BLACK);
-            }
+            set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+            set1.setColor(ColorTemplate.getHoloBlue());
+            set1.setCircleColor(Color.WHITE);
+            set1.setLineWidth(2f);
+            set1.setCircleRadius(3f);
+            set1.setFillAlpha(65);
+            set1.setFillColor(ColorTemplate.getHoloBlue());
+            set1.setHighLightColor(Color.rgb(244, 117, 117));
+            set1.setDrawCircleHole(false);
+
+//            if (Utils.getSDKInt() >= 18) {
+//                // fill drawable only supported on api level 18 and above
+//                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_red);
+//                set1.setFillDrawable(drawable);
+//            } else {
+//                set1.setFillColor(Color.BLACK);
+//            }
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1); // add the datasets
@@ -208,7 +237,7 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
     }
 
     @Override
-    public void onSearch(String id, long start, long end) {
+    public void onSearch(byte[] id, long start, long end) {
         getPresenter().search(id, start, end);
     }
 }

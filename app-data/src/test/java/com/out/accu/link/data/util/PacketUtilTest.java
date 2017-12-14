@@ -26,9 +26,10 @@ public class PacketUtilTest {
 
     @Test
     public void receive() throws Exception {
-        int count = 1;
-        byte[] receive = PacketUtil.receive();
-        System.out.println(6);
+        System.out.println(PacketUtil.CMD_DEVICE_VALUE_UPLOAD[0]+PacketUtil.CMD_DEVICE_VALUE_UPLOAD[1]);
+        System.out.println(PacketUtil.CMD_SET_CHANNEL_RANGE[0]+PacketUtil.CMD_SET_CHANNEL_RANGE[1]);
+
+
     }
 
 }

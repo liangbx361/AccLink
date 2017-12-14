@@ -23,6 +23,6 @@ public interface HistoryContract {
 
     interface Presenter extends SmartPresenter {
 
-        void search(String deviceId, long start, long end);
+        void search(byte[] deviceId, long start, long end);
     }
 }

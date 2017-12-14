@@ -24,6 +24,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
     private DeviceDetailContract.View mView;
     private Device mDevice;
     private String mDeviceId;
+    private byte[] mDeviceIdBytes;
     private Device mSetDevice = new Device();
 
     DeviceDetailPresenter(DeviceDetailContract.View view) {
@@ -36,6 +37,7 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
     @Override
     public void start() {
         mDevice = DataManager.getInstance().getModeData().getDevice(mDeviceId);
+        mDeviceIdBytes = mDevice.idBytes;
         mView.showData(mDevice);
     }
 
@@ -80,28 +82,28 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
         mSetDevice.channel1Range = channel1;
         mSetDevice.channel2Range = channel2;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setChannel(mDeviceId, channel1, channel2);
+        DataManager.getInstance().getDataService().setChannel(mDeviceIdBytes, channel1, channel2);
     }
 
     @Override
     public void setValueRange(int value) {
         mSetDevice.valueRange = value;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setValue(mDeviceId, value);
+        DataManager.getInstance().getDataService().setValue(mDeviceIdBytes, value);
     }
 
     @Override
     public void setReportPeriod(int period) {
         mSetDevice.reportPeriod = period;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setReportPeriod(mDeviceId, period);
+        DataManager.getInstance().getDataService().setReportPeriod(mDeviceIdBytes, period);
     }
 
     @Override
     public void setLowAlarmEnable(boolean enable) {
         mSetDevice.lowAlarmEnable = enable ? 1 : 0;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setLowAlarmEnable(mDeviceId, enable);
+        DataManager.getInstance().getDataService().setLowAlarmEnable(mDeviceIdBytes, enable);
     }
 
     @Override
@@ -110,14 +112,14 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
         mSetDevice.lowNotifyPhones = phones;
         mSetDevice.lowSmsContent = sms;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setLowAlarmLimitValue(mDeviceId, value, phones, sms);
+        DataManager.getInstance().getDataService().setLowAlarmLimitValue(mDeviceIdBytes, value, phones, sms);
     }
 
     @Override
     public void setLowLowAlarmEnable(boolean enable) {
         mSetDevice.lowLowAlarmEnable = enable ? 1 : 0;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setLowLowAlarmEnable(mDeviceId, enable);
+        DataManager.getInstance().getDataService().setLowLowAlarmEnable(mDeviceIdBytes, enable);
     }
 
     @Override
@@ -126,27 +128,27 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
         mSetDevice.lowLowNotifyPhones = phones;
         mSetDevice.lowLowSmsContent = sms;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setLowLowAlarmLimitValue(mDeviceId, value, phones, sms);
+        DataManager.getInstance().getDataService().setLowLowAlarmLimitValue(mDeviceIdBytes, value, phones, sms);
     }
 
     @Override
     public void setGps(double lat, double lot) {
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setGps(mDeviceId, lat, lot);
+        DataManager.getInstance().getDataService().setGps(mDeviceIdBytes, lat, lot);
     }
 
     @Override
     public void setDefenseEnable(boolean enable) {
         mSetDevice.defenseEnable = enable ? 1:0;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setDefenseEnable(mDeviceId, enable);
+        DataManager.getInstance().getDataService().setDefenseEnable(mDeviceIdBytes, enable);
     }
 
     @Override
     public void setAliasName(String name) {
         mSetDevice.aliasName = name;
         mView.showLoadingDialog();
-        DataManager.getInstance().getDataService().setAliasName(mDeviceId, name);
+        DataManager.getInstance().getDataService().setAliasName(mDeviceIdBytes, name);
     }
 
     @Subscribe(

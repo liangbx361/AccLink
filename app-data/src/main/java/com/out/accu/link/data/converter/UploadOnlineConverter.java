@@ -2,7 +2,6 @@ package com.out.accu.link.data.converter;
 
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
-import com.out.accu.link.data.util.ByteUtil;
 
 /**
  * <p>Title: <／p>
@@ -17,7 +16,7 @@ import com.out.accu.link.data.util.ByteUtil;
 public class UploadOnlineConverter {
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.isOnline = true;
         return device;
     }

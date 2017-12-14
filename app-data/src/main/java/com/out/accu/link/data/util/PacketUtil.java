@@ -34,10 +34,10 @@ public class PacketUtil {
     public static int HEADER_LENGTH = 18;
     public static int FLAG_END_LENGTH = 6;
 
-    public static byte[] CMD_DEVICE_VALUE_UPLOAD = {(byte) 0xA1, 0x01};
-    public static byte[] CMD_DEVICE_ONLINE_UPLOAD = {(byte) 0xA1, 0x05};
+    public static byte[] CMD_DEVICE_VALUE_UPLOAD = {(byte) 0xA1, 0x01}; // -94
+    public static byte[] CMD_DEVICE_ONLINE_UPLOAD = {(byte) 0xA1, 0x05}; // -90
 
-    public static byte[] CMD_SET_CHANNEL_RANGE = {(byte) 0xA2, 0x01};
+    public static byte[] CMD_SET_CHANNEL_RANGE = {(byte) 0xA2, 0x01}; // -93
     public static byte[] CMD_SET_VALUE_RANGE = {(byte) 0xA2, 0x02};
     public static byte[] CMD_SET_REPORT_PERIOD = {(byte) 0xA2, 0x03};
     public static byte[] CMD_SET_LOW_ALARM_ENABLE = {(byte) 0xA2, 0x04};
@@ -116,11 +116,11 @@ public class PacketUtil {
         response.type = type;
         response.code = code;
         response.cmd = cmd;
-        int length = (data[2] + (data[3] << 8)) - 18;
+        int length = ByteUtil.getShort(data, 2) - 18;
         response.data = new byte[length];
         System.arraycopy(data, 24, response.data, 0, length);
 
-        AppLogger.get().d("response", "parserPacket" + (response.cmd[0]+response.cmd[1]));
+        AppLogger.get().d("response", "cmd ->" + ByteUtil.getCmd(cmd[0], cmd[1]));
         return response;
     }
 

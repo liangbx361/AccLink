@@ -1,5 +1,6 @@
 package com.out.accu.link.page.main.history;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -11,6 +12,7 @@ import com.out.accu.link.data.DataService;
 import com.out.accu.link.data.mode.DeviceHistory;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -54,18 +56,14 @@ class HistoryPresenter implements HistoryContract.Presenter {
         mPublishSubject
                 .debounce(1000, TimeUnit.MILLISECONDS)
                 .subscribe(history1 -> {
+                    mView.hideLoading();
+                    Log.d("HistoryPresenter", "update");
                     mView.showHistory(mDeviceHistory);
                 });
-
-//        Observable.defer(() -> Observable.just(getTestData()))
-//                .compose(SmartTransformer.applySchedulers())
-//                .subscribe(history -> {
-//                    mView.showHistory(history);
-//                });
     }
 
     @Override
-    public void search(String deviceId, long start, long end) {
+    public void search(byte[] deviceId, long start, long end) {
         mView.showLoading();
         mDeviceHistory.list.clear();
         count=0;
@@ -79,13 +77,14 @@ class HistoryPresenter implements HistoryContract.Presenter {
             }
     )
     public void respHistory(DeviceHistory history) {
-        if(count == 0) {
-            mView.hideLoading();
             count++;
             mDeviceHistory.deviceId = history.deviceId;
             mDeviceHistory.list.addAll(history.list);
+            mPublishSubject.doOnNext(history1 -> {
+                // 时间比较
+                Collections.sort(mDeviceHistory.list, (o1, o2) -> o1.time > o2.time ? 1 : -1);
+            });
             mPublishSubject.onNext(mDeviceHistory);
-        }
     }
 
     @Subscribe(

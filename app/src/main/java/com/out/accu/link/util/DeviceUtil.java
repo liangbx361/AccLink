@@ -3,7 +3,6 @@ package com.out.accu.link.util;
 import android.text.TextUtils;
 
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.util.ByteUtil;
 
 /**
  * <p>Title: <／p>
@@ -18,7 +17,7 @@ import com.out.accu.link.data.util.ByteUtil;
 public class DeviceUtil {
 
     public static String getDeviceName(Device device) {
-        String id = ByteUtil.getId(device.id);
+        String id = device.id;
         if(TextUtils.isEmpty(device.aliasName)) {
             return id;
         } else {

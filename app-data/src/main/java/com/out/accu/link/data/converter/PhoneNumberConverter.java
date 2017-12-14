@@ -24,7 +24,7 @@ public class PhoneNumberConverter {
     }
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.phoneNumber = ByteUtil.getString(response.data, 6, 20);
         return device;
     }

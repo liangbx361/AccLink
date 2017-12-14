@@ -15,6 +15,9 @@ public class Device {
     // 设备ID
     public String id;
 
+    // 设备ID字节
+    public byte[] idBytes;
+
     // 模块别名
     public String aliasName;
 
@@ -92,4 +95,5 @@ public class Device {
 
     public int channel2Value = -1;
 
+    public String samplePercent;
 }

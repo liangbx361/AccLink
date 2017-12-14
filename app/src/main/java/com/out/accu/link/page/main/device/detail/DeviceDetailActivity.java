@@ -222,7 +222,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             lowAlarmLimitValueItem = mGroupListView.createItemView(getString(R.string.low_alarm_limit_value_desc));
         }
         if (checkValue(device.lowAlarmLimitValue, lowAlarmEnableItem)) {
-            lowAlarmLimitValueItem.setDetailText(device.lowAlarmLimitValue + "");
+            lowAlarmLimitValueItem.setDetailText(device.lowAlarmLimitValue + "cm");
         }
 
         if (lowNotifyPhonesItem == null) {
@@ -261,7 +261,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             lowLowAlarmLimitValueItem = mGroupListView.createItemView(getString(R.string.low_alarm_limit_value_desc));
         }
         if(checkValue(device.lowLowAlarmLimitValue, lowLowAlarmLimitValueItem)) {
-            lowLowAlarmLimitValueItem.setDetailText(device.lowLowAlarmLimitValue + "");
+            lowLowAlarmLimitValueItem.setDetailText(device.lowLowAlarmLimitValue + "cm");
         }
 
         if (lowLowNotifyPhonesItem == null) {
@@ -307,14 +307,14 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             temperatureItem = mGroupListView.createItemView(getString(R.string.temperature_desc));
         }
         if(checkValue(device.temperature, temperatureItem)) {
-            temperatureItem.setDetailText(getResources().getString(R.string.temperature_value, device.temperature));
+            temperatureItem.setDetailText(getResources().getString(R.string.temperature_value, device.temperature/1000));
         }
 
         if (humidityItem == null) {
             humidityItem = mGroupListView.createItemView(getString(R.string.humidity_desc));
         }
         if(checkValue(device.humidity, humidityItem)) {
-            humidityItem.setDetailText(getResources().getString(R.string.humidity_value, device.humidity));
+            humidityItem.setDetailText(getResources().getString(R.string.humidity_value, device.humidity/1000));
         }
 
         if (phoneNumberItem == null) {
@@ -377,7 +377,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 .addItemView(temperatureItem, this)
                 .addItemView(humidityItem, this)
                 .addItemView(phoneNumberItem, this)
-                .addItemView(lteStatusItem, this)
+//                .addItemView(lteStatusItem, this)
                 .addItemView(lteRssiItem, this)
                 .addItemView(lteModeItem, this)
                 .addItemView(currTxItem, this)
@@ -552,7 +552,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                         CharSequence text = builder.getEditText().getText();
                         try {
                             int value = Integer.valueOf(text.toString());
-                            getPresenter().setValueRange(value);
+                            getPresenter().setValueRange(value * 1000);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -561,7 +561,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(getPresenter().getDevice().valueRange + "");
+        builder.getEditText().setText(getPresenter().getDevice().valueRange / 1000 + "");
     }
 
     private void showReportPeriodDialog() {

@@ -17,7 +17,7 @@ import com.out.accu.link.data.util.ByteUtil;
 public class UploadValueConverter {
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.channel1Value = ByteUtil.getInt(response.data, 6);
         device.channel2Value = ByteUtil.getInt(response.data, 10);
         device.sampleValue = ByteUtil.getInt(response.data, 14);

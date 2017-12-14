@@ -37,9 +37,7 @@ class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void start() {
         LoginInfo loginInfo = DataManager.getInstance().getDataService().getLoginInfo();
-        if(loginInfo != null) {
-            mView.showLoginInfo(loginInfo);
-        }
+        mView.showLoginInfo(loginInfo);
     }
 
     @Subscribe(
@@ -50,7 +48,7 @@ class LoginPresenter implements LoginContract.Presenter {
     )
     public void onLogin(Login login) {
         mView.getProgress().dismiss();
-        if(login.isSuccess) {
+        if (login.isSuccess) {
             Navigation.main(mView.getActivity());
             DataManager.getInstance().getDataService().saveLoginInfo(mLoginInfo);
         } else {

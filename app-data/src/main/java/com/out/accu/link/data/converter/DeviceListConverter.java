@@ -36,11 +36,14 @@ public class DeviceListConverter {
         int length = response.data.length / 7;
         for(int i=0; i<length; i++) {
             Device device = new Device();
-            device.id = ByteUtil.getString(response.data, i*7, 6);
+            byte[] idBytes = new byte[6];
+            ByteUtil.arrayCopy(response.data, i*7, idBytes, 0, 6);
+            device.id = ByteUtil.getIdString(idBytes).toUpperCase();
+            device.idBytes = idBytes;
             device.isOnline = response.data[i * 7 + 6] == 1;
             devices.add(device);
 
-            Log.d("response", "devices ->" + ByteUtil.getId(device.id));
+            Log.d("response", "devices ->" + device.id);
         }
 
         return devices;

@@ -18,16 +18,16 @@ import com.out.accu.link.data.util.ByteUtil;
 
 public class ChannelRangeConverter {
 
-    public static byte[] request(String deviceId, int value1, int value2) {
+    public static byte[] request(byte[] deviceId, int value1, int value2) {
         byte[] data = new byte[14];
-        ByteUtil.arrayCopy(deviceId.getBytes(), 0, data, 0, 6);
+        ByteUtil.arrayCopy(deviceId, 0, data, 0, 6);
         ByteUtil.arrayCopy(ByteUtil.intToByte(value1), 0, data, 6, 4);
         ByteUtil.arrayCopy(ByteUtil.intToByte(value1), 0, data, 10, 4);
         return data;
     }
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.channel1Range = ByteUtil.getInt(response.data, 6);
         device.channel2Range = ByteUtil.getInt(response.data, 10);
         Log.d("response", "device id ->" + ByteUtil.getId(device.id));

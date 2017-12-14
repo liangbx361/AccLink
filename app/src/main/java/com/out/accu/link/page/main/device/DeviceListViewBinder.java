@@ -92,8 +92,11 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
             }
 
             if(device.sampleValue != -1) {
-                mTvSampleValue.setText(getContext().getResources().getString(R.string.sample_value,
-                        device.sampleValue/1000));
+                String value = getContext().getResources().getString(R.string.sample_value, device.sampleValue/1000);
+                if(device.samplePercent != null) {
+                    value += " [" + device.samplePercent + "%]";
+                }
+                mTvSampleValue.setText(value);
                 mTvSampleValue.setVisibility(View.VISIBLE);
             } else {
                 mTvSampleValue.setText("");

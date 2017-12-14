@@ -32,62 +32,62 @@ public class MockService implements DataService {
     }
 
     @Override
-    public void getDeviceHistory(String deviceId, long beginTime, long endTime) {
+    public void getDeviceHistory(byte[] deviceId, long beginTime, long endTime) {
 
     }
 
     @Override
-    public void setChannel(String deviceId, int value1, int value2) {
+    public void setChannel(byte[] deviceId, int value1, int value2) {
 
     }
 
     @Override
-    public void setValue(String deviceId, int value) {
+    public void setValue(byte[] deviceId, int value) {
 
     }
 
     @Override
-    public void setReportPeriod(String deviceId, int value) {
+    public void setReportPeriod(byte[] deviceId, int value) {
 
     }
 
     @Override
-    public void setLowAlarmEnable(String deviceId, boolean enable) {
+    public void setLowAlarmEnable(byte[] deviceId, boolean enable) {
 
     }
 
     @Override
-    public void setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+    public void setLowAlarmLimitValue(byte[] deviceId, int value, String[] phones, String sms) {
 
     }
 
     @Override
-    public void setLowLowAlarmEnable(String deviceId, boolean enable) {
+    public void setLowLowAlarmEnable(byte[] deviceId, boolean enable) {
 
     }
 
     @Override
-    public void setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+    public void setLowLowAlarmLimitValue(byte[] deviceId, int value, String[] phones, String sms) {
 
     }
 
     @Override
-    public void setGps(String deviceId, double lat, double lot) {
+    public void setGps(byte[] deviceId, double lat, double lot) {
 
     }
 
     @Override
-    public void setDefenseEnable(String deviceId, boolean enable) {
+    public void setDefenseEnable(byte[] deviceId, boolean enable) {
 
     }
 
     @Override
-    public void setAliasName(String deviceId, String name) {
+    public void setAliasName(byte[] deviceId, String name) {
 
     }
 
     @Override
-    public void getHistory(String deviceId, long startTime, long endTime) {
+    public void getHistory(byte[] deviceId, long startTime, long endTime) {
 
     }
 
@@ -155,67 +155,67 @@ public class MockService implements DataService {
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setChannel(String deviceId, int value1, int value2) {
+//    public Observable<Boolean> setChannel(byte[] deviceId, int value1, int value2) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setValue(String deviceId, int value) {
+//    public Observable<Boolean> setValue(byte[] deviceId, int value) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setReportPeriod(String deviceId, int value) {
+//    public Observable<Boolean> setReportPeriod(byte[] deviceId, int value) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setLowAlarmEnable(String deviceId, boolean enable) {
+//    public Observable<Boolean> setLowAlarmEnable(byte[] deviceId, boolean enable) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+//    public Observable<Boolean> setLowAlarmLimitValue(byte[] deviceId, int value, String[] phones, String sms) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setLowLowAlarmEnable(String deviceId, boolean enable) {
+//    public Observable<Boolean> setLowLowAlarmEnable(byte[] deviceId, boolean enable) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+//    public Observable<Boolean> setLowLowAlarmLimitValue(byte[] deviceId, int value, String[] phones, String sms) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setGps(String deviceId, double lat, double lot) {
+//    public Observable<Boolean> setGps(byte[] deviceId, double lat, double lot) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setDefenseEnable(String deviceId, boolean enable) {
+//    public Observable<Boolean> setDefenseEnable(byte[] deviceId, boolean enable) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<Boolean> setAliasName(String deviceId, String name) {
+//    public Observable<Boolean> setAliasName(byte[] deviceId, String name) {
 //        return Observable.just(true)
 //                .delay(getMockTime(), TimeUnit.SECONDS);
 //    }
 //
 //    @Override
-//    public Observable<List<DeviceHistory>> getHistory(String deviceId, long startTime, long endTime) {
+//    public Observable<List<DeviceHistory>> getHistory(byte[] deviceId, long startTime, long endTime) {
 //        return null;
 //    }
 //

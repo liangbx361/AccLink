@@ -21,6 +21,11 @@ public class TaskQueueTest {
         keySb.append(Integer.toHexString(cmd[1]&0xff));
         System.out.println(keySb.toString());
 
+        int value = 6;
+        int sample = 25000000;
 
+        float v1 = (value * 10000.0f)  / (sample / 1000);
+        float v2 = v1 * 100;
+        System.out.println(v1*100);
     }
 }

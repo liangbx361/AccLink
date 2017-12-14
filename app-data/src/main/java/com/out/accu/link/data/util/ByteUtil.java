@@ -36,6 +36,12 @@ public class ByteUtil {
         return value;
     }
 
+    public static int getShort(byte[] data, int srcPos) {
+        int value;
+        value = (data[srcPos] & 0xFF) | ((data[srcPos+1] & 0xFF) << 8);
+        return value;
+    }
+
     public static byte[] intToByte(int value) {
         return new byte[]{
                 (byte) ((value) & 0xFF),
@@ -115,6 +121,24 @@ public class ByteUtil {
         };
     }
 
+    public static String getIdString(byte[] data, int srcPos, int length) {
+        byte[] str = new byte[length];
+        arrayCopy(data, srcPos, str, 0, length);
+        return getIdString(str);
+    }
+
+    public static String getIdString(byte[] idBytes) {
+        StringBuffer sb = new StringBuffer();
+        for (byte item : idBytes) {
+            String hex = Integer.toHexString(item & 0xFF);
+            if (hex.length() == 1) {
+                hex = '0' + hex;
+            }
+            sb.append(hex);
+        }
+        return sb.toString();
+    }
+
     public static String getId(String deviceId) {
         byte[] data = deviceId.getBytes();
         StringBuffer sb = new StringBuffer();
@@ -126,6 +150,12 @@ public class ByteUtil {
             sb.append(hex);
         }
         return sb.toString();
+    }
+
+    public static String getCmd(byte cmd1, byte cmd2) {
+        String hex1 = Integer.toHexString(cmd1 & 0xFF);
+        String hex2 = Integer.toHexString(cmd2 & 0xFF);
+        return hex1 + hex2;
     }
 
     public static byte[] formatTime(long time) {

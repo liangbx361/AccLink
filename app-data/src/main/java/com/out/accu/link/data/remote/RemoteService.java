@@ -19,7 +19,6 @@ import com.out.accu.link.data.converter.ValueRangeConverter;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.LoginInfo;
 import com.out.accu.link.data.udp.UdpHandler;
-import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
 
 import java.net.InetAddress;
@@ -81,7 +80,7 @@ public class RemoteService implements DataService {
 
     @Override
     public void getDevice(Device device) {
-        byte[] deviceId = ByteUtil.stringToByte(device.id, 6);
+        byte[] deviceId = device.idBytes;
         Observable.just(device)
                 .subscribeOn(Schedulers.io())
                 // 两路量程
@@ -131,12 +130,12 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void getDeviceHistory(String deviceId, long beginTime, long endTime) {
+    public void getDeviceHistory(byte[] deviceId, long beginTime, long endTime) {
 
     }
 
     @Override
-    public void setChannel(String deviceId, int value1, int value2) {
+    public void setChannel(byte[] deviceId, int value1, int value2) {
         Observable.just(ChannelRangeConverter.request(deviceId, value1, value2))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_CHANNEL_RANGE, PacketUtil.TYPE_REQUEST, bytes))
@@ -145,7 +144,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setValue(String deviceId, int value) {
+    public void setValue(byte[] deviceId, int value) {
         Observable.just(ValueRangeConverter.request(deviceId, value))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_VALUE_RANGE, PacketUtil.TYPE_REQUEST, bytes))
@@ -154,7 +153,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setReportPeriod(String deviceId, int value) {
+    public void setReportPeriod(byte[] deviceId, int value) {
         Observable.just(ReportPeriodConverter.request(deviceId, value))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_REPORT_PERIOD, PacketUtil.TYPE_REQUEST, bytes))
@@ -163,7 +162,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setLowAlarmEnable(String deviceId, boolean enable) {
+    public void setLowAlarmEnable(byte[] deviceId, boolean enable) {
         Observable.just(LowAlarmEnableConverter.request(deviceId, enable))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_ALARM_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
@@ -172,7 +171,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+    public void setLowAlarmLimitValue(byte[] deviceId, int value, String[] phones, String sms) {
         Observable.just(LowAlarmConverter.request(deviceId, value, phones, sms))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, bytes))
@@ -181,7 +180,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setLowLowAlarmEnable(String deviceId, boolean enable) {
+    public void setLowLowAlarmEnable(byte[] deviceId, boolean enable) {
         Observable.just(LowLowAlarmEnableConverter.request(deviceId, enable))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_LOW_ALARM_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
@@ -190,7 +189,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms) {
+    public void setLowLowAlarmLimitValue(byte[] deviceId, int value, String[] phones, String sms) {
         Observable.just(LowLowAlarmConverter.request(deviceId, value, phones, sms))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOW_LOW_ALARM_PARAMS, PacketUtil.TYPE_REQUEST, bytes))
@@ -199,7 +198,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setGps(String deviceId, double lat, double lot) {
+    public void setGps(byte[] deviceId, double lat, double lot) {
         Observable.just(LocationConverter.request(deviceId, lat, lot))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_LOCATION, PacketUtil.TYPE_REQUEST, bytes))
@@ -208,7 +207,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setDefenseEnable(String deviceId, boolean enable) {
+    public void setDefenseEnable(byte[] deviceId, boolean enable) {
         Observable.just(DefenseEnableConverter.request(deviceId, enable))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_DEFENSE_ENABLE, PacketUtil.TYPE_REQUEST, bytes))
@@ -217,7 +216,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void setAliasName(String deviceId, String name) {
+    public void setAliasName(byte[] deviceId, String name) {
         Observable.just(AliasNameConverter.request(deviceId, name))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_SET_ALIAS_NAME, PacketUtil.TYPE_REQUEST, bytes))
@@ -226,7 +225,7 @@ public class RemoteService implements DataService {
     }
 
     @Override
-    public void getHistory(String deviceId, long startTime, long endTime) {
+    public void getHistory(byte[] deviceId, long startTime, long endTime) {
         Observable.just(HistoryConverter.request(deviceId, startTime, endTime))
                 .subscribeOn(Schedulers.io())
                 .map(bytes -> PacketUtil.getPacket(PacketUtil.CMD_GET_HISTORY, PacketUtil.TYPE_REQUEST, bytes))

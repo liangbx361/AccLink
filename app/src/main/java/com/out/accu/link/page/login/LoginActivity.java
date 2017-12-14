@@ -2,8 +2,11 @@ package com.out.accu.link.page.login;
 
 import android.app.ProgressDialog;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cyou17173.android.arch.base.page.SmartActivity;
@@ -38,8 +41,16 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     EditText etPort;
     @BindView(R.id.bt_go)
     Button btGo;
+    @BindView(R.id.displayServer)
+    TextView tvModifyServer;
+    @BindView(R.id.serverBlock)
+    ViewGroup vgServer;
+    @BindView(R.id.portBlock)
+    ViewGroup vgPort;
 
     ProgressDialog mProgressDialog;
+
+    boolean showServer;
 
     /**
      * 设置布局ID
@@ -61,6 +72,7 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
 //        etPort.setText("60003");
 
         mProgressDialog = ProgressHelper.getProgressBar(this);
+
     }
 
     /**
@@ -73,6 +85,20 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
                 getPresenter().login(getLoginInfo());
             } catch (IllegalArgumentException ignored) {
 
+            }
+        });
+
+        tvModifyServer.setOnClickListener(v -> {
+            if(showServer) {
+                vgServer.setVisibility(View.GONE);
+                vgPort.setVisibility(View.GONE);
+                tvModifyServer.setText(R.string.show_server_info);
+                showServer = false;
+            } else {
+                vgServer.setVisibility(View.VISIBLE);
+                vgPort.setVisibility(View.VISIBLE);
+                tvModifyServer.setText(R.string.hide_server_info);
+                showServer = true;
             }
         });
     }
@@ -96,7 +122,7 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     private String getUserName() throws IllegalArgumentException {
         String userName = etUsername.getText().toString();
 
-        if(TextUtils.isEmpty(userName)) {
+        if (TextUtils.isEmpty(userName)) {
             Toast.makeText(this, R.string.user_name_not_empty, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
@@ -107,7 +133,7 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     private String getPassword() throws IllegalArgumentException {
         String password = etPassword.getText().toString();
 
-        if(TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, R.string.password_not_empty, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
@@ -118,7 +144,7 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     private String getServer() throws IllegalArgumentException {
         String server = etServer.getText().toString();
 
-        if(TextUtils.isEmpty(server)) {
+        if (TextUtils.isEmpty(server)) {
             Toast.makeText(this, R.string.server_not_empty, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
@@ -136,7 +162,7 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
     private int getPort() throws IllegalArgumentException {
         String port = etPort.getText().toString();
 
-        if(TextUtils.isEmpty(port)) {
+        if (TextUtils.isEmpty(port)) {
             Toast.makeText(this, R.string.port_not_empty, Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("");
         }
@@ -156,10 +182,24 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
 
     @Override
     public void showLoginInfo(LoginInfo loginInfo) {
-        etUsername.setText(loginInfo.user);
-        etPassword.setText(loginInfo.password);
-        etServer.setText(loginInfo.server);
-        etPort.setText(loginInfo.port+"");
+        if(loginInfo != null) {
+            etUsername.setText(loginInfo.user);
+            etPassword.setText(loginInfo.password);
+            etServer.setText(loginInfo.server);
+            etPort.setText(loginInfo.port + "");
+        }
+
+        if (loginInfo != null && !TextUtils.isEmpty(loginInfo.server) && loginInfo.port != 0) {
+            vgServer.setVisibility(View.GONE);
+            vgPort.setVisibility(View.GONE);
+            tvModifyServer.setText(R.string.show_server_info);
+            showServer = false;
+        } else {
+            vgServer.setVisibility(View.VISIBLE);
+            vgPort.setVisibility(View.VISIBLE);
+            tvModifyServer.setText(R.string.hide_server_info);
+            showServer = true;
+        }
     }
 
     @Override

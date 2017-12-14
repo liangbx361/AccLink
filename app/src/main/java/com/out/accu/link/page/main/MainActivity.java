@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.cyou17173.android.component.common.util.fragment.FragmentInstanceManager;
 import com.out.accu.link.R;
+import com.out.accu.link.data.DataManager;
 import com.out.accu.link.util.ExitAppController;
 
 public class MainActivity extends SmartActivity<MainContract.Presenter> implements
@@ -78,6 +79,7 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if(!mExitAppController.onBackPressed()) {
+                DataManager.getInstance().getDataService().logout();
                 super.onBackPressed();
                 android.os.Process.killProcess(android.os.Process.myPid());
 

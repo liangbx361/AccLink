@@ -18,16 +18,16 @@ import com.out.accu.link.data.util.ByteUtil;
 
 public class LocationConverter {
 
-    public static byte[] request(String id, double lat, double lon) {
+    public static byte[] request(byte[] deviceId, double lat, double lon) {
         byte[] data = new byte[22];
-        ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
+        ByteUtil.arrayCopy(deviceId, 0, data, 0, 6);
         ByteUtil.arrayCopy(ByteUtil.doubleToByte(lat), 0, data, 6, 8);
         ByteUtil.arrayCopy(ByteUtil.doubleToByte(lon), 0, data, 14, 8);
         return data;
     }
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.lat = ByteUtil.getDouble(response.data, 6);
         device.lng = ByteUtil.getDouble(response.data, 14);
         Log.d("response", "device id ->" + ByteUtil.getId(device.id));

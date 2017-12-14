@@ -35,6 +35,7 @@ import com.out.accu.link.data.mode.User;
 import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -467,6 +468,14 @@ public class ResponseHandler {
                             device1.channel1Value = device.channel1Value;
                             device1.channel2Value = device.channel2Value;
                             device1.sampleValue = device.sampleValue;
+
+                            if(device1.valueRange !=  -1) {
+                                float value = (device1.sampleValue / 1000 * 10000.0f) / (device1.valueRange / 1000);
+                                NumberFormat numberFormat= NumberFormat.getNumberInstance() ;
+                                numberFormat.setMaximumFractionDigits(1);
+                                device1.samplePercent = numberFormat.format(value);
+                            }
+
                             SmartBus.get().post(BusAction.UPDATE_DEVICE_VALUE, device.id);
                         } catch (NullPointerException e) {
                             // 无法找到对应Device 需要创建一个

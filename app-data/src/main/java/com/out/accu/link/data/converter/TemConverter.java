@@ -17,7 +17,7 @@ import com.out.accu.link.data.util.ByteUtil;
 public class TemConverter {
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.temperature = ByteUtil.getInt(response.data, 6);
         device.humidity = ByteUtil.getInt(response.data, 10);
         return device;

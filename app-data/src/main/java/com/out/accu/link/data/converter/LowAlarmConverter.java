@@ -20,9 +20,9 @@ import java.io.UnsupportedEncodingException;
 
 public class LowAlarmConverter {
 
-    public static byte[] request(String id, int value, String[] phones, String content) {
+    public static byte[] request(byte[] deviceId, int value, String[] phones, String content) {
         byte[] data = new byte[298];
-        ByteUtil.arrayCopy(id.getBytes(), 0, data, 0, 6);
+        ByteUtil.arrayCopy(deviceId, 0, data, 0, 6);
         ByteUtil.arrayCopy(ByteUtil.intToByte(value), 0, data, 6, 4);
         int i=0;
         if(phones != null) {
@@ -40,7 +40,7 @@ public class LowAlarmConverter {
     }
 
     public static Device response(Device device, Response response) {
-        device.id = ByteUtil.getString(response.data, 0, 6);
+        DeviceIdConverter.convert(device, response);
         device.lowAlarmLimitValue = ByteUtil.getInt(response.data, 6);
         String[] phones = new String[8];
         for(int i=0; i<8; i++) {

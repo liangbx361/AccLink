@@ -49,6 +49,7 @@ public class MainPresenter implements MainContract.Presenter {
                 } else {
                     mView.showFragmentAndCache(MAIN_TAB.DEVICE, new DeviceListFragment());
                 }
+                mView.getActivity().setTitle(mView.getActivity().getString(R.string.menu_device));
                 break;
 
             case R.id.nav_map:
@@ -57,6 +58,7 @@ public class MainPresenter implements MainContract.Presenter {
                 } else {
                     mView.showFragmentAndCache(MAIN_TAB.MAP, new MapFragment());
                 }
+                mView.getActivity().setTitle(mView.getActivity().getString(R.string.menu_map));
                 break;
 
             case R.id.nav_history:
@@ -65,6 +67,7 @@ public class MainPresenter implements MainContract.Presenter {
                 } else {
                     mView.showFragmentAndCache(MAIN_TAB.GRAPH, new HistoryFragment());
                 }
+                mView.getActivity().setTitle(mView.getActivity().getString(R.string.menu_graph));
                 break;
 
             case R.id.nav_settings:
@@ -73,6 +76,7 @@ public class MainPresenter implements MainContract.Presenter {
                 } else {
                     mView.showFragmentAndCache(MAIN_TAB.SETTINGS, new SettingsFragment());
                 }
+                mView.getActivity().setTitle(mView.getActivity().getString(R.string.menu_setting));
                 break;
         }
     }

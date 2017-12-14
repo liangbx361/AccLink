@@ -33,62 +33,62 @@ public interface DataService {
     /**
      * 获取设备历史数据
      */
-    void getDeviceHistory(String deviceId, long beginTime, long endTime);
+    void getDeviceHistory(byte[] deviceId, long beginTime, long endTime);
 
     /**
      * 设置两路量程
      */
-    void setChannel(String deviceId, int value1, int value2);
+    void setChannel(byte[] deviceId, int value1, int value2);
 
     /**
      * 设置值量程
      */
-    void setValue(String deviceId, int value);
+    void setValue(byte[] deviceId, int value);
 
     /**
      * 设置上报周期
      */
-    void setReportPeriod(String deviceId, int value);
+    void setReportPeriod(byte[] deviceId, int value);
 
     /**
      * 设置数据低报开关
      */
-    void setLowAlarmEnable(String deviceId, boolean enable);
+    void setLowAlarmEnable(byte[] deviceId, boolean enable);
 
     /**
      * 设置数据低报参数
      */
-    void setLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms);
+    void setLowAlarmLimitValue(byte[] deviceId, int value, String[] phones, String sms);
 
     /**
      * 设置数据低低报开关
      */
-    void setLowLowAlarmEnable(String deviceId, boolean enable);
+    void setLowLowAlarmEnable(byte[] deviceId, boolean enable);
 
     /**
      * 设置数据低低报参数
      */
-    void setLowLowAlarmLimitValue(String deviceId, int value, String[] phones, String sms);
+    void setLowLowAlarmLimitValue(byte[] deviceId, int value, String[] phones, String sms);
 
     /**
      * 设置GPS坐标
      */
-    void setGps(String deviceId, double lat, double lot);
+    void setGps(byte[] deviceId, double lat, double lot);
 
     /**
      * 设置设置设备布防使能开关
      */
-    void setDefenseEnable(String deviceId, boolean enable);
+    void setDefenseEnable(byte[] deviceId, boolean enable);
 
     /**
      * 设置模块别名
      */
-    void setAliasName(String deviceId, String name);
+    void setAliasName(byte[] deviceId, String name);
 
     /**
      * 历史数据查询
      */
-    void getHistory(String deviceId, long startTime, long endTime);
+    void getHistory(byte[] deviceId, long startTime, long endTime);
 
     /**
      * 获取用户信息

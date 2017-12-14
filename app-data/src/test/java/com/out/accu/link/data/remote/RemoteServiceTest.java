@@ -34,15 +34,15 @@ public class RemoteServiceTest {
 
     @Test
     public void login() throws Exception {
-        mService.login("user1", "123456");
-
-        Thread.sleep(1000);
-
-        mService.getDevices();
-
-        while (true) {
-
-        }
+//        mService.login("user1", "123456");
+//
+//        Thread.sleep(1000);
+//
+//        mService.getDevices();
+//
+//        while (true) {
+//
+//        }
     }
 
 }
