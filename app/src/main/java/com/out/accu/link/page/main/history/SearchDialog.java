@@ -110,10 +110,14 @@ public class SearchDialog {
                 return;
             }
 
-            int position = mSpDevices.getSelectedItemPosition();
-            byte[] deviceId = mDevices.get(position).idBytes;
-            mOnSearchListener.onSearch(deviceId, mStartDate.getTime(), mEndDate.getTime());
-            hide();
+            try {
+                int position = mSpDevices.getSelectedItemPosition();
+                byte[] deviceId = mDevices.get(position).idBytes;
+                mOnSearchListener.onSearch(deviceId, mStartDate.getTime(), mEndDate.getTime());
+                hide();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
         mBtnCancel.setOnClickListener(v -> {
