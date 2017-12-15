@@ -590,7 +590,7 @@ public class ResponseHandler {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response.isSuccess()) {
-                        SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_PARAMS, getDeviceId(response));
+                        SmartBus.get().post(BusAction.RESP_SET_LOW_ALARM_PARAMS, getDeviceId(response));
                     } else {
 
                     }
@@ -602,7 +602,7 @@ public class ResponseHandler {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response.isSuccess()) {
-                        SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_ENABLE, getDeviceId(response));
+                        SmartBus.get().post(BusAction.RESP_SET_LOW_ALARM_ENABLE, getDeviceId(response));
                     } else {
 
                     }
@@ -650,6 +650,8 @@ public class ResponseHandler {
     }
 
     private String getDeviceId(Response response) {
-        return ByteUtil.getString(response.data, 0, 6);
+        byte[] idBytes = new byte[6];
+        ByteUtil.arrayCopy(response.data, 0, idBytes, 0, 6);
+        return ByteUtil.getIdString(idBytes);
     }
 }

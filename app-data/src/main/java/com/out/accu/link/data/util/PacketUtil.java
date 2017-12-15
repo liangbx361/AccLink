@@ -106,6 +106,16 @@ public class PacketUtil {
     }
 
     public static Response parserPacket(byte[] data) {
+//        int offset = 0;
+//        int packageLength = 0;
+//        int dataLength = 0;
+//        if(data[0] == 0xFF && data[1] == 0x5A) {
+//            packageLength = ByteUtil.getShort(data, 2);
+//            dataLength = packageLength - 18;
+//
+//            int endFlag =
+//        }
+
         byte[] cmd = new byte[2];
         cmd[0] = data[20];
         cmd[1] = data[21];
@@ -120,7 +130,10 @@ public class PacketUtil {
         response.data = new byte[length];
         System.arraycopy(data, 24, response.data, 0, length);
 
-        AppLogger.get().d("response", "cmd ->" + ByteUtil.getCmd(cmd[0], cmd[1]));
+//        AppLogger.get().d("response", "cmd ->" + ByteUtil.getCmd(cmd[0], cmd[1]));
+        if(data.length > ByteUtil.getShort(data, 2)) {
+            AppLogger.get().d("response", "多包");
+        }
         return response;
     }
 

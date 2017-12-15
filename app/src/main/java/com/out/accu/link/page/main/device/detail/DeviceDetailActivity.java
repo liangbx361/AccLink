@@ -830,7 +830,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
 
     private void showDefenseEnableDialog() {
         String[] enableSwitch = getResources().getStringArray(R.array.enable_switch);
-        int index = getPresenter().getDevice().lowAlarmEnable;
+        int index = getPresenter().getDevice().defenseEnable;
         final QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.defense_enable_desc))
                 .setCheckedIndex(index)
