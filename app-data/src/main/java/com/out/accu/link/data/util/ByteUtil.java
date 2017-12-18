@@ -36,10 +36,17 @@ public class ByteUtil {
         return value;
     }
 
-    public static int getShort(byte[] data, int srcPos) {
-        int value;
-        value = (data[srcPos] & 0xFF) | ((data[srcPos+1] & 0xFF) << 8);
+    public static short getShort(byte[] data, int srcPos) {
+        short value;
+        value = (short) ((data[srcPos] & 0xFF) | ((data[srcPos+1] & 0xFF) << 8));
         return value;
+    }
+
+    public static byte[] shortToByte(short value) {
+        return new byte[] {
+                (byte) ((value) & 0xFF),
+                (byte) ((value >> 8) & 0xFF)
+        };
     }
 
     public static byte[] intToByte(int value) {

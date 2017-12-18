@@ -199,11 +199,13 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             reportPeriodItem = mGroupListView.createItemView(getString(R.string.report_period_desc));
         }
         if (checkValue(device.reportPeriod, reportPeriodItem)) {
-            if (device.reportPeriod == 0) {
-                reportPeriodItem.setDetailText(getString(R.string.off));
-            } else {
-                reportPeriodItem.setDetailText(getResources().getString(R.string.report_period_value, device.reportPeriod));
-            }
+//            if (device.reportPeriod == 0) {
+//                reportPeriodItem.setDetailText(getString(R.string.off));
+//            } else {
+//                reportPeriodItem.setDetailText(getResources().getString(R.string.report_period_value, device.reportPeriod));
+//            }
+
+            reportPeriodItem.setDetailText(getResources().getString(R.string.report_period_value, device.reportPeriod));
         }
 
         // 低报

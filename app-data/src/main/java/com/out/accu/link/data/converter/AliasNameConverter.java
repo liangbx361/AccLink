@@ -1,7 +1,6 @@
 package com.out.accu.link.data.converter;
 
-import android.util.Log;
-
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
@@ -37,7 +36,7 @@ public class AliasNameConverter {
     public static Device response(Device device, Response response) {
         DeviceIdConverter.convert(device, response);
         device.aliasName = ByteUtil.getString(response.data, 6, 50).trim();
-        Log.d("response", "aliasName ->" + device.aliasName);
+        AppLogger.get().d("response", "aliasName ->" + device.aliasName);
         return device;
     }
 }

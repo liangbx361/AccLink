@@ -1,7 +1,6 @@
 package com.out.accu.link.data.converter;
 
-import android.util.Log;
-
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
@@ -43,7 +42,7 @@ public class DeviceListConverter {
             device.isOnline = response.data[i * 7 + 6] == 1;
             devices.add(device);
 
-            Log.d("response", "devices ->" + device.id);
+            AppLogger.get().d("response", "devices ->" + device.id);
         }
 
         return devices;

@@ -15,8 +15,8 @@ import android.widget.TextView;
 import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.cyou17173.android.component.common.util.fragment.FragmentInstanceManager;
 import com.out.accu.link.R;
-import com.out.accu.link.data.DataManager;
 import com.out.accu.link.util.ExitAppController;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 public class MainActivity extends SmartActivity<MainContract.Presenter> implements
         NavigationView.OnNavigationItemSelectedListener, MainContract.View {
@@ -24,6 +24,8 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
     TextView mTvUsername;
     FragmentInstanceManager mInstanceManager;
     ExitAppController mExitAppController;
+
+    QMUITipDialog mLoadingDialog;
 
     @Override
     public int getLayoutId() {
@@ -55,6 +57,11 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
         mInstanceManager = new FragmentInstanceManager(getSupportFragmentManager(), R.id.content);
 
         mExitAppController = new ExitAppController(this);
+
+        mLoadingDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord(getString(R.string.logout))
+                .create();
     }
 
     @Override
@@ -79,39 +86,10 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if(!mExitAppController.onBackPressed()) {
-                DataManager.getInstance().getDataService().logout();
-                super.onBackPressed();
-                android.os.Process.killProcess(android.os.Process.myPid());
-
-//                Intent intent = new Intent(Intent.ACTION_MAIN);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.addCategory(Intent.CATEGORY_HOME);
-//                startActivity(intent);
+                getPresenter().logout();
             }
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -143,5 +121,15 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
     @Override
     public void showUsername(String username) {
         mTvUsername.setText(username);
+    }
+
+    @Override
+    public void showLoading() {
+        mLoadingDialog.show();
+    }
+
+    @Override
+    public void hideLoading() {
+        mLoadingDialog.dismiss();
     }
 }

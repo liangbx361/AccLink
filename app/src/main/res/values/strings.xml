@@ -107,6 +107,7 @@
     <string name="modify_fail">Modify Failed.</string>
     <string name="cancel">Cancel</string>
     <string name="modify">Modify</string>
+    <string name="logout">Logout</string>
 
     <string name="pickerview_cancel">Cancel</string>
     <string name="pickerview_day"></string>

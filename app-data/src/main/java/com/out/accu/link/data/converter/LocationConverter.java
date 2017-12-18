@@ -1,7 +1,6 @@
 package com.out.accu.link.data.converter;
 
-import android.util.Log;
-
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
@@ -30,9 +29,9 @@ public class LocationConverter {
         DeviceIdConverter.convert(device, response);
         device.lat = ByteUtil.getDouble(response.data, 6);
         device.lng = ByteUtil.getDouble(response.data, 14);
-        Log.d("response", "device id ->" + ByteUtil.getId(device.id));
-        Log.d("response", "lat ->" + device.lat);
-        Log.d("response", "lng ->" + device.lng);
+        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "lat ->" + device.lat);
+        AppLogger.get().d("response", "lng ->" + device.lng);
         return device;
     }
 }

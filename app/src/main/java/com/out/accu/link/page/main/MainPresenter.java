@@ -15,6 +15,9 @@ import com.out.accu.link.page.main.settings.SettingsFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
 
 /**
  * <p>Title: <／p>
@@ -36,7 +39,10 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
-        DataManager.getInstance().getDataService().getUser();
+        Observable.timer(500, TimeUnit.MILLISECONDS)
+                .subscribe(aLong -> DataManager.getInstance().getDataService().getUser(), throwable -> {
+                    DataManager.getInstance().getDataService().getUser();
+                });
     }
 
     @Override
@@ -81,6 +87,13 @@ public class MainPresenter implements MainContract.Presenter {
         }
     }
 
+    @Override
+    public void logout() {
+        mView.showLoading();
+        // 登出
+        DataManager.getInstance().getDataService().logout();
+    }
+
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({MAIN_TAB.DEVICE, MAIN_TAB.MAP, MAIN_TAB.GRAPH, MAIN_TAB.SETTINGS})
     @interface MAIN_TAB {
@@ -98,5 +111,16 @@ public class MainPresenter implements MainContract.Presenter {
     )
     public void setUserName(Object o) {
         mView.showUsername(DataManager.getInstance().getModeData().user.username);
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.RESP_LOGOUT)
+            }
+    )
+    public void logoutSuccess(Object o) {
+        mView.hideLoading();
+        mView.getActivity().finish();
     }
 }

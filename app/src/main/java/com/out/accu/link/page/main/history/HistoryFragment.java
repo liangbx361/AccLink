@@ -179,23 +179,10 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
             set1.setValues(values);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
+            mChart.requestLayout();
         } else {
             set1 = new LineDataSet(values, "History");
             set1.setDrawIcons(false);
-
-            // set the line to be drawn like this "- - - - - -"
-//            set1.enableDashedLine(10f, 5f, 0f);
-//            set1.enableDashedHighlightLine(10f, 5f, 0f);
-//            set1.setColor(Color.BLACK);
-//            set1.setCircleColor(Color.BLACK);
-//            set1.setLineWidth(1f);
-//            set1.setCircleRadius(3f);
-//            set1.setDrawCircleHole(false);
-//            set1.setValueTextSize(9f);
-//            set1.setDrawFilled(true);
-//            set1.setFormLineWidth(1f);
-//            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-//            set1.setFormSize(15.f);
 
             set1.setAxisDependency(YAxis.AxisDependency.LEFT);
             set1.setColor(ColorTemplate.getHoloBlue());
@@ -207,14 +194,6 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
             set1.setHighLightColor(Color.rgb(244, 117, 117));
             set1.setDrawCircleHole(false);
 
-//            if (Utils.getSDKInt() >= 18) {
-//                // fill drawable only supported on api level 18 and above
-//                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_red);
-//                set1.setFillDrawable(drawable);
-//            } else {
-//                set1.setFillColor(Color.BLACK);
-//            }
-
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1); // add the datasets
 
@@ -223,6 +202,8 @@ public class HistoryFragment extends SmartFragment<HistoryContract.Presenter> im
 
             // set data
             mChart.setData(data);
+            mChart.notifyDataSetChanged();
+            mChart.requestLayout();
         }
     }
 

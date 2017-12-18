@@ -1,7 +1,6 @@
 package com.out.accu.link.data.converter;
 
-import android.util.Log;
-
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
@@ -30,8 +29,8 @@ public class DefenseEnableConverter {
     public static Device response(Device device, Response response) {
         DeviceIdConverter.convert(device, response);
         device.defenseEnable = response.data[6];
-        Log.d("response", "device id ->" + ByteUtil.getId(device.id));
-        Log.d("response", "defenseEnable ->" + device.defenseEnable);
+        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "defenseEnable ->" + device.defenseEnable);
         return device;
     }
 }

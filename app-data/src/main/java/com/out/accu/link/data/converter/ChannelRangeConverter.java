@@ -1,7 +1,6 @@
 package com.out.accu.link.data.converter;
 
-import android.util.Log;
-
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
@@ -30,9 +29,9 @@ public class ChannelRangeConverter {
         DeviceIdConverter.convert(device, response);
         device.channel1Range = ByteUtil.getInt(response.data, 6);
         device.channel2Range = ByteUtil.getInt(response.data, 10);
-        Log.d("response", "device id ->" + ByteUtil.getId(device.id));
-        Log.d("response", "channel1Range ->" + device.channel1Range);
-        Log.d("response", "channel2Range ->" + device.channel2Range);
+        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "channel1Range ->" + device.channel1Range);
+        AppLogger.get().d("response", "channel2Range ->" + device.channel2Range);
         return device;
     }
 }

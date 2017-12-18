@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
+import com.out.accu.link.BuildConfig;
 import com.out.accu.link.R;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
@@ -36,8 +37,17 @@ class LoginPresenter implements LoginContract.Presenter {
      */
     @Override
     public void start() {
-        LoginInfo loginInfo = DataManager.getInstance().getDataService().getLoginInfo();
-        mView.showLoginInfo(loginInfo);
+        if(!BuildConfig.DEBUG) {
+            LoginInfo loginInfo = DataManager.getInstance().getDataService().getLoginInfo();
+            mView.showLoginInfo(loginInfo);
+        } else {
+            LoginInfo loginInfo = new LoginInfo();
+            loginInfo.user = "user1";
+            loginInfo.password = "123456";
+            loginInfo.server = "59.124.45.214";
+            loginInfo.port = 60003;
+            mView.showLoginInfo(loginInfo);
+        }
     }
 
     @Subscribe(

@@ -12,12 +12,19 @@ package com.out.accu.link.data.mode;
 
 public class Response {
 
+    // 序号
+    public short id;
+
+    // 响应类型
     public int type;
 
+    // 响应码
     public int code;
 
+    // 命令
     public byte[] cmd;
 
+    // 数据
     public byte[] data;
 
     public boolean isSuccess() {

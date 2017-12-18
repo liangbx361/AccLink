@@ -1,7 +1,5 @@
 package com.out.accu.link.data.udp;
 
-import android.util.Log;
-
 import com.cyou17173.android.arch.base.bus.SmartBus;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
@@ -26,6 +24,7 @@ import com.out.accu.link.data.converter.UploadValueConverter;
 import com.out.accu.link.data.converter.UserMobileConverter;
 import com.out.accu.link.data.converter.UsernameConverter;
 import com.out.accu.link.data.converter.ValueRangeConverter;
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.DeviceHistory;
 import com.out.accu.link.data.mode.Login;
@@ -76,12 +75,12 @@ public class ResponseHandler {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if(response.isSuccess()) {
-                        Log.d("response", "CMD_GET_DEVICES");
+                        AppLogger.get().d("response", "CMD_GET_DEVICES");
                         List<Device> devices = DeviceListConverter.response(response);
                         if (mModeData.getDevices().size() == 0) {
                             mModeData.addAll(devices);
                         } else {
-                            Log.d("response", "devies add");
+                            AppLogger.get().d("response", "devies add");
                             // 排除相同的设备
                             boolean isFind;
                             List<Device> newDevices = new ArrayList<>();
@@ -104,7 +103,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.RESP_DEVICES, mModeData);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_DEVICES error");
+                    AppLogger.get().d("response", "CMD_GET_DEVICES error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_CHANNEL_RANGE)
@@ -125,7 +124,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_CHANNEL_RANGE error");
+                    AppLogger.get().d("response", "CMD_GET_CHANNEL_RANGE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_VALUE_RANGE)
@@ -145,7 +144,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_VALUE_RANGE error");
+                    AppLogger.get().d("response", "CMD_GET_VALUE_RANGE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_ALIAS_NAME)
@@ -166,7 +165,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_ALIAS_NAME, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_ALIAS_NAME error");
+                    AppLogger.get().d("response", "CMD_GET_ALIAS_NAME error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_ALARM_ENABLE)
@@ -186,7 +185,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_LOW_ALARM_ENABLE error");
+                    AppLogger.get().d("response", "CMD_GET_LOW_ALARM_ENABLE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_ALARM_PARAMS)
@@ -208,7 +207,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_LOW_ALARM_PARAMS error");
+                    AppLogger.get().d("response", "CMD_GET_LOW_ALARM_PARAMS error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_LOW_ALARM_ENABLE)
@@ -228,7 +227,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_LOW_LOW_ALARM_ENABLE error");
+                    AppLogger.get().d("response", "CMD_GET_LOW_LOW_ALARM_ENABLE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_LOW_ALARM_PARAMS)
@@ -250,7 +249,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_LOW_LOW_ALARM_PARAMS error");
+                    AppLogger.get().d("response", "CMD_GET_LOW_LOW_ALARM_PARAMS error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_DEFENSE_ENABLE)
@@ -270,7 +269,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_DEFENSE_ENABLE error");
+                    AppLogger.get().d("response", "CMD_GET_DEFENSE_ENABLE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOCATION)
@@ -291,7 +290,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_LOCATION error");
+                    AppLogger.get().d("response", "CMD_GET_LOCATION error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LTE_STATUS)
@@ -313,7 +312,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_LTE_STATUS error");
+                    AppLogger.get().d("response", "CMD_GET_LTE_STATUS error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_PHONE_NUMBER)
@@ -333,7 +332,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_PHONE_NUMBER error");
+                    AppLogger.get().d("response", "CMD_GET_PHONE_NUMBER error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_REPORT_PERIOD)
@@ -353,7 +352,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_REPORT_PERIOD error");
+                    AppLogger.get().d("response", "CMD_GET_REPORT_PERIOD error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_TEM)
@@ -374,7 +373,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_TEM error");
+                    AppLogger.get().d("response", "CMD_GET_TEM error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_TX)
@@ -394,7 +393,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.UPDATE_DEVICE_DATA, device.id);
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_TX error");
+                    AppLogger.get().d("response", "CMD_GET_TX error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_USER_NAME)
@@ -409,7 +408,7 @@ public class ResponseHandler {
                         }
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_USER_NAME error");
+                    AppLogger.get().d("response", "CMD_GET_USER_NAME error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_NAME)
@@ -419,7 +418,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.RESP_SET_USERNAME_SUCCESS, "");
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_NAME error");
+                    AppLogger.get().d("response", "CMD_SET_NAME error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_PHONE)
@@ -429,7 +428,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.RESP_SET_USER_MOBILE_SUCCESS, "");
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_PHONE error");
+                    AppLogger.get().d("response", "CMD_SET_PHONE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_PASSWORD)
@@ -439,7 +438,7 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.RESP_SET_PASSWORD_SUCCESS, "");
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_PASSWORD error");
+                    AppLogger.get().d("response", "CMD_SET_PASSWORD error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_USER_PHONE)
@@ -454,7 +453,7 @@ public class ResponseHandler {
                         }
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_GET_USER_PHONE error");
+                    AppLogger.get().d("response", "CMD_GET_USER_PHONE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_DEVICE_VALUE_UPLOAD)
@@ -486,7 +485,7 @@ public class ResponseHandler {
                     }
 
                 }, throwable -> {
-                    Log.d("response", "CMD_DEVICE_VALUE_UPLOAD error");
+                    AppLogger.get().d("response", "CMD_DEVICE_VALUE_UPLOAD error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_DEVICE_ONLINE_UPLOAD)
@@ -511,7 +510,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_DEVICE_ONLINE_UPLOAD error");
+                    AppLogger.get().d("response", "CMD_DEVICE_ONLINE_UPLOAD error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_CHANNEL_RANGE)
@@ -523,7 +522,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_CHANNEL_RANGE error");
+                    AppLogger.get().d("response", "CMD_SET_CHANNEL_RANGE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_VALUE_RANGE)
@@ -535,7 +534,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_VALUE_RANGE error");
+                    AppLogger.get().d("response", "CMD_SET_VALUE_RANGE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_DEFENSE_ENABLE)
@@ -547,7 +546,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_DEFENSE_ENABLE error");
+                    AppLogger.get().d("response", "CMD_SET_DEFENSE_ENABLE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOCATION)
@@ -559,7 +558,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_LOCATION error");
+                    AppLogger.get().d("response", "CMD_SET_LOCATION error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_LOW_ALARM_PARAMS)
@@ -571,7 +570,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_LOW_LOW_ALARM_PARAMS error");
+                    AppLogger.get().d("response", "CMD_SET_LOW_LOW_ALARM_PARAMS error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_LOW_ALARM_ENABLE)
@@ -583,7 +582,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_LOW_LOW_ALARM_ENABLE error");
+                    AppLogger.get().d("response", "CMD_SET_LOW_LOW_ALARM_ENABLE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_ALARM_PARAMS)
@@ -595,7 +594,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_LOW_ALARM_PARAMS error");
+                    AppLogger.get().d("response", "CMD_SET_LOW_ALARM_PARAMS error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOW_ALARM_ENABLE)
@@ -607,7 +606,7 @@ public class ResponseHandler {
 
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_LOW_ALARM_ENABLE error");
+                    AppLogger.get().d("response", "CMD_SET_LOW_ALARM_ENABLE error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_REPORT_PERIOD)
@@ -618,7 +617,7 @@ public class ResponseHandler {
                     } else {
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_REPORT_PERIOD error");
+                    AppLogger.get().d("response", "CMD_SET_REPORT_PERIOD error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_ALIAS_NAME)
@@ -628,10 +627,10 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME, getDeviceId(response));
                     } else {
                         SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME_FAIL, response);
-                        Log.d("response", "RESP_SET_ALIAS_NAME_FAIL");
+                        AppLogger.get().d("response", "RESP_SET_ALIAS_NAME_FAIL");
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_ALIAS_NAME error");
+                    AppLogger.get().d("response", "CMD_SET_ALIAS_NAME error");
                 });
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_HISTORY)
@@ -642,10 +641,18 @@ public class ResponseHandler {
                         SmartBus.get().post(BusAction.RESP_HISTORY, history);
                     } else {
                         SmartBus.get().post(BusAction.RESP_HISTORY_ERROR, response);
-                        Log.d("response", "CMD_SET_ALIAS_NAME error");
+                        AppLogger.get().d("response", "CMD_SET_ALIAS_NAME error");
                     }
                 }, throwable -> {
-                    Log.d("response", "CMD_SET_ALIAS_NAME error");
+                    AppLogger.get().d("response", "CMD_SET_ALIAS_NAME error");
+                });
+
+        TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_LOGOUT)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    SmartBus.get().post(BusAction.RESP_LOGOUT, response.isSuccess());
+                }, throwable -> {
+                    AppLogger.get().d("response", "CMD_LOGOUT error");
                 });
     }
 

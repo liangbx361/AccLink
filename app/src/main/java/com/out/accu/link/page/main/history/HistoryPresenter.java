@@ -1,6 +1,5 @@
 package com.out.accu.link.page.main.history;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -9,6 +8,7 @@ import com.hwangjr.rxbus.thread.EventThread;
 import com.out.accu.link.R;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataService;
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.DeviceHistory;
 
 import java.util.Calendar;
@@ -55,9 +55,10 @@ class HistoryPresenter implements HistoryContract.Presenter {
 
         mPublishSubject
                 .debounce(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(history1 -> {
                     mView.hideLoading();
-                    Log.d("HistoryPresenter", "update");
+                    AppLogger.get().d("HistoryPresenter", "update");
                     mView.showHistory(mDeviceHistory);
                 });
     }

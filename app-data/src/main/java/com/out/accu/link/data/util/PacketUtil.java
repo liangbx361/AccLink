@@ -34,6 +34,9 @@ public class PacketUtil {
     public static int HEADER_LENGTH = 18;
     public static int FLAG_END_LENGTH = 6;
 
+    // 请求重试时间
+    public static int REQ_RETRY_TIME = 10;
+
     public static byte[] CMD_DEVICE_VALUE_UPLOAD = {(byte) 0xA1, 0x01}; // -94
     public static byte[] CMD_DEVICE_ONLINE_UPLOAD = {(byte) 0xA1, 0x05}; // -90
 
@@ -83,7 +86,7 @@ public class PacketUtil {
      * @param data 数据
      * @return
      */
-    public static byte[] getPacket(byte[] cmd, byte type, byte[] data) {
+    public static byte[] getPacket(byte[] cmd, short id, byte type, byte[] data) {
         int dataLength = HEADER_LENGTH + data.length;
         int length = FLAG_START_LENGTH + dataLength + FLAG_END_LENGTH;
         byte[] allData = new byte[length];
@@ -101,67 +104,69 @@ public class PacketUtil {
         System.arraycopy(data, 0, allData, FLAG_START_LENGTH + HEADER_LENGTH, data.length);
         allData[28 + data.length] = FLAG_END[0];
         allData[29 + data.length] = FLAG_END[1];
-//        return addHeader(allData);
-        return allData;
+        return addHeader(id, allData);
     }
 
-    public static Response parserPacket(byte[] data) {
-//        int offset = 0;
-//        int packageLength = 0;
-//        int dataLength = 0;
-//        if(data[0] == 0xFF && data[1] == 0x5A) {
-//            packageLength = ByteUtil.getShort(data, 2);
-//            dataLength = packageLength - 18;
-//
-//            int endFlag =
-//        }
-
-        byte[] cmd = new byte[2];
-        cmd[0] = data[20];
-        cmd[1] = data[21];
-        byte type = data[22];
-        byte code = data[23];
+    public static Response parserPacket(byte[] respData) {
+        short pkgLength = ByteUtil.getShort(respData, 0);
+        short id = ByteUtil.getShort(respData, 2);
+        short dataLength = (short) (pkgLength - 6);
+        byte[] data = new byte[dataLength];
+        ByteUtil.arrayCopy(respData, 6, data, 0, dataLength);
 
         Response response = new Response();
-        response.type = type;
-        response.code = code;
-        response.cmd = cmd;
-        int length = ByteUtil.getShort(data, 2) - 18;
-        response.data = new byte[length];
-        System.arraycopy(data, 24, response.data, 0, length);
+        response.id = id;
 
-//        AppLogger.get().d("response", "cmd ->" + ByteUtil.getCmd(cmd[0], cmd[1]));
-        if(data.length > ByteUtil.getShort(data, 2)) {
-            AppLogger.get().d("response", "多包");
+        if(dataLength > 0) {
+            byte[] cmd = new byte[2];
+            cmd[0] = data[20];
+            cmd[1] = data[21];
+
+            byte type = data[22];
+            byte code = data[23];
+
+            response = new Response();
+            response.id = id;
+            response.type = type;
+            response.code = code;
+            response.cmd = cmd;
+            int length = ByteUtil.getShort(data, 2) - 18;
+            response.data = new byte[length];
+            System.arraycopy(data, 24, response.data, 0, length);
+
+            AppLogger.get().d("response", "cmd ->" + ByteUtil.getCmd(cmd[0], cmd[1]));
         }
+
         return response;
     }
 
     /**
-     * 长度（2）+ 序号（2）+ 执行码（1）+ 标志位 + 1
+     * 长度（2）+ 序号（2）+ 执行码（1）+ 打包标志位（1）
      */
-    public static byte[] addHeader(byte[] data) {
-        int length = data.length + 6;
-        byte[] allData = new byte[length];
-        allData[0] = (byte) (length & 0xFF);
-        allData[1] = (byte) ((length & 0xFF00) >> 8);
-        allData[2] = (byte) (sCount & 0xFF);
-        allData[3] = (byte) ((sCount & 0xFF00) >> 8);
-        allData[4] = 0;
-        allData[5] = 0;
-        ByteUtil.arrayCopy(data, 0, allData, 6, data.length);
-        return allData;
+    public static byte[] addHeader(short id, byte[] data) {
+        short length = (short) (data.length + 6);
+        byte[] packageData = new byte[length];
+        byte[] lengthBytes = ByteUtil.shortToByte(length);
+        byte[] idBytes = ByteUtil.shortToByte(id);
+        packageData[0] = lengthBytes[0];
+        packageData[1] = lengthBytes[1];
+        packageData[2] = idBytes[0];
+        packageData[3] = idBytes[1];
+        packageData[4] = 0;
+        packageData[5] = 0;
+        ByteUtil.arrayCopy(data, 0, packageData, 6, data.length);
+        return packageData;
     }
 
-    public static byte[] receive() {
-        byte[] receive = new byte[6];
-        receive[0] = 6;
-        receive[1] = 0;
-        receive[2] = (byte) (sCount & 0xFF);
-        receive[3] = (byte) ((sCount & 0xFF00) >> 8);
-        receive[4] = 1;
-        receive[5] = 0;
-        sCount++;
-        return receive;
+    public static byte[] getResp(short id) {
+        byte[] idBytes = ByteUtil.shortToByte(id);
+        byte[] resp = new byte[6];
+        resp[0] = 0x06;
+        resp[1] = 0x00;
+        resp[2] = idBytes[0];
+        resp[3] = idBytes[1];
+        resp[4] = 0x01;
+        resp[5] = 0x00;
+        return resp;
     }
 }

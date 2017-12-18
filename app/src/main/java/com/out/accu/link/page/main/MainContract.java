@@ -23,9 +23,12 @@ public class MainContract {
         void showFragmentAndCache(@NonNull String tag, @NonNull Fragment fragment);
         void showCacheFragment(@NonNull String tag);
         void showUsername(String username);
+        void showLoading();
+        void hideLoading();
     }
 
     interface Presenter extends SmartPresenter {
         void onItemSelected(int itemId);
+        void logout();
     }
 }

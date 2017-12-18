@@ -1,7 +1,6 @@
 package com.out.accu.link.data.converter;
 
-import android.util.Log;
-
+import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.util.ByteUtil;
@@ -49,15 +48,15 @@ public class LowAlarmConverter {
         device.lowNotifyPhones = phones;
         device.lowSmsContent = ByteUtil.getString(response.data, 170, 128);
 
-        Log.d("response", "device id ->" + ByteUtil.getId(device.id));
-        Log.d("response", "lowAlarmLimitValue ->" + device.lowAlarmLimitValue);
+        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "lowAlarmLimitValue ->" + device.lowAlarmLimitValue);
         StringBuilder phoneSb = new StringBuilder();
         for(String phone : phones) {
             phoneSb.append(phone);
             phoneSb.append("-");
         }
-        Log.d("response", "phone ->" + phoneSb.toString());
-        Log.d("response", "lowSmsContent ->" + device.lowSmsContent);
+        AppLogger.get().d("response", "phone ->" + phoneSb.toString());
+        AppLogger.get().d("response", "lowSmsContent ->" + device.lowSmsContent);
 
         return device;
     }
