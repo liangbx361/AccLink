@@ -21,7 +21,7 @@ public class ChannelRangeConverter {
         byte[] data = new byte[14];
         ByteUtil.arrayCopy(deviceId, 0, data, 0, 6);
         ByteUtil.arrayCopy(ByteUtil.intToByte(value1), 0, data, 6, 4);
-        ByteUtil.arrayCopy(ByteUtil.intToByte(value1), 0, data, 10, 4);
+        ByteUtil.arrayCopy(ByteUtil.intToByte(value2), 0, data, 10, 4);
         return data;
     }
 

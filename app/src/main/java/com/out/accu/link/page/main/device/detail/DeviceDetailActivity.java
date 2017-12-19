@@ -260,7 +260,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         }
 
         if (lowLowAlarmLimitValueItem == null) {
-            lowLowAlarmLimitValueItem = mGroupListView.createItemView(getString(R.string.low_alarm_limit_value_desc));
+            lowLowAlarmLimitValueItem = mGroupListView.createItemView(getString(R.string.low_low_alarm_limit_value_desc));
         }
         if(checkValue(device.lowLowAlarmLimitValue, lowLowAlarmLimitValueItem)) {
             lowLowAlarmLimitValueItem.setDetailText(device.lowLowAlarmLimitValue/1000 + "cm");

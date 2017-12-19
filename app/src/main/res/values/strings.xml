@@ -55,7 +55,7 @@
     <string name="low_notify_phones_desc">Low Alarm Notify Phones</string>
     <string name="low_sms_format_desc">Low Alarm Message Content</string>
     <string name="low_low_alarm_enable_desc">Lowest Alarm</string>
-    <string name="low_low_alarm_limit_value_desc">Lowwest Alarm Threshold</string>
+    <string name="low_low_alarm_limit_value_desc">Lowest Alarm Threshold</string>
     <string name="low_low_notify_phones_desc">Lowest Alarm Notify Phones</string>
     <string name="low_low_sms_format_desc">Lowest Alarm Message Content</string>
     <string name="gps_desc">Position</string>
