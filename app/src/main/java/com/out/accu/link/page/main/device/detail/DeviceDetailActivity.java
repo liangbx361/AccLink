@@ -224,7 +224,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             lowAlarmLimitValueItem = mGroupListView.createItemView(getString(R.string.low_alarm_limit_value_desc));
         }
         if (checkValue(device.lowAlarmLimitValue, lowAlarmEnableItem)) {
-            lowAlarmLimitValueItem.setDetailText(device.lowAlarmLimitValue + "cm");
+            lowAlarmLimitValueItem.setDetailText(device.lowAlarmLimitValue/1000 + "cm");
         }
 
         if (lowNotifyPhonesItem == null) {
@@ -263,7 +263,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
             lowLowAlarmLimitValueItem = mGroupListView.createItemView(getString(R.string.low_alarm_limit_value_desc));
         }
         if(checkValue(device.lowLowAlarmLimitValue, lowLowAlarmLimitValueItem)) {
-            lowLowAlarmLimitValueItem.setDetailText(device.lowLowAlarmLimitValue + "cm");
+            lowLowAlarmLimitValueItem.setDetailText(device.lowLowAlarmLimitValue/1000 + "cm");
         }
 
         if (lowLowNotifyPhonesItem == null) {
@@ -625,7 +625,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         try {
-                            int value = Integer.valueOf(text.toString());
+                            int value = Integer.valueOf(text.toString()) * 1000;
                             getPresenter().setLowAlarmLimitValue(value, getPresenter().getDevice().lowNotifyPhones, getPresenter().getDevice().lowSmsContent);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -635,7 +635,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(getPresenter().getDevice().lowAlarmLimitValue + "");
+        builder.getEditText().setText(getPresenter().getDevice().lowAlarmLimitValue/1000 + "");
     }
 
     private void showLowPhonesDialog() {
@@ -743,7 +743,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         try {
-                            int value = Integer.valueOf(text.toString());
+                            int value = Integer.valueOf(text.toString())*1000;
                             getPresenter().setLowLowAlarmLimitValue(value, getPresenter().getDevice().lowLowNotifyPhones,
                                     getPresenter().getDevice().lowLowSmsContent);
                         } catch (Exception e) {
@@ -754,7 +754,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 })
                 .show();
 
-        builder.getEditText().setText(getPresenter().getDevice().lowLowAlarmLimitValue + "");
+        builder.getEditText().setText(getPresenter().getDevice().lowLowAlarmLimitValue/1000 + "");
     }
 
     private void showLowLowPhonesDialog() {
