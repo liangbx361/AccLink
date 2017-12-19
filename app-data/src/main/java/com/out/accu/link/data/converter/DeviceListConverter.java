@@ -2,7 +2,7 @@ package com.out.accu.link.data.converter;
 
 import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.util.ByteUtil;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class DeviceListConverter {
 //        return data;
 //    }
 
-    public static List<Device> response(Response response) {
+    public static List<Device> response(ResponseCmd response) {
         List<Device> devices = new ArrayList<>();
 
         int length = response.data.length / 7;

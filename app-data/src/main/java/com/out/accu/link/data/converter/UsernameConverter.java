@@ -1,6 +1,6 @@
 package com.out.accu.link.data.converter;
 
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.mode.User;
 import com.out.accu.link.data.util.ByteUtil;
 
@@ -22,7 +22,7 @@ public class UsernameConverter {
         return data;
     }
 
-    public static User response(User user, Response response) {
+    public static User response(User user, ResponseCmd response) {
         user.username = ByteUtil.getString(response.data, 0, 20).trim();
         return user;
     }

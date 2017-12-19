@@ -1,7 +1,7 @@
 package com.out.accu.link.data.converter;
 
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 
 /**
  * <p>Title: <／p>
@@ -15,7 +15,7 @@ import com.out.accu.link.data.mode.Response;
 
 public class UploadOnlineConverter {
 
-    public static Device response(Device device, Response response) {
+    public static Device response(Device device, ResponseCmd response) {
         DeviceIdConverter.convert(device, response);
         device.isOnline = true;
         return device;

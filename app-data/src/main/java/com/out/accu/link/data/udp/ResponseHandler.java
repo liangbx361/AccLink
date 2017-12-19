@@ -29,7 +29,7 @@ import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.DeviceHistory;
 import com.out.accu.link.data.mode.Login;
 import com.out.accu.link.data.mode.ModeData;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.mode.User;
 import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
@@ -656,7 +656,7 @@ public class ResponseHandler {
                 });
     }
 
-    private String getDeviceId(Response response) {
+    private String getDeviceId(ResponseCmd response) {
         byte[] idBytes = new byte[6];
         ByteUtil.arrayCopy(response.data, 0, idBytes, 0, 6);
         return ByteUtil.getIdString(idBytes);

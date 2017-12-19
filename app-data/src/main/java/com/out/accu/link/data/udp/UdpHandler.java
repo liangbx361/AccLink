@@ -1,10 +1,9 @@
 package com.out.accu.link.data.udp;
 
-import android.util.Log;
-
 import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Recode;
 import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
 
@@ -39,6 +38,7 @@ public class UdpHandler {
     private Disposable mSendDisposable;
     private Disposable mReceiveDisposable;
     private DatagramSocket mSocket;
+    private long mIdelTime;
 
     public UdpHandler(InetAddress inetAddress, int port) {
         mInetAddress = inetAddress;
@@ -60,6 +60,15 @@ public class UdpHandler {
         respData[3] = idBytes[1];
         respData[4] = 0x01;
         return send(respData);
+    }
+
+    public byte[] getEmptyData() {
+        byte[] idBytes = ByteUtil.shortToByte(TaskRecode.getInstance().getId());
+        byte[] emptyData = new byte[6];
+        emptyData[0] = 0x06;
+        emptyData[2] = idBytes[0];
+        emptyData[3] = idBytes[1];
+        return emptyData;
     }
 
     public byte[] receive() throws IOException {
@@ -90,6 +99,11 @@ public class UdpHandler {
                         Recode recode = TaskRecode.getInstance().getRecode();
 
                         if(recode == null) {
+                            // 60秒未发送数据，发送心跳包
+                            if(System.currentTimeMillis() - mIdelTime > 1000 * 60) {
+                                send(getEmptyData());
+                                mIdelTime = System.currentTimeMillis();
+                            }
                             return;
                         }
 
@@ -98,6 +112,7 @@ public class UdpHandler {
                                 send(recode.reqData);
                                 recode.stats = Recode.STATUS_RESP;
                                 recode.sendTime = System.currentTimeMillis();
+                                mIdelTime = System.currentTimeMillis();
                                 break;
                             case Recode.STATUS_RESP:
                                 if(Recode.isTimeOut(recode.sendTime)) {
@@ -133,7 +148,7 @@ public class UdpHandler {
                         short pktLength = ByteUtil.getShort(buf, 0);
                         if(pktLength == 6) {
                             // 响应包
-                            if(recode.stats == Recode.STATUS_RESP) {
+                            if(recode != null && recode.stats == Recode.STATUS_RESP) {
                                 if(response.id == recode.reqId) {
                                     // 收到响应包
                                     recode.stats = Recode.STATUS_RESP_DATA;
@@ -142,23 +157,31 @@ public class UdpHandler {
                         } else {
                             // 数据包, 判断是否为当前等待数据
                             if(recode != null) {
-                                if (response.type == PacketUtil.TYPE_RESPONSE && response.cmd[0] == recode.cmd[0]
-                                        && response.cmd[1] == recode.cmd[1]) {
-                                    if (recode.stats == Recode.STATUS_RESP_DATA) {
-                                        recode.respId = response.id;
-                                        recode.stats = Recode.STATUS_FINISH;
-                                        TaskRecode.getInstance().removeRecode();
-                                        AppLogger.get().d("response", "cmd -->" + ByteUtil.getCmd(response.cmd[0],
-                                                response.cmd[1]) + " --> finish");
+                                for(ResponseCmd responseCmd : response.mResponseCmds) {
+                                    if (responseCmd.type == PacketUtil.TYPE_RESPONSE && responseCmd.cmd[0] == recode.cmd[0]
+                                            && responseCmd.cmd[1] == recode.cmd[1]) {
+                                        if (recode.stats == Recode.STATUS_RESP_DATA) {
+                                            recode.respId = response.id;
+                                            recode.stats = Recode.STATUS_FINISH;
+                                            TaskRecode.getInstance().removeRecode();
+                                            AppLogger.get().d("response", "cmd -->" + ByteUtil.getCmd(responseCmd.cmd[0],
+                                                    responseCmd.cmd[1]) + " --> finish");
+                                        }
                                     }
+
+                                    PublishSubject<ResponseCmd> publishSubject = TaskQueue.getInstance().getTask(responseCmd.cmd);
+                                    publishSubject.onNext(responseCmd);
+                                }
+                            } else {
+                                for(ResponseCmd responseCmd : response.mResponseCmds) {
+                                    PublishSubject<ResponseCmd> publishSubject = TaskQueue.getInstance().getTask(responseCmd.cmd);
+                                    publishSubject.onNext(responseCmd);
                                 }
                             }
 
                             // 发送响应包
                             sendResp(response.id);
-
-                            PublishSubject<Response> publishSubject = TaskQueue.getInstance().getTask(response.cmd);
-                            publishSubject.onNext(response);
+                            mIdelTime = System.currentTimeMillis();
                         }
 
                     } catch (Exception e) {

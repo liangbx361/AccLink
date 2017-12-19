@@ -1,5 +1,8 @@
 package com.out.accu.link.data.mode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>Title: <／p>
  * <p>Description: <／p>
@@ -7,7 +10,7 @@ package com.out.accu.link.data.mode;
  * <p>Company: <／p>
  *
  * @author liangbx
- * @version 2017/10/14
+ * @version 2017/12/19
  */
 
 public class Response {
@@ -15,23 +18,9 @@ public class Response {
     // 序号
     public short id;
 
-    // 响应类型
-    public int type;
+    public List<ResponseCmd> mResponseCmds = new ArrayList<>();
 
-    // 响应码
-    public int code;
-
-    // 命令
-    public byte[] cmd;
-
-    // 数据
-    public byte[] data;
-
-    public boolean isSuccess() {
-        return code == 0;
-    }
-
-    public boolean isUpload() {
-        return code == 2;
+    public boolean isCmdPkg() {
+        return mResponseCmds.size() > 0;
     }
 }

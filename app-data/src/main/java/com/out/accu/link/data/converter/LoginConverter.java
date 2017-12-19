@@ -1,7 +1,7 @@
 package com.out.accu.link.data.converter;
 
 import com.out.accu.link.data.mode.Login;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PasswordUtil;
 
@@ -26,7 +26,7 @@ public class LoginConverter {
         return data;
     }
 
-    public static Login response(Response response) {
+    public static Login response(ResponseCmd response) {
         Login login = new Login();
         login.isSuccess = response.isSuccess();
         return login;

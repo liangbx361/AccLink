@@ -1,7 +1,7 @@
 package com.out.accu.link.data.converter;
 
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.util.ByteUtil;
 
 /**
@@ -25,7 +25,7 @@ public class LowLowAlarmEnableConverter {
         return data;
     }
 
-    public static Device response(Device device, Response response) {
+    public static Device response(Device device, ResponseCmd response) {
         DeviceIdConverter.convert(device, response);
         device.lowLowAlarmEnable = response.data[6];
         return device;

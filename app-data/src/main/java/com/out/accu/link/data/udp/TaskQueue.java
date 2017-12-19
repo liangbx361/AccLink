@@ -1,6 +1,6 @@
 package com.out.accu.link.data.udp;
 
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -21,7 +21,7 @@ public class TaskQueue {
 
     private static volatile TaskQueue sTaskQueue;
 
-    private ConcurrentMap<String, PublishSubject<Response>> task = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, PublishSubject<ResponseCmd>> task = new ConcurrentHashMap<>();
 
     public static TaskQueue getInstance() {
         if(sTaskQueue == null) {
@@ -35,10 +35,10 @@ public class TaskQueue {
         return sTaskQueue;
     }
 
-    public synchronized PublishSubject<Response> createTaskIfNotExit(byte[] cmd) {
+    public synchronized PublishSubject<ResponseCmd> createTaskIfNotExit(byte[] cmd) {
         String key = getKey(cmd);
         if(!task.containsKey(key)) {
-            PublishSubject<Response> publishSubject = PublishSubject.create();
+            PublishSubject<ResponseCmd> publishSubject = PublishSubject.create();
             task.put(key, publishSubject);
             return publishSubject;
         } else {
@@ -46,7 +46,7 @@ public class TaskQueue {
         }
     }
 
-    public synchronized PublishSubject<Response> getTask(byte[] cmd) {
+    public synchronized PublishSubject<ResponseCmd> getTask(byte[] cmd) {
         String key = getKey(cmd);
         return task.get(key);
     }

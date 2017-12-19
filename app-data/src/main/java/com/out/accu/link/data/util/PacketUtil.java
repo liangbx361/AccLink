@@ -3,6 +3,7 @@ package com.out.accu.link.data.util;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 
 /**
  * <p>Title: <／p>
@@ -61,7 +62,7 @@ public class PacketUtil {
     public static byte[] CMD_GET_ALIAS_NAME = {(byte) 0xA3, 0x08};
     public static byte[] CMD_GET_LOCATION = {(byte) 0xA3, 0x09};
     public static byte[] CMD_GET_DEFENSE_ENABLE = {(byte) 0xA3, 0x0A}; //defenseEnable
-    public static byte[] CMD_GET_TEM= {(byte) 0xA3, 0x0B};
+    public static byte[] CMD_GET_TEM = {(byte) 0xA3, 0x0B};
     public static byte[] CMD_GET_PHONE_NUMBER = {(byte) 0xA3, 0x0C};
     public static byte[] CMD_GET_LTE_STATUS = {(byte) 0xA3, 0x0D};
     public static byte[] CMD_GET_TX = {(byte) 0xA3, 0x0E};
@@ -80,8 +81,7 @@ public class PacketUtil {
     public static int sCount;
 
     /**
-     *
-     * @param cmd 命令
+     * @param cmd  命令
      * @param type 请求、响应、上报
      * @param data 数据
      * @return
@@ -107,35 +107,55 @@ public class PacketUtil {
         return addHeader(id, allData);
     }
 
+    /**
+     * 可能包含多个条命令，需要处理
+     */
     public static Response parserPacket(byte[] respData) {
+        Response response = new Response();
         short pkgLength = ByteUtil.getShort(respData, 0);
-        short id = ByteUtil.getShort(respData, 2);
+        response.id = ByteUtil.getShort(respData, 2);
+
+        // 数据总长度
         short dataLength = (short) (pkgLength - 6);
+        if (dataLength == 0) {
+            return response;
+        }
+
         byte[] data = new byte[dataLength];
         ByteUtil.arrayCopy(respData, 6, data, 0, dataLength);
 
-        Response response = new Response();
-        response.id = id;
-
-        if(dataLength > 0) {
+        boolean isMore;
+        int offset = 0;
+        do {
+            ResponseCmd responseCmd = new ResponseCmd();
             byte[] cmd = new byte[2];
-            cmd[0] = data[20];
-            cmd[1] = data[21];
+            cmd[0] = data[20+offset];
+            cmd[1] = data[21+offset];
 
-            byte type = data[22];
-            byte code = data[23];
+            byte type = data[22+offset];
+            byte code = data[23+offset];
 
-            response = new Response();
-            response.id = id;
-            response.type = type;
-            response.code = code;
-            response.cmd = cmd;
-            int length = ByteUtil.getShort(data, 2) - 18;
-            response.data = new byte[length];
-            System.arraycopy(data, 24, response.data, 0, length);
+            responseCmd.type = type;
+            responseCmd.code = code;
+            responseCmd.cmd = cmd;
+
+            int length = ByteUtil.getShort(data, 2+offset) - 18;
+            responseCmd.data = new byte[length];
+            System.arraycopy(data, 24+offset, responseCmd.data, 0, length);
+            response.mResponseCmds.add(responseCmd);
 
             AppLogger.get().d("response", "cmd ->" + ByteUtil.getCmd(cmd[0], cmd[1]));
-        }
+
+            //包的实际长度
+            int cmdLength = ByteUtil.getShort(data, 2+offset)+12;
+            if(dataLength == cmdLength) {
+                isMore = false;
+            } else {
+                isMore = true;
+                dataLength -= cmdLength;
+                offset += cmdLength;
+            }
+        } while (isMore);
 
         return response;
     }

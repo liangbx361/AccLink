@@ -2,7 +2,7 @@ package com.out.accu.link.data.converter;
 
 import com.out.accu.link.data.logger.AppLogger;
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.util.ByteUtil;
 
 import java.io.UnsupportedEncodingException;
@@ -38,7 +38,7 @@ public class LowAlarmConverter {
         return data;
     }
 
-    public static Device response(Device device, Response response) {
+    public static Device response(Device device, ResponseCmd response) {
         DeviceIdConverter.convert(device, response);
         device.lowAlarmLimitValue = ByteUtil.getInt(response.data, 6);
         String[] phones = new String[8];

@@ -1,7 +1,7 @@
 package com.out.accu.link.data.converter;
 
 import com.out.accu.link.data.mode.DeviceHistory;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.util.ByteUtil;
 
 /**
@@ -25,7 +25,7 @@ public class HistoryConverter {
         return data;
     }
 
-    public static DeviceHistory response(Response response) {
+    public static DeviceHistory response(ResponseCmd response) {
         DeviceHistory history = new DeviceHistory();
         history.deviceId = ByteUtil.getIdString(response.data, 0, 6);
         if(response.data.length > 0) {

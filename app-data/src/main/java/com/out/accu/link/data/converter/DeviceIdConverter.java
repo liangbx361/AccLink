@@ -1,7 +1,7 @@
 package com.out.accu.link.data.converter;
 
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.data.util.ByteUtil;
 
 /**
@@ -16,7 +16,7 @@ import com.out.accu.link.data.util.ByteUtil;
 
 public class DeviceIdConverter {
 
-    public static void convert(Device device, Response response) {
+    public static void convert(Device device, ResponseCmd response) {
         byte[] idBytes = new byte[6];
         ByteUtil.arrayCopy(response.data, 0, idBytes, 0, 6);
         device.id = ByteUtil.getIdString(idBytes);

@@ -11,7 +11,7 @@ import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Login;
 import com.out.accu.link.data.mode.LoginInfo;
-import com.out.accu.link.data.mode.Response;
+import com.out.accu.link.data.mode.ResponseCmd;
 import com.out.accu.link.router.Navigation;
 
 /**
@@ -72,7 +72,7 @@ class LoginPresenter implements LoginContract.Presenter {
                     @Tag(BusAction.RESP_LOGIN_FAIL)
             }
     )
-    public void onLoginFail(Response response) {
+    public void onLoginFail(ResponseCmd response) {
         mView.getProgress().dismiss();
         Toast.makeText(mView.getActivity(), R.string.login_fail, Toast.LENGTH_SHORT).show();
     }
