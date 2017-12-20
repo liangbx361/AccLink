@@ -69,8 +69,10 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
             mTvAliasName.setText(DeviceUtil.getDeviceName(device));
             if(device.isOnline) {
                 mTvStatus.setText(R.string.online);
+                mTvStatus.setTextColor(getContext().getResources().getColor(R.color.esv_google_green));
             } else {
                 mTvStatus.setText(R.string.offline);
+                mTvStatus.setTextColor(getContext().getResources().getColor(android.R.color.darker_gray));
             }
 
             if(device.channel1Value != -1) {
