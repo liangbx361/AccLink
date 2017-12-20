@@ -135,7 +135,7 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
     @Override
     public void onClick(View v) {
         if(v.equals(userNameItem)) {
-            onUserName();
+//            onUserName();
         } else if(v.equals(mobileNameItem)) {
             onMobile();
         } else if(v.equals(passwordItem)) {

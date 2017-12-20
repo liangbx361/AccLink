@@ -110,6 +110,13 @@ public class SearchDialog {
                 return;
             }
 
+            mStartDate.setHours(0);
+            mStartDate.setMinutes(0);
+            mStartDate.setSeconds(0);
+            mEndDate.setHours(23);
+            mEndDate.setMinutes(59);
+            mEndDate.setSeconds(59);
+
             try {
                 int position = mSpDevices.getSelectedItemPosition();
                 byte[] deviceId = mDevices.get(position).idBytes;
