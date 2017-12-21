@@ -69,6 +69,10 @@ class DeviceListPresenter extends SmartListPresenterImpl implements DeviceListCo
     )
     public void onlineDevice(Device device) {
         onRemoteLoadSuccess(DataManager.getInstance().getModeData().getDevices(), true);
+        // 更新设备参数
+        if(device.isOnline) {
+            DataManager.getInstance().getDataService().getDevice(device);
+        }
     }
 
     @Subscribe(

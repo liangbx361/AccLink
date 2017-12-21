@@ -3,6 +3,8 @@ package com.out.accu.link.util;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.out.accu.link.R;
+
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -33,7 +35,7 @@ public class ExitAppController {
         if(pressedCount == 0) {
             pressedCount++;
             pressedTime = System.currentTimeMillis();
-            Toast.makeText(mContext, "再按一次退出", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.press_again_exit, Toast.LENGTH_SHORT).show();
             return true;
         } else {
             if(System.currentTimeMillis() - pressedTime < delayTime) {

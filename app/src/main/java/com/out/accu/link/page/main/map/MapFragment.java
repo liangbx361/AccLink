@@ -2,6 +2,7 @@ package com.out.accu.link.page.main.map;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 
 import com.cyou17173.android.arch.base.page.SmartFragment;
 import com.google.android.gms.maps.GoogleMap;
@@ -137,9 +138,13 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
         // 标注设备位置
         if(modeData.getDevices() != null && modeData.getDevices().size() > 0) {
             for(Device device : modeData.getDevices()) {
+                StringBuilder title = new StringBuilder(device.id);
+                if(!TextUtils.isEmpty(device.aliasName)) {
+                    title.append(device.aliasName);
+                }
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(device.lat, device.lng))
-                        .title(ByteUtil.getId(device.id))
+                        .title(title.toString())
                 );
             }
         }
