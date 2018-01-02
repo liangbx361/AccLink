@@ -2,6 +2,7 @@ package com.out.accu.link.page.main.map;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 
 import com.cyou17173.android.arch.base.page.SmartFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -191,6 +192,10 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_online));
                 } else {
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_offline));
+                }
+                String snippet = DeviceUtil.getDeviceDesc(device);
+                if(!TextUtils.isEmpty(snippet)) {
+                    markerOptions.snippet(snippet);
                 }
                 mMap.addMarker(markerOptions);
             }

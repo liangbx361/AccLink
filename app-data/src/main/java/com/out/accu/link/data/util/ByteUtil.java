@@ -143,7 +143,7 @@ public class ByteUtil {
             }
             sb.append(hex);
         }
-        return sb.toString();
+        return sb.toString().toUpperCase();
     }
 
     public static String getCmd(byte cmd1, byte cmd2) {

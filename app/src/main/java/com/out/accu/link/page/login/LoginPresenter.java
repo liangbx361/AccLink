@@ -44,7 +44,8 @@ class LoginPresenter implements LoginContract.Presenter {
             LoginInfo loginInfo = new LoginInfo();
             loginInfo.user = "user1";
             loginInfo.password = "123456";
-            loginInfo.server = "59.124.45.214";
+//            loginInfo.server = "59.124.45.214";
+            loginInfo.server = "211.72.229.132";
             loginInfo.port = 60003;
             mView.showLoginInfo(loginInfo);
         }

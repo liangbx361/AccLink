@@ -1,7 +1,10 @@
 package com.out.accu.link.util;
 
+import android.content.res.Resources;
 import android.text.TextUtils;
 
+import com.cyou17173.android.arch.base.app.Smart;
+import com.out.accu.link.R;
 import com.out.accu.link.data.mode.Device;
 
 /**
@@ -23,5 +26,21 @@ public class DeviceUtil {
         } else {
             return id + " (" + device.aliasName + ")";
         }
+    }
+
+    public static String getDeviceDesc(Device device) {
+
+        if(device.sampleValue == -1) {
+            return null;
+        }
+
+        Resources resources = Smart.getApp().getResources();
+
+        String level = resources.getString(R.string.sample_value, device.sampleValue/1000);
+        if(device.samplePercent != null) {
+            level += " [" + device.samplePercent + "%]";
+        }
+
+        return level;
     }
 }

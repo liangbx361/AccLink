@@ -37,7 +37,7 @@ public class DeviceListConverter {
             Device device = new Device();
             byte[] idBytes = new byte[6];
             ByteUtil.arrayCopy(response.data, i*7, idBytes, 0, 6);
-            device.id = ByteUtil.getIdString(idBytes).toUpperCase();
+            device.id = ByteUtil.getIdString(idBytes);
             device.idBytes = idBytes;
             device.isOnline = response.data[i * 7 + 6] == 1;
             devices.add(device);

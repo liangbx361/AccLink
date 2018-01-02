@@ -9,7 +9,7 @@ import com.out.accu.link.R;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Device;
-import com.out.accu.link.data.mode.ResponseCmd;
+import com.out.accu.link.data.mode.RespResult;
 import com.out.accu.link.data.util.ByteUtil;
 
 /**
@@ -54,10 +54,10 @@ class MapPresenter implements MapContract.Presenter {
                     @Tag(BusAction.RESP_SET_LOCATION)
             }
     )
-    public void onSetLocation(ResponseCmd response) {
+    public void onSetLocation(RespResult respResult) {
         mView.hideLoadingDialog();
-        if(response.isSuccess()) {
-            Device device = DataManager.getInstance().getModeData().getDevice(mDevice.id);
+        if(respResult.isSuccess) {
+            Device device = DataManager.getInstance().getModeData().getDevice(respResult.deviceId);
             device.lat = mDevice.lat;
             device.lng = mDevice.lng;
             mView.refreshLocation();

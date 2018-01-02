@@ -21,7 +21,7 @@ public class ModeData {
 
     public synchronized Device getDevice(String id) {
         for(Device device : devices) {
-            if(device.id.equals(id)) {
+            if(device.id.toLowerCase().equals(id.toLowerCase())) {
                 return device;
             }
         }

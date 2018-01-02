@@ -9,6 +9,7 @@ import com.out.accu.link.R;
 import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Device;
+import com.out.accu.link.data.mode.RespResult;
 
 /**
  * <p>Title: </p>
@@ -154,6 +155,17 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
     @Subscribe(
             thread = EventThread.MAIN_THREAD,
             tags = {
+                    @Tag(BusAction.RESP_SET_DATA_FAIL),
+            }
+    )
+    public void setDataFail(Object o) {
+        mView.hideLoadingDialog();
+        Toast.makeText(mView.getActivity(), R.string.modify_fail, Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
                     @Tag(BusAction.RESP_SET_ALIAS_NAME),
             }
     )
@@ -222,10 +234,10 @@ class DeviceDetailPresenter implements DeviceDetailContract.Presenter {
                     @Tag(BusAction.RESP_SET_LOCATION),
             }
     )
-    public void respSetLocation(String deviceId) {
+    public void respSetLocation(RespResult result) {
         mView.hideLoadingDialog();
-        if(mDeviceId.equals(deviceId)) {
-            Device device = DataManager.getInstance().getModeData().getDevice(mDeviceId);
+        if(mDeviceId.equals(result.deviceId)) {
+            Device device = DataManager.getInstance().getModeData().getDevice(result.deviceId);
             device.lat = mSetDevice.lat;
             device.lng = mSetDevice.lng;
             mView.showData(device);

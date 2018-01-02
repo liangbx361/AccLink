@@ -30,6 +30,7 @@ import com.out.accu.link.data.mode.DeviceHistory;
 import com.out.accu.link.data.mode.Login;
 import com.out.accu.link.data.mode.ModeData;
 import com.out.accu.link.data.mode.ResponseCmd;
+import com.out.accu.link.data.mode.RespResult;
 import com.out.accu.link.data.mode.User;
 import com.out.accu.link.data.util.ByteUtil;
 import com.out.accu.link.data.util.PacketUtil;
@@ -519,7 +520,8 @@ public class ResponseHandler {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_CHANNEL, getDeviceId(response));
                     } else {
-
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_CHANNEL_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_CHANNEL_RANGE error");
@@ -531,7 +533,8 @@ public class ResponseHandler {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_VALUE, getDeviceId(response));
                     } else {
-
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_VALUE_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_VALUE_RANGE error");
@@ -543,7 +546,8 @@ public class ResponseHandler {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_DEFENSE_ENABLE, getDeviceId(response));
                     } else {
-
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_DEFENSE_ENABLE_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_DEFENSE_ENABLE error");
@@ -552,7 +556,10 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOCATION)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    SmartBus.get().post(BusAction.RESP_SET_LOCATION, response);
+                    RespResult result = new RespResult();
+                    result.deviceId = getDeviceId(response);
+                    result.isSuccess = response.isSuccess();
+                    SmartBus.get().post(BusAction.RESP_SET_LOCATION, result);
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_LOCATION error");
                 });
@@ -563,7 +570,8 @@ public class ResponseHandler {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_PARAMS, getDeviceId(response));
                     } else {
-
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_LOW_LOW_ALARM_PARAMS_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_LOW_LOW_ALARM_PARAMS error");
@@ -575,7 +583,8 @@ public class ResponseHandler {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOW_LOW_ALARM_ENABLE, getDeviceId(response));
                     } else {
-
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_LOW_LOW_ALARM_ENABLE_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_LOW_LOW_ALARM_ENABLE error");
@@ -587,7 +596,8 @@ public class ResponseHandler {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOW_ALARM_PARAMS, getDeviceId(response));
                     } else {
-
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_LOW_ALARM_PARAMS_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_LOW_ALARM_PARAMS error");
@@ -599,7 +609,8 @@ public class ResponseHandler {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_LOW_ALARM_ENABLE, getDeviceId(response));
                     } else {
-
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_LOW_ALARM_ENABLE_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_LOW_ALARM_ENABLE error");
@@ -610,6 +621,9 @@ public class ResponseHandler {
                 .subscribe(response -> {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_REPORT_PERIOD, response);
+                    } else {
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_REPORT_PERIOD_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_REPORT_PERIOD error");
@@ -621,8 +635,8 @@ public class ResponseHandler {
                     if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME, getDeviceId(response));
                     } else {
-                        SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME_FAIL, response);
-                        AppLogger.get().d("response", "RESP_SET_ALIAS_NAME_FAIL");
+                        SmartBus.get().post(BusAction.RESP_SET_DATA_FAIL, response);
+                        AppLogger.get().d("response", "RESP_SET_DATA_FAIL");
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_ALIAS_NAME error");
