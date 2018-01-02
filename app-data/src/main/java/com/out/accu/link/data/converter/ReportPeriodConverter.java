@@ -27,7 +27,7 @@ public class ReportPeriodConverter {
     public static Device response(Device device, ResponseCmd response) {
         DeviceIdConverter.convert(device, response);
         device.reportPeriod = ByteUtil.getInt(response.data, 6);
-        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "device reqId ->" + device.id);
         AppLogger.get().d("response", "reportPeriod ->" + device.reportPeriod);
         return device;
     }

@@ -27,7 +27,7 @@ public class ValueRangeConverter {
     public static Device response(Device device, ResponseCmd response) {
         DeviceIdConverter.convert(device, response);
         device.valueRange = ByteUtil.getInt(response.data, 6);
-        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "device reqId ->" + device.id);
         AppLogger.get().d("response", "valueRange ->" + device.valueRange);
         return device;
     }

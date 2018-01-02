@@ -63,7 +63,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_LOGIN)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Login login = LoginConverter.response(response);
                         SmartBus.get().post(BusAction.RESP_LOGIN, login);
                     } else {
@@ -74,7 +74,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_DEVICES)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         AppLogger.get().d("response", "CMD_GET_DEVICES");
                         List<Device> devices = DeviceListConverter.response(response);
                         if (mModeData.getDevices().size() == 0) {
@@ -109,7 +109,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_CHANNEL_RANGE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         ChannelRangeConverter.response(device, response);
                         try {
@@ -130,7 +130,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_VALUE_RANGE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         ValueRangeConverter.response(device, response);
                         try {
@@ -150,7 +150,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_ALIAS_NAME)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         AliasNameConverter.response(device, response);
                         try {
@@ -171,7 +171,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_ALARM_ENABLE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         LowAlarmEnableConverter.response(device, response);
                         try {
@@ -191,7 +191,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_ALARM_PARAMS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         LowAlarmConverter.response(device, response);
                         try {
@@ -233,7 +233,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOW_LOW_ALARM_PARAMS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         LowLowAlarmConverter.response(device, response);
                         try {
@@ -255,7 +255,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_DEFENSE_ENABLE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         DefenseEnableConverter.response(device, response);
                         try {
@@ -275,7 +275,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LOCATION)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         LocationConverter.response(device, response);
                         try {
@@ -296,7 +296,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_LTE_STATUS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         LteStatusConverter.response(device, response);
                         try {
@@ -318,7 +318,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_PHONE_NUMBER)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         PhoneNumberConverter.response(device, response);
                         try {
@@ -338,7 +338,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_REPORT_PERIOD)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         ReportPeriodConverter.response(device, response);
                         try {
@@ -358,7 +358,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_TEM)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         TemConverter.response(device, response);
                         try {
@@ -379,7 +379,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_TX)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         TxConverter.response(device, response);
                         try {
@@ -398,7 +398,7 @@ public class ResponseHandler {
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_USER_NAME)
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         User user = new User();
                         UsernameConverter.response(user, response);
                         if (mModeData.user == null) {
@@ -414,7 +414,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_NAME)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_USERNAME_SUCCESS, "");
                     }
                 }, throwable -> {
@@ -424,7 +424,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_PHONE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_USER_MOBILE_SUCCESS, "");
                     }
                 }, throwable -> {
@@ -434,7 +434,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_PASSWORD)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_PASSWORD_SUCCESS, "");
                     }
                 }, throwable -> {
@@ -443,7 +443,7 @@ public class ResponseHandler {
 
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_USER_PHONE)
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         User user = new User();
                         UserMobileConverter.response(user, response);
                         if (mModeData.user == null) {
@@ -459,7 +459,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_DEVICE_VALUE_UPLOAD)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         UploadValueConverter.response(device, response);
                         try {
@@ -468,9 +468,9 @@ public class ResponseHandler {
                             device1.channel2Value = device.channel2Value;
                             device1.sampleValue = device.sampleValue;
 
-                            if(device1.valueRange !=  -1) {
+                            if (device1.valueRange != -1) {
                                 float value = (device1.sampleValue / 1000 * 10000.0f) / (device1.valueRange / 1000);
-                                NumberFormat numberFormat= NumberFormat.getNumberInstance() ;
+                                NumberFormat numberFormat = NumberFormat.getNumberInstance();
                                 numberFormat.setMaximumFractionDigits(1);
                                 device1.samplePercent = numberFormat.format(value);
                             }
@@ -491,7 +491,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_DEVICE_ONLINE_UPLOAD)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         Device device = new Device();
                         UploadOnlineConverter.response(device, response);
                         try {
@@ -552,11 +552,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_LOCATION)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if (response.isSuccess()) {
-                        SmartBus.get().post(BusAction.RESP_SET_LOCATION, getDeviceId(response));
-                    } else {
-
-                    }
+                    SmartBus.get().post(BusAction.RESP_SET_LOCATION, response);
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_LOCATION error");
                 });
@@ -613,8 +609,7 @@ public class ResponseHandler {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response.isSuccess()) {
-                        SmartBus.get().post(BusAction.RESP_SET_REPORT_PERIOD, getDeviceId(response));
-                    } else {
+                        SmartBus.get().post(BusAction.RESP_SET_REPORT_PERIOD, response);
                     }
                 }, throwable -> {
                     AppLogger.get().d("response", "CMD_SET_REPORT_PERIOD error");
@@ -623,7 +618,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_SET_ALIAS_NAME)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME, getDeviceId(response));
                     } else {
                         SmartBus.get().post(BusAction.RESP_SET_ALIAS_NAME_FAIL, response);
@@ -636,7 +631,7 @@ public class ResponseHandler {
         TaskQueue.getInstance().createTaskIfNotExit(PacketUtil.CMD_GET_HISTORY)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    if(response.isSuccess()) {
+                    if (response.isSuccess()) {
                         DeviceHistory history = HistoryConverter.response(response);
                         SmartBus.get().post(BusAction.RESP_HISTORY, history);
                     } else {

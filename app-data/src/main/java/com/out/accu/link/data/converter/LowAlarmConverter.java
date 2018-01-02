@@ -48,7 +48,7 @@ public class LowAlarmConverter {
         device.lowNotifyPhones = phones;
         device.lowSmsContent = ByteUtil.getString(response.data, 170, 128);
 
-        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "device reqId ->" + device.id);
         AppLogger.get().d("response", "lowAlarmLimitValue ->" + device.lowAlarmLimitValue);
         StringBuilder phoneSb = new StringBuilder();
         for(String phone : phones) {

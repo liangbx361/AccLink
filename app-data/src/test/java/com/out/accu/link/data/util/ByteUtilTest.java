@@ -22,12 +22,9 @@ public class ByteUtilTest {
 
     @Test
     public void formatDouble() throws Exception {
-        byte[] doubleByte = new byte[]{(byte) 0xC9, 0x76, (byte) 0xBE, (byte) 0x9F, 0x1A, (byte) 0xC7, 0x4B, 0x40};
-        double value = ByteUtil.getDouble(doubleByte, 0);
-        System.out.println(value);
-
-        byte[] dValue = ByteUtil.doubleToByte(0.1234);
-        System.out.println(ByteUtil.getDouble(dValue, 0));
+        double value = 3.1415926f;
+        byte[] doubleValue = ByteUtil.doubleToByte(value);
+        Assert.assertEquals(value, ByteUtil.getDouble(doubleValue, 0), 0.001);
     }
 
     @Test

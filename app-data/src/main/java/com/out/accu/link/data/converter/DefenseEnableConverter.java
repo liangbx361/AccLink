@@ -29,7 +29,7 @@ public class DefenseEnableConverter {
     public static Device response(Device device, ResponseCmd response) {
         DeviceIdConverter.convert(device, response);
         device.defenseEnable = response.data[6];
-        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "device reqId ->" + device.id);
         AppLogger.get().d("response", "defenseEnable ->" + device.defenseEnable);
         return device;
     }

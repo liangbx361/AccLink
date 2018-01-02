@@ -29,7 +29,7 @@ public class ChannelRangeConverter {
         DeviceIdConverter.convert(device, response);
         device.channel1Range = ByteUtil.getInt(response.data, 6);
         device.channel2Range = ByteUtil.getInt(response.data, 10);
-        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "device reqId ->" + device.id);
         AppLogger.get().d("response", "channel1Range ->" + device.channel1Range);
         AppLogger.get().d("response", "channel2Range ->" + device.channel2Range);
         return device;

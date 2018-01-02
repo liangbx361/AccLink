@@ -72,7 +72,6 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
 //        etPort.setText("60003");
 
         mProgressDialog = ProgressHelper.getProgressBar(this);
-
     }
 
     /**

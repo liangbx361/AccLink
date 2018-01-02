@@ -83,6 +83,9 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
         getPresenter().initArgument();
 
         mQMUITopBar = findViewById(R.id.topbar);
+        mQMUITopBar.addLeftBackImageButton().setOnClickListener(v -> {
+            finish();
+        });
 
         mLoadingDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
@@ -374,7 +377,7 @@ public class DeviceDetailActivity extends SmartStateActivity<DeviceDetailContrac
                 .addItemView(lowLowAlarmLimitValueItem, this)
                 .addItemView(lowLowNotifyPhonesItem, this)
                 .addItemView(lowLowSmsFormatItem, this)
-                .addItemView(gpsItem, this)
+//                .addItemView(gpsItem, this)
                 .addItemView(defenseEnableItem, this)
                 .addItemView(temperatureItem, this)
                 .addItemView(humidityItem, this)

@@ -29,7 +29,7 @@ public class LocationConverter {
         DeviceIdConverter.convert(device, response);
         device.lat = ByteUtil.getDouble(response.data, 6);
         device.lng = ByteUtil.getDouble(response.data, 14);
-        AppLogger.get().d("response", "device reqId ->" + ByteUtil.getId(device.id));
+        AppLogger.get().d("response", "device reqId ->" + device.id);
         AppLogger.get().d("response", "lat ->" + device.lat);
         AppLogger.get().d("response", "lng ->" + device.lng);
         return device;

@@ -1,10 +1,14 @@
 package com.out.accu.link.page.main;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,10 +20,24 @@ import com.cyou17173.android.arch.base.page.SmartActivity;
 import com.cyou17173.android.component.common.util.fragment.FragmentInstanceManager;
 import com.out.accu.link.R;
 import com.out.accu.link.util.ExitAppController;
+import com.out.accu.link.util.PermissionUtils;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 public class MainActivity extends SmartActivity<MainContract.Presenter> implements
-        NavigationView.OnNavigationItemSelectedListener, MainContract.View {
+        NavigationView.OnNavigationItemSelectedListener, MainContract.View, ActivityCompat.OnRequestPermissionsResultCallback {
+
+    /**
+     * Request code for location permission request.
+     *
+     * @see #onRequestPermissionsResult(int, String[], int[])
+     */
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
+    /**
+     * Flag indicating whether a requested permission has been denied after returning in
+     * {@link #onRequestPermissionsResult(int, String[], int[])}.
+     */
+    private boolean mPermissionDenied = false;
 
     TextView mTvUsername;
     FragmentInstanceManager mInstanceManager;
@@ -67,6 +85,7 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
     @Override
     public void registerEvent() {
         getPresenter().onItemSelected(R.id.nav_device);
+        enableMyLocation();
     }
 
     @Override
@@ -131,5 +150,43 @@ public class MainActivity extends SmartActivity<MainContract.Presenter> implemen
     @Override
     public void hideLoading() {
         mLoadingDialog.dismiss();
+    }
+
+    /**
+     * Enables the My Location layer if the fine location permission has been granted.
+     */
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+                    permissions, true);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation();
+        } else {
+            // Display the missing permission error dialog when the fragments resume.
+            mPermissionDenied = true;
+        }
+    }
+
+    /**
+     * Displays a dialog with error message explaining that the location permission is missing.
+     */
+    private void showMissingPermissionError() {
+        PermissionUtils.PermissionDeniedDialog
+                .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
 }

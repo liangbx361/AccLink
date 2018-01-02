@@ -1,7 +1,6 @@
 package com.out.accu.link.data;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 
 import com.out.accu.link.data.config.Platform;
 import com.out.accu.link.data.mock.MockService;
@@ -10,6 +9,7 @@ import com.out.accu.link.data.remote.RemoteService;
 import com.out.accu.link.data.udp.ResponseHandler;
 import com.out.accu.link.data.udp.UdpHandler;
 import com.out.accu.link.data.util.ByteUtil;
+import com.out.accu.link.data.util.MacUtil;
 
 /**
  * <p>Title: <／p>
@@ -44,11 +44,11 @@ public class DataManager {
                 mDataService = new MockService();
                 break;
             case TEST:
-                ByteUtil.arrayCopy(Build.SERIAL.getBytes(), 0, deviceId, 0, 6);
+                ByteUtil.arrayCopy(MacUtil.realId(), 0, deviceId, 0, 6);
                 mDataService = new RemoteService();
                 break;
             case RELEASE:
-                ByteUtil.arrayCopy(Build.SERIAL.getBytes(), 0, deviceId, 0, 6);
+                ByteUtil.arrayCopy(MacUtil.realId(), 0, deviceId, 0, 6);
                 mDataService = new RemoteService();
                 break;
         }

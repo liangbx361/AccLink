@@ -2,19 +2,23 @@ package com.out.accu.link.page.main.map;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.text.TextUtils;
 
 import com.cyou17173.android.arch.base.page.SmartFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.out.accu.link.R;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.ModeData;
-import com.out.accu.link.data.util.ByteUtil;
+import com.out.accu.link.router.Navigation;
+import com.out.accu.link.util.DeviceUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
@@ -31,6 +35,12 @@ import java.util.List;
  */
 public class MapFragment extends SmartFragment<MapContract.Presenter> implements MapContract.View,
         OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+
+    private static final LatLng lat1 = new LatLng(25.300942, 121.574210);
+    private static final LatLng lat2 = new LatLng(25.008826, 122.004050);
+    private static final LatLng lat3 = new LatLng(24.532498, 121.873587);
+    private static final LatLng lat4 = new LatLng(21.894630, 120.851350);
+    private static final LatLng lat5 = new LatLng(23.782829, 120.123506);
 
     private GoogleMap mMap;
 
@@ -94,6 +104,42 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
     public void onMapReady(GoogleMap map) {
         mMap = map;
         map.setOnMapLongClickListener(this);
+        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                return true;
+            }
+        });
+
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return false;
+            }
+        });
+
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                ModeData modeData = DataManager.getInstance().getModeData();
+                for(Device device : modeData.getDevices()) {
+                    if(marker.getTitle().contains(device.id)) {
+                        Navigation.deviceDetail((Activity) getContext(), device.id);
+                    }
+                }
+            }
+        });
+
+        // 显示的默认范围
+        LatLngBounds bounds = new LatLngBounds.Builder()
+                .include(lat1)
+                .include(lat2)
+                .include(lat3)
+                .include(lat4)
+                .include(lat5)
+                .build();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+
         refreshLocation();
     }
 
@@ -107,7 +153,7 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
         List<Device> devices = DataManager.getInstance().getModeData().getDevices();
         String[] deviceIds = new String[devices.size()];
         for(int i=0; i<deviceIds.length; i++) {
-            deviceIds[i] = ByteUtil.getId(devices.get(i).id);
+            deviceIds[i] = DeviceUtil.getDeviceName(devices.get(i));
         }
         final QMUIDialog.CheckableDialogBuilder builder = new QMUIDialog.CheckableDialogBuilder(getActivity());
         builder.setTitle(getString(R.string.set_device_location))
@@ -138,15 +184,24 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
         // 标注设备位置
         if(modeData.getDevices() != null && modeData.getDevices().size() > 0) {
             for(Device device : modeData.getDevices()) {
-                StringBuilder title = new StringBuilder(device.id);
-                if(!TextUtils.isEmpty(device.aliasName)) {
-                    title.append(device.aliasName);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(new LatLng(device.lat, device.lng));
+                markerOptions.title(DeviceUtil.getDeviceName(device));
+                if(device.isOnline) {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_online));
+                } else {
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_offline));
                 }
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(device.lat, device.lng))
-                        .title(title.toString())
-                );
+                mMap.addMarker(markerOptions);
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mMap != null) {
+            refreshLocation();
         }
     }
 }

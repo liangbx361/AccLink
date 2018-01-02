@@ -146,19 +146,6 @@ public class ByteUtil {
         return sb.toString();
     }
 
-    public static String getId(String deviceId) {
-        byte[] data = deviceId.getBytes();
-        StringBuffer sb = new StringBuffer();
-        for (byte item : data) {
-            String hex = Integer.toHexString(item & 0xFF);
-            if (hex.length() == 1) {
-                hex = '0' + hex;
-            }
-            sb.append(hex);
-        }
-        return sb.toString();
-    }
-
     public static String getCmd(byte cmd1, byte cmd2) {
         String hex1 = Integer.toHexString(cmd1 & 0xFF);
         String hex2 = Integer.toHexString(cmd2 & 0xFF);
