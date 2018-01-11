@@ -45,4 +45,8 @@
 
     <color name="device_online">#34A853</color>
     <color name="device_offline">#AAAAAA</color>
+
+    <!-- 通知 -->
+    <color name="low_alarm">#FE6D4B</color>
+    <color name="low_low_alarm">#d81e06</color>
 </resources>

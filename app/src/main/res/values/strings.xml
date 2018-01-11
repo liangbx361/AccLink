@@ -109,6 +109,11 @@
     <string name="modify">Modify</string>
     <string name="logout">Logout</string>
 
+    <!-- 通知 -->
+    <string name="notify_low_alarm">@string/low_alarm_enable_desc</string>
+    <string name="notify_low_low_alarm">@string/low_low_alarm_enable_desc</string>
+    <string name="notify_normal">Restore</string>
+
     <string name="pickerview_cancel">Cancel</string>
     <string name="pickerview_day"></string>
     <string name="pickerview_hours"></string>

@@ -45,7 +45,7 @@ public class Device {
     // 8组短信通知号码 20*8
     public String[] lowNotifyPhones;
 
-    // 短信内容
+    // 短信内容 %V0 %M
     public String lowSmsContent;
 
     // 数据底底报使能开关

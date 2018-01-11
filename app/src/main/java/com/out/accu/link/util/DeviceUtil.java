@@ -35,7 +35,6 @@ public class DeviceUtil {
         }
 
         Resources resources = Smart.getApp().getResources();
-
         String level = resources.getString(R.string.sample_value, device.sampleValue/1000);
         if(device.samplePercent != null) {
             level += " [" + device.samplePercent + "%]";

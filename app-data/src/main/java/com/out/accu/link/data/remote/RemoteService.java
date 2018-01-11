@@ -82,20 +82,23 @@ public class RemoteService implements DataService {
     @Override
     public void getDevice(Device device) {
         byte[] deviceId = device.idBytes;
-        send(PacketUtil.CMD_GET_CHANNEL_RANGE, deviceId);
-        send(PacketUtil.CMD_GET_VALUE_RANGE, deviceId);
-        send(PacketUtil.CMD_GET_REPORT_PERIOD, deviceId);
-        send(PacketUtil.CMD_GET_LOW_ALARM_ENABLE, deviceId);
-        send(PacketUtil.CMD_GET_LOW_ALARM_PARAMS, deviceId);
-        send(PacketUtil.CMD_GET_LOW_LOW_ALARM_ENABLE, deviceId);
-        send(PacketUtil.CMD_GET_LOW_LOW_ALARM_PARAMS, deviceId);
-        send(PacketUtil.CMD_GET_ALIAS_NAME, deviceId);
+        if(device.isOnline) {
+            send(PacketUtil.CMD_GET_CHANNEL_RANGE, deviceId);
+            send(PacketUtil.CMD_GET_VALUE_RANGE, deviceId);
+            send(PacketUtil.CMD_GET_REPORT_PERIOD, deviceId);
+            send(PacketUtil.CMD_GET_LOW_ALARM_ENABLE, deviceId);
+            send(PacketUtil.CMD_GET_LOW_ALARM_PARAMS, deviceId);
+            send(PacketUtil.CMD_GET_LOW_LOW_ALARM_ENABLE, deviceId);
+            send(PacketUtil.CMD_GET_LOW_LOW_ALARM_PARAMS, deviceId);
+            send(PacketUtil.CMD_GET_ALIAS_NAME, deviceId);
+            send(PacketUtil.CMD_GET_DEFENSE_ENABLE, deviceId);
+            send(PacketUtil.CMD_GET_TEM, deviceId);
+            send(PacketUtil.CMD_GET_PHONE_NUMBER, deviceId);
+            send(PacketUtil.CMD_GET_LTE_STATUS, deviceId);
+            send(PacketUtil.CMD_GET_TX, deviceId);
+        }
+
         send(PacketUtil.CMD_GET_LOCATION, deviceId);
-        send(PacketUtil.CMD_GET_DEFENSE_ENABLE, deviceId);
-        send(PacketUtil.CMD_GET_TEM, deviceId);
-        send(PacketUtil.CMD_GET_PHONE_NUMBER, deviceId);
-        send(PacketUtil.CMD_GET_LTE_STATUS, deviceId);
-        send(PacketUtil.CMD_GET_TX, deviceId);
     }
 
     @Override

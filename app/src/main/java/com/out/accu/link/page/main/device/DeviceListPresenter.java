@@ -9,6 +9,7 @@ import com.out.accu.link.data.BusAction;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.Device;
 import com.out.accu.link.data.mode.ModeData;
+import com.out.accu.link.notify.NotifyManager;
 
 import java.util.List;
 
@@ -55,9 +56,7 @@ class DeviceListPresenter extends SmartListPresenterImpl implements DeviceListCo
         onRemoteLoadSuccess(modeData.getDevices(), true);
 
         for(Device device : modeData.getDevices()) {
-            if(device.isOnline) {
-                DataManager.getInstance().getDataService().getDevice(device);
-            }
+            DataManager.getInstance().getDataService().getDevice(device);
         }
     }
 
@@ -95,5 +94,16 @@ class DeviceListPresenter extends SmartListPresenterImpl implements DeviceListCo
     public void updateDeviceValue(String deviceId) {
         ModeData modeData = DataManager.getInstance().getModeData();
         onRemoteLoadSuccess(modeData.getDevices(), true);
+        NotifyManager.getInstance().handlerNotify(mView.getActivity(), deviceId);
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.UPDATE_DEVICE_DATA)
+            }
+    )
+    public void updateDeviceData(String deviceId) {
+        NotifyManager.getInstance().handlerNotify(mView.getActivity(), deviceId);
     }
 }
