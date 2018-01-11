@@ -96,4 +96,12 @@ public class Device {
     public int channel2Value = -1;
 
     public String samplePercent;
+
+    public boolean isLowLowAlarm() {
+        return lowLowAlarmEnable == 1 && sampleValue != -1 && lowLowAlarmLimitValue != -1 && sampleValue < lowLowAlarmLimitValue;
+    }
+
+    public boolean isLowAlarm() {
+        return lowAlarmEnable == 1 && sampleValue != -1 && lowAlarmLimitValue != -1 && sampleValue < lowAlarmLimitValue;
+    }
 }

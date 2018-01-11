@@ -72,8 +72,7 @@ public class NotifyManager {
 
         int notifyState = mNotifyStates.get(deviceId);
 
-        if(device.lowLowAlarmEnable == 1 && device.lowLowAlarmLimitValue != -1
-                && (device.sampleValue < device.lowLowAlarmLimitValue)) {
+        if(device.isLowLowAlarm()) {
             // 低低报通知
             switch (notifyState) {
                 case NOTIFY_LOW_LOW_ALARM:
@@ -94,8 +93,7 @@ public class NotifyManager {
                     mNotifyStates.put(deviceId, NOTIFY_LOW_LOW_ALARM);
                     break;
             }
-        } else if(device.lowLowAlarmEnable == 1 && device.lowAlarmLimitValue != -1
-                && device.sampleValue < device.lowAlarmLimitValue) {
+        } else if(device.isLowAlarm()) {
             //低报通知
             switch (notifyState) {
                 case NOTIFY_LOW_ALARM:

@@ -40,4 +40,10 @@ public class DeviceListFragment extends SmartListFragment<DeviceListContract.Pre
     public DeviceListContract.Presenter createPresenter() {
         return new DeviceListPresenter(this);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
 }

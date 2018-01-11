@@ -43,6 +43,7 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
     }
 
     class ViewHolder extends SmartViewHolder<Device> {
+        View mViewItem;
         @BindView(R.id.aliasName)
         TextView mTvAliasName;
         @BindView(R.id.status)
@@ -56,6 +57,7 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
 
         public ViewHolder(View itemView) {
             super(itemView);
+            mViewItem = itemView;
             ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(v -> {
@@ -103,6 +105,14 @@ public class DeviceListViewBinder extends ItemViewBinder<Device, DeviceListViewB
             } else {
                 mTvSampleValue.setText("");
                 mTvSampleValue.setVisibility(View.GONE);
+            }
+
+            if(device.isLowLowAlarm()) {
+                mViewItem.setBackgroundColor(getContext().getResources().getColor(R.color.low_low_alarm));
+            } else if(device.isLowAlarm()) {
+                mViewItem.setBackgroundColor(getContext().getResources().getColor(R.color.low_alarm));
+            } else {
+                mViewItem.setBackgroundColor(getContext().getResources().getColor(android.R.color.transparent));
             }
         }
     }
