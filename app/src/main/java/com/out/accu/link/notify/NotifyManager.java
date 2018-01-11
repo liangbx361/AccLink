@@ -158,7 +158,8 @@ public class NotifyManager {
         builder.setAutoCancel(true);
         builder.setOngoing(false);
         builder.setWhen(System.currentTimeMillis());
-        builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+        builder.setDefaults(Notification.DEFAULT_ALL);
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
