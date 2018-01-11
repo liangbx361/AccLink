@@ -3,8 +3,8 @@ apply from: "${gradleConfigUrl}/gradle/application.gradle"
 android {
     defaultConfig {
         applicationId "com.out.accu.link"
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.5"
     }
 
     signingConfigs {
