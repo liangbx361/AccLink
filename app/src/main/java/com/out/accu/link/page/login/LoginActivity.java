@@ -14,9 +14,6 @@ import com.out.accu.link.R;
 import com.out.accu.link.data.mode.LoginInfo;
 import com.out.accu.link.util.ProgressHelper;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -148,12 +145,12 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
             throw new IllegalArgumentException("");
         }
 
-        try {
-            InetAddress.getByName(server);
-        } catch (UnknownHostException e) {
-            Toast.makeText(this, R.string.server_not_correct, Toast.LENGTH_SHORT).show();
-            return null;
-        }
+//        try {
+//            InetAddress.getByName(server);
+//        } catch (UnknownHostException e) {
+//            Toast.makeText(this, R.string.server_not_correct, Toast.LENGTH_SHORT).show();
+//            return null;
+//        }
 
         return server;
     }
@@ -186,6 +183,8 @@ public class LoginActivity extends SmartActivity<LoginContract.Presenter> implem
             etPassword.setText(loginInfo.password);
             etServer.setText(loginInfo.server);
             etPort.setText(loginInfo.port + "");
+        } else {
+            etPort.setText("60003");
         }
 
         if (loginInfo != null && !TextUtils.isEmpty(loginInfo.server) && loginInfo.port != 0) {
