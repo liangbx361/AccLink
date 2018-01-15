@@ -18,6 +18,7 @@ public interface MapContract {
         void showLoadingDialog();
         void hideLoadingDialog();
         void refreshLocation();
+        boolean isVisible();
     }
 
     interface Presenter extends SmartPresenter {

@@ -65,6 +65,19 @@ class MapPresenter implements MapContract.Presenter {
         } else {
             Toast.makeText(mView.getActivity(), R.string.modify_fail, Toast.LENGTH_SHORT).show();
         }
+    }
 
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.UPDATE_DEVICE_VALUE),
+                    @Tag(BusAction.UPDATE_DEVICE_DATA)
+
+            }
+    )
+    public void updateDeviceData(Object o) {
+        if(mView.isVisible()) {
+            mView.refreshLocation();
+        }
     }
 }

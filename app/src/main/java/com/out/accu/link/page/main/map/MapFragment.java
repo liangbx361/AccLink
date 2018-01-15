@@ -189,7 +189,13 @@ public class MapFragment extends SmartFragment<MapContract.Presenter> implements
                 markerOptions.position(new LatLng(device.lat, device.lng));
                 markerOptions.title(DeviceUtil.getDeviceName(device));
                 if(device.isOnline) {
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_online));
+                    if(device.isLowLowAlarm()) {
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_low_low_alarm));
+                    } else if(device.isLowAlarm()) {
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_low_alarm));
+                    } else {
+                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_online));
+                    }
                 } else {
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_offline));
                 }
