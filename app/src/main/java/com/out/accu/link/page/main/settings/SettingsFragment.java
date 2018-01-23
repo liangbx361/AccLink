@@ -1,14 +1,17 @@
 package com.out.accu.link.page.main.settings;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.cyou17173.android.arch.base.page.SmartStateFragment;
 import com.out.accu.link.R;
 import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.mode.User;
+import com.out.accu.link.page.login.LoginActivity;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
@@ -38,6 +41,9 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
     QMUICommonListItemView passwordItem;
 
     QMUITipDialog mLoadingDialog;
+
+    @BindView(R.id.btnExitAccount)
+    Button mBtnExitAccount;
 
     @Override
     public void onAttach(Activity activity) {
@@ -78,7 +84,12 @@ public class SettingsFragment extends SmartStateFragment<SettingsContract.Presen
      */
     @Override
     public void registerEvent() {
-
+        mBtnExitAccount.setOnClickListener(v -> {
+            // 退出当前账号
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        });
     }
 
     /**

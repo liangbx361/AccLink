@@ -4,11 +4,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+>
 
     <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView
         android:id="@+id/groupListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+    />
+
+    <Button
+        android:id="@+id/btnExitAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/app_color_theme_1"
+        android:background="@drawable/bt_shape"
+        android:text="@string/exit_account"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+    />
 
 </FrameLayout>

@@ -40,6 +40,7 @@
     <string name="modify_password">Modify Password</string>
     <string name="old_password">Current password</string>
     <string name="new_password">New Password</string>
+    <string name="exit_account">Exit Account</string>
 
     <!-- 设备页面 -->
     <string name="fetching">Gettig</string>
