@@ -15,7 +15,12 @@ public class ResponseCmd {
     // 响应类型
     public int type;
 
-    // 响应码
+    /** 响应码
+     *  1：不支持的协议版本
+     *  2: 不支持的命令
+     *  3: 未成功登录
+     *  4: 失败的结果等多用途
+     */
     public int code;
 
     // 命令

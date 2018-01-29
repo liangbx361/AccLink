@@ -1,6 +1,8 @@
 package com.out.accu.link.data.udp;
 
+import com.out.accu.link.data.DataManager;
 import com.out.accu.link.data.logger.AppLogger;
+import com.out.accu.link.data.mode.LoginInfo;
 import com.out.accu.link.data.mode.Recode;
 import com.out.accu.link.data.mode.Response;
 import com.out.accu.link.data.mode.ResponseCmd;
@@ -101,8 +103,8 @@ public class UdpHandler {
                         if(recode == null) {
                             // 60秒未发送数据，发送心跳包
                             if(System.currentTimeMillis() - mIdelTime > 1000 * 60) {
-                                send(getEmptyData());
                                 mIdelTime = System.currentTimeMillis();
+                                send(getEmptyData());
                             }
                             return;
                         }
@@ -169,13 +171,17 @@ public class UdpHandler {
                                         }
                                     }
 
-                                    PublishSubject<ResponseCmd> publishSubject = TaskQueue.getInstance().getTask(responseCmd.cmd);
-                                    publishSubject.onNext(responseCmd);
+                                    if(!handleOffline(responseCmd)) {
+                                        PublishSubject<ResponseCmd> publishSubject = TaskQueue.getInstance().getTask(responseCmd.cmd);
+                                        publishSubject.onNext(responseCmd);
+                                    }
                                 }
                             } else {
                                 for(ResponseCmd responseCmd : response.mResponseCmds) {
-                                    PublishSubject<ResponseCmd> publishSubject = TaskQueue.getInstance().getTask(responseCmd.cmd);
-                                    publishSubject.onNext(responseCmd);
+                                    if(!handleOffline(responseCmd)) {
+                                        PublishSubject<ResponseCmd> publishSubject = TaskQueue.getInstance().getTask(responseCmd.cmd);
+                                        publishSubject.onNext(responseCmd);
+                                    }
                                 }
                             }
 
@@ -188,6 +194,23 @@ public class UdpHandler {
                         e.printStackTrace();
                     }
                 }).subscribe();
+    }
+
+    private boolean handleOffline(ResponseCmd responseCmd) {
+        if(responseCmd.code != 3) {
+            return false;
+        }
+
+        // 离线状态重新发送登录请求
+        LoginInfo loginInfo = DataManager.getInstance().getDataService().getLoginInfo();
+        if(loginInfo == null) {
+            return false;
+        }
+
+        DataManager.getInstance().getDataService().login(loginInfo);
+        AppLogger.get().d("offline", "re login");
+
+        return true;
     }
 
     /**
